@@ -19,4 +19,8 @@ public class Assembler
 		// TODO: Add constructor logic here
 		//
 	}
+
+    public void Assemble(Objective objective)
+    {
+    }
 }

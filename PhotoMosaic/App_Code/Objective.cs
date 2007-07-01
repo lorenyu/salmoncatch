@@ -13,10 +13,19 @@ using System.Web.UI.HtmlControls;
 /// </summary>
 public class Objective
 {
-	public Objective()
+    private TargetImage target;
+    public TargetImage Target
+    {
+        get
+        {
+            return target;
+        }
+    }
+
+    private ImageDatabase imageDb;
+
+	public Objective(TargetImage target)
 	{
-		//
-		// TODO: Add constructor logic here
-		//
+        this.target = target;
 	}
 }
