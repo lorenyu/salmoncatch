@@ -22,5 +22,6 @@ public class ImageDatabase
 
     public ComponentImage ComponentImageLookup(ImageQuery query)
     {
+        return new ComponentImage();
     }
 }

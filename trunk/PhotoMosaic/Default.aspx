@@ -4,7 +4,7 @@
 
 <html xmlns="http://www.w3.org/1999/xhtml" >
 <head runat="server">
-    <title>Untitled Page</title>
+    <title>Salmon Catcher</title>
 </head>
 <body>
     <form id="form1" runat="server">
@@ -12,5 +12,7 @@
     
     </div>
     </form>
+    
+    <h1>Welcome to SalmonCatcher!</h1>
 </body>
 </html>
