@@ -15,11 +15,9 @@ using System.Drawing;
 /// </summary>
 public class TargetImage
 {
-	public TargetImage()
+	public TargetImage(Bitmap image)
 	{
-		//
-		// TODO: Add constructor logic here
-		//
+        this.image = image;
 	}
 
     private Bitmap image;
