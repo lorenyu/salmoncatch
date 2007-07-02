@@ -25,6 +25,8 @@ public partial class _Default : System.Web.UI.Page
     {
         Flickr flickr = new Flickr(FLICKR_API_KEY, FLICKR_API_SECRET);
 
+        
+
         Assembler assembler = new Assembler();
         ImageMap m = new ImageMap();
         //Objective objective = new Objective(new TargetImage(new Bitmap()));
