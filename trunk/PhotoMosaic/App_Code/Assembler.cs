@@ -8,6 +8,8 @@ using System.Web.UI.WebControls;
 using System.Web.UI.WebControls.WebParts;
 using System.Web.UI.HtmlControls;
 
+using System.Drawing;
+
 /// <summary>
 /// Summary description for Constructor
 /// </summary>
@@ -22,5 +24,6 @@ public class Assembler
 
     public void Assemble(Objective objective)
     {
+        Graphics graphics = Graphics.FromImage(objective.Target.Image);
     }
 }

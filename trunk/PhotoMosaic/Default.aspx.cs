@@ -14,4 +14,11 @@ public partial class _Default : System.Web.UI.Page
     {
 
     }
+
+    protected void AssembleButton_Click(object sender, EventArgs e)
+    {
+        Assembler assembler = new Assembler();
+        Objective objective = new Objective(new TargetImage());
+        assembler.Assemble(objective);
+    }
 }

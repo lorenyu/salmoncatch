@@ -8,6 +8,8 @@ using System.Web.UI.WebControls;
 using System.Web.UI.WebControls.WebParts;
 using System.Web.UI.HtmlControls;
 
+using System.Drawing;
+
 /// <summary>
 /// Summary description for TargetImage
 /// </summary>
@@ -19,4 +21,13 @@ public class TargetImage
 		// TODO: Add constructor logic here
 		//
 	}
+
+    private Bitmap image;
+    public Bitmap Image
+    {
+        get
+        {
+            return image;
+        }
+    }
 }
