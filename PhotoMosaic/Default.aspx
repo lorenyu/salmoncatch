@@ -9,10 +9,11 @@
 <body>
     <form id="form1" runat="server">
     <div>
-    
+        <h1>Welcome to SalmonCatcher!</h1>
+        <asp:ImageMap ID="ImageMap1" runat="server">
+        </asp:ImageMap><br />
+        <asp:Button ID="AssembleButton" runat="server" OnClick="AssembleButton_Click" Text="Assemble!" />
     </div>
     </form>
-    
-    <h1>Welcome to SalmonCatcher!</h1>
 </body>
 </html>
