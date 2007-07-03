@@ -10,10 +10,12 @@
     <form id="form1" runat="server">
     <div>
         <h1>Welcome to SalmonCatcher!</h1>
-        <asp:ImageMap ID="ImageMap1" runat="server">
-        </asp:ImageMap><br />
-        <asp:Button ID="AssembleButton" runat="server" OnClick="AssembleButton_Click" Text="Assemble!" />
-    </div>
+        <asp:Label ID="Label2" runat="server" Text="Target Image Location"></asp:Label>
+        <asp:TextBox ID="TargetImageLocationTextbox" runat="server">target.png</asp:TextBox><br />
+        <asp:Label ID="Label1" runat="server" Text="Image Directory"></asp:Label>
+        <asp:TextBox ID="ImageDirectoryTextbox" runat="server">colors</asp:TextBox><br />
+        <asp:Button ID="AssembleButton" runat="server" OnClick="AssembleButton_Click" Text="Assemble!" /><br />
+        <asp:Label ID="debugLabel" runat="server" Text="status ok"></asp:Label></div>
     </form>
 </body>
 </html>
