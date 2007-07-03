@@ -23,9 +23,17 @@ public class Objective
     }
 
     private ImageDatabase imageDb;
+    public ImageDatabase ImageDatabase
+    {
+        get
+        {
+            return imageDb;
+        }
+    }
 
 	public Objective(TargetImage target)
 	{
         this.target = target;
+        this.imageDb = new ImageDatabase();
 	}
 }
