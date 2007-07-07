@@ -15,7 +15,12 @@
         <asp:Label ID="Label1" runat="server" Text="Image Directory"></asp:Label>
         <asp:TextBox ID="ImageDirectoryTextbox" runat="server">colors</asp:TextBox><br />
         <asp:Button ID="AssembleButton" runat="server" OnClick="AssembleButton_Click" Text="Assemble!" /><br />
-        <asp:Label ID="debugLabel" runat="server" Text="status ok"></asp:Label></div>
+        <asp:Label ID="debugLabel" runat="server" Text="status ok"></asp:Label><br />
+        <br />
+        <asp:DropDownList ID="DropDownList1" runat="server" OnSelectedIndexChanged="DropDownList1_SelectedIndexChanged">
+            <asp:ListItem>Test 1</asp:ListItem>
+            <asp:ListItem>Test2</asp:ListItem>
+        </asp:DropDownList></div>
     </form>
 </body>
 </html>
