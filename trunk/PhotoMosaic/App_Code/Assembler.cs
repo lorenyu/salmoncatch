@@ -24,21 +24,9 @@ public class Assembler
 
     public void Assemble(Objective objective)
     {
-        Color color;
-        ImageQuery imageQuery = new ImageQuery();
-        ComponentImage componentImage;
-        FinishedImage finishedImage = new FinishedImage(objective.Target.Image.Height, objective.Target.Image.Width);
+        objective.adjustImages();
+        objective.makeListOfTargetRegions();
+        objective.makeResultImage();
 
-        //Graphics graphics = Graphics.FromImage(objective.Target.Image);
-        
-        for (int i = 0; i < objective.Target.Image.Height; i++)
-        {
-            for (int j = 0; j < objective.Target.Image.Width; j++)
-            {
-                color = objective.Target.Image.GetPixel(i,j);
-                componentImage = objective.ImageDatabase.ComponentImageLookup(imageQuery);
-                finishedImage.addImage(componentImage);
-            }
-        }
     }
 }

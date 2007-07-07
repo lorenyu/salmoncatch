@@ -36,4 +36,19 @@ public class Objective
         this.target = target;
         this.imageDb = new ImageDatabase();
 	}
+
+    internal void makeResultImage()
+    {
+        throw new Exception("The method or operation is not implemented.");
+    }
+
+    internal void makeListOfTargetRegions()
+    {
+        throw new Exception("The method or operation is not implemented.");
+    }
+
+    internal void adjustImages()
+    {
+        throw new Exception("The method or operation is not implemented.");
+    }
 }
