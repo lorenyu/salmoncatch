@@ -37,11 +37,11 @@ public partial class _Default : System.Web.UI.Page
 
         debugLabel.Text = "Current Directory is " + System.IO.Directory.GetCurrentDirectory();
 
-        Assembler assembler = new Assembler();
-
         userInput.targetImageFilename = DropDownList1.SelectedValue;
+        userInput.componentImageDirectory = DropDownList2.SelectedValue;
 
         Objective objective = CreateObjective(userInput);
+        Assembler assembler = new Assembler();
         assembler.Assemble(objective);
     }
 }
