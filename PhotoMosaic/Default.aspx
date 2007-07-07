@@ -9,7 +9,7 @@
 <body>
     <form id="form1" runat="server">
     <div>
-        <h1>Welcome to SalmonCatcher!</h1>
+        <h1>Welcome to theSalmonCatcher!</h1>
         <asp:Label ID="Label2" runat="server" Text="Target Image Location"></asp:Label>
         <asp:TextBox ID="TargetImageLocationTextbox" runat="server">target.png</asp:TextBox><br />
         <asp:Label ID="Label1" runat="server" Text="Image Directory"></asp:Label>
