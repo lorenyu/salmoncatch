@@ -20,6 +20,7 @@
         <asp:DropDownList ID="DropDownList1" runat="server" OnSelectedIndexChanged="DropDownList1_SelectedIndexChanged">
             <asp:ListItem>Test 1</asp:ListItem>
             <asp:ListItem>Test2</asp:ListItem>
+            <asp:ListItem Value="C:\Documents and Settings\Loren Yu\My Documents\My Media\My Pictures\Comics\X-Men\Summer Psylocke.jpg">Loren's Target Image</asp:ListItem>
         </asp:DropDownList></div>
     </form>
 </body>
