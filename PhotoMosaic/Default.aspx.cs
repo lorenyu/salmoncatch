@@ -9,7 +9,7 @@ using System.Web.UI.WebControls.WebParts;
 using System.Web.UI.HtmlControls;
 
 using System.Drawing;
-using FlickrNet;
+//using FlickrNet;
 
 public partial class _Default : System.Web.UI.Page 
 {
@@ -18,7 +18,7 @@ public partial class _Default : System.Web.UI.Page
 
     protected void AssembleButton_Click(object sender, EventArgs e)
     {
-        Flickr flickr = new Flickr(FLICKR_API_KEY, FLICKR_API_SECRET);
+        //Flickr flickr = new Flickr(FLICKR_API_KEY, FLICKR_API_SECRET);
 
         debugLabel.Text = "Current Directory is " + System.IO.Directory.GetCurrentDirectory();
 
@@ -26,5 +26,9 @@ public partial class _Default : System.Web.UI.Page
         //Objective objective = new Objective(new TargetImage(new Bitmap(TargetImageLocationTextbox.Text)));
         //ImportManager.ImportImagesToDatabase(objective.ImageDatabase, ImportManager.ImportMethod.FileSystem);
         //assembler.Assemble(objective);
+    }
+    protected void DropDownList1_SelectedIndexChanged(object sender, EventArgs e)
+    {
+
     }
 }
