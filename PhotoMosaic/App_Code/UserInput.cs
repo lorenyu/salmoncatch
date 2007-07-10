@@ -15,4 +15,6 @@ public class UserInput
 {
     public string targetImageFilename;
     public string componentImageDirectory;
+    public int numHorizontalImages;
+    public int numVerticalImages;
 }
