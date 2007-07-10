@@ -65,23 +65,3 @@ public class Objective
     }
 
 }
-
-/*
- * Code Graveyard
-        Color color;
-        ImageQuery imageQuery = new ImageQuery();
-        ComponentImage componentImage;
-        FinishedImage finishedImage = new FinishedImage(objective.Target.Image.Height, objective.Target.Image.Width);
-
-        //Graphics graphics = Graphics.FromImage(objective.Target.Image);
-        
-        for (int i = 0; i < objective.Target.Image.Height; i++)
-        {
-            for (int j = 0; j < objective.Target.Image.Width; j++)
-            {
-                color = objective.Target.Image.GetPixel(i,j);
-                componentImage = objective.ImageDatabase.ComponentImageLookup(imageQuery);
-                finishedImage.addImage(componentImage);
-            }
-       }
-*/
