@@ -24,9 +24,14 @@ public class Assembler
 
     public void Assemble(Objective objective)
     {
-        objective.adjustImages();
+/*      objective.adjustImages();
         objective.makeListOfTargetRegions();
         objective.makeResultImage();
+*/
+        //psedo code
+        //for loop around image
+        //  find best image
+        //objective.ResultImage.addNextImage(componentImage);
 
     }
 }
