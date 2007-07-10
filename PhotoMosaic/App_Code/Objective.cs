@@ -40,9 +40,47 @@ public class Objective
         }
     }
 
-	public Objective(TargetImage target)
+    private int numImagesPerRow;
+    public int NumImagesPerRow
+    {
+        get
+        {
+            return numImagesPerRow;
+        }
+    }
+
+    private int numImagesPerCol;
+    public int NumImagesPerCol
+    {
+        get
+        {
+            return numImagesPerCol;
+        }
+    }
+
+    // TODO: Handle edge cases
+    public int AdjustedComponentImageWidth
+    {
+        get
+        {
+            return Target.Image.Width / NumImagesPerRow;
+        }
+    }
+
+    // TODO: Handle edge cases
+    public int AdjustedComponentImageHeight
+    {
+        get
+        {
+            return Target.Image.Height / NumImagesPerCol;
+        }
+    }
+
+	public Objective(TargetImage target, int numImagesPerRow, int numImagesPerCol)
 	{
         this.target = target;
+        this.numImagesPerRow = numImagesPerRow;
+        this.numImagesPerCol = numImagesPerCol;
         this.imageDb = new ImageDatabase();
         this.resultImage = new ResultImage(target.Image.Width, target.Image.Height);
 	}
