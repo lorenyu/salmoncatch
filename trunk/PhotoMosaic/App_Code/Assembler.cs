@@ -34,8 +34,8 @@ public class Assembler
         //  find best image
         //objective.ResultImage.addNextImage(componentImage);
 
-        double dx = (double)image.Width / objective.NumImagesPerRow;
-        double dy = (double)image.Height / objective.NumImagesPerCol;
+        double dx = objective.FAdjustedComponentImageWidth;
+        double dy = objective.FAdjustedComponentImageHeight;
         int aciWidth = objective.AdjustedComponentImageWidth;
         int aciHeight = objective.AdjustedComponentImageHeight;
         double epsilon = 0.9; // To be more robust against rounding errors with doubles.

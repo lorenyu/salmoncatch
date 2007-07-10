@@ -14,6 +14,9 @@ using System.Web.UI.HtmlControls;
 public class Objective
 {
     private TargetImage target;
+    /// <summary>
+    /// Target image.
+    /// </summary>
     public TargetImage Target
     {
         get
@@ -23,6 +26,9 @@ public class Objective
     }
 
     private ImageDatabase imageDb;
+    /// <summary>
+    /// Database of adjusted component images
+    /// </summary>
     public ImageDatabase ImageDatabase
     {
         get
@@ -41,6 +47,9 @@ public class Objective
     }
 
     private int numImagesPerRow;
+    /// <summary>
+    /// Number of adjusted component images per row in result image
+    /// </summary>
     public int NumImagesPerRow
     {
         get
@@ -50,6 +59,9 @@ public class Objective
     }
 
     private int numImagesPerCol;
+    /// <summary>
+    /// Number of adjusted component images per column in result image
+    /// </summary>
     public int NumImagesPerCol
     {
         get
@@ -59,20 +71,46 @@ public class Objective
     }
 
     // TODO: Handle edge cases
+    /// <summary>
+    /// Width of adjusted component image.
+    /// </summary>
     public int AdjustedComponentImageWidth
     {
         get
         {
-            return Target.Image.Width / NumImagesPerRow;
+            return (int)FAdjustedComponentImageWidth;
+        }
+    }
+    /// <summary>
+    /// Width of adjusted component image with subpixel floating point precision.
+    /// </summary>
+    public double FAdjustedComponentImageWidth
+    {
+        get
+        {
+            return (double)Target.Image.Width / NumImagesPerRow;
         }
     }
 
     // TODO: Handle edge cases
+    /// <summary>
+    /// Height of adjusted component image.
+    /// </summary>
     public int AdjustedComponentImageHeight
     {
         get
         {
-            return Target.Image.Height / NumImagesPerCol;
+            return (int)FAdjustedComponentImageHeight;
+        }
+    }
+    /// <summary>
+    /// Height of adjusted component image with subpixel floating point precision.
+    /// </summary>
+    public double FAdjustedComponentImageHeight
+    {
+        get
+        {
+            return (double)Target.Image.Height / NumImagesPerCol;
         }
     }
 
