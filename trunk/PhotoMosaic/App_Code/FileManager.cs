@@ -28,12 +28,6 @@ public static class FileManager
 
     public static List<Bitmap> LoadComponentImages(string directory)
     {
-        List<Bitmap> result = new List<Bitmap>();
-        string[] filenames = Directory.GetFiles(directory);
-        foreach (string filename in filenames)
-        {
-            result.Add(new Bitmap(filename));
-        }
-        return result;
+        return null;
     }
 }

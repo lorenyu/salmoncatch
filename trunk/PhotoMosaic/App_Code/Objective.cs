@@ -42,11 +42,9 @@ public class Objective
 
 	public Objective(TargetImage target)
 	{
-        int finalWidth= 400;
-        int finalHeight = 400;
         this.target = target;
         this.imageDb = new ImageDatabase();
-        this.resultImage = new ResultImage(finalWidth, finalHeight);
+        this.resultImage = new ResultImage(target.Image.Width, target.Image.Height);
 	}
 
     internal void makeResultImage()
