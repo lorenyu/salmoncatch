@@ -73,5 +73,17 @@ public partial class _Default : System.Web.UI.Page
             debugLabel.Text += "<br/>\n" + ex.Message;
             return;
         }
+    }   
+    protected void DropDownList1_SelectedIndexChanged(object sender, EventArgs e)
+    {
+
+    }
+    protected void Page_Load(object sender, EventArgs e)
+    {
+
+    }
+    protected void TargetImageLocationTextbox_TextChanged(object sender, EventArgs e)
+    {
+
     }
 }
