@@ -31,15 +31,27 @@ public class Objective
         }
     }
 
+    private ResultImage resultImage;
+    public ResultImage ResultImage
+    {
+        get
+        {
+            return resultImage;
+        }
+    }
+
 	public Objective(TargetImage target)
 	{
+        int finalWidth= 400;
+        int finalHeight = 400;
         this.target = target;
         this.imageDb = new ImageDatabase();
+        this.resultImage = new ResultImage(finalWidth, finalHeight);
 	}
 
     internal void makeResultImage()
     {
-        throw new Exception("The method or operation is not implemented.");
+        throw new Exception("The method or operation is not implemented.");        
     }
 
     internal void makeListOfTargetRegions()
@@ -51,4 +63,25 @@ public class Objective
     {
         throw new Exception("The method or operation is not implemented.");
     }
+
 }
+
+/*
+ * Code Graveyard
+        Color color;
+        ImageQuery imageQuery = new ImageQuery();
+        ComponentImage componentImage;
+        FinishedImage finishedImage = new FinishedImage(objective.Target.Image.Height, objective.Target.Image.Width);
+
+        //Graphics graphics = Graphics.FromImage(objective.Target.Image);
+        
+        for (int i = 0; i < objective.Target.Image.Height; i++)
+        {
+            for (int j = 0; j < objective.Target.Image.Width; j++)
+            {
+                color = objective.Target.Image.GetPixel(i,j);
+                componentImage = objective.ImageDatabase.ComponentImageLookup(imageQuery);
+                finishedImage.addImage(componentImage);
+            }
+       }
+*/
