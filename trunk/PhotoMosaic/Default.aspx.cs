@@ -22,13 +22,15 @@ public partial class _Default : System.Web.UI.Page
     private Objective CreateObjective(UserInput userInput)
     {
         // Obtain target image
-        TargetImage targetImage = new TargetImage(Resources.Resource.LorenTargetImage1);
-        Objective result = new Objective(targetImage);
+        TargetImage targetImage = new TargetImage(new Bitmap(userInput.targetImageFilename));
+        Objective result = new Objective(
+            targetImage,
+            userInput.numHorizontalImages,
+            userInput.numVerticalImages
+        );
 
-        // Calculate size of adjusted component images in result image
-        int adjustedComponentImageWidth = targetImage.Image.Width / userInput.numHorizontalImages; // TODO: Handle edge cases
-        int adjustedComponentImageHeight = targetImage.Image.Height / userInput.numVerticalImages; // TODO: Handle edge cases
-        Size adjustedComponentImageSize = new Size(adjustedComponentImageWidth, adjustedComponentImageHeight);
+        // Size of adjusted component images in result image
+        Size adjustedComponentImageSize = new Size(result.AdjustedComponentImageWidth, result.AdjustedComponentImageHeight);
 
         // Get component images from directory
         string[] filenames = Directory.GetFiles(userInput.componentImageDirectory);
