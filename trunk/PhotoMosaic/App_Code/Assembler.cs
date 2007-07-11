@@ -32,7 +32,7 @@ public class Assembler
         //  find best image
         //objective.ResultImage.addNextImage(componentImage);
 
-        Bitmap result = new Bitmap(objective.AdjustedComponentImageWidth, objective.AdjustedComponentImageHeight);
+        Bitmap result = new Bitmap(objective.Target.Image.Width, objective.Target.Image.Height);
         Graphics g = Graphics.FromImage(result);
 
         Bitmap image = objective.Target.Image;
