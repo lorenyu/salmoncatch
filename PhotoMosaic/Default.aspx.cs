@@ -39,7 +39,7 @@ public partial class _Default : System.Web.UI.Page
             Bitmap componentImage = new Bitmap(filename);
             Bitmap adjustedComponentImage = new Bitmap(componentImage, adjustedComponentImageSize);
             result.ImageDatabase.AddImage(adjustedComponentImage);
-            componentImage.Dispose();
+            componentImage.Dispose(); // Dispose of pre-adjusted component image
         }
 
         debugImage.Width = targetImage.Image.Width;
@@ -64,8 +64,16 @@ public partial class _Default : System.Web.UI.Page
             debugLabel.Text += "<br/>\nTargetImage at " + userInput.targetImageFilename;
 
             Objective objective = CreateObjective(userInput);
-            //Assembler assembler = new Assembler();
-            //assembler.Assemble(objective);
+
+            debugLabel.Text += "<br/>\nTIWidth = " + objective.Target.Image.Width;
+            debugLabel.Text += "<br/>\nTIHeight = " + objective.Target.Image.Height;
+            debugLabel.Text += "<br/>\nACIWidth = " + objective.AdjustedComponentImageWidth.ToString();
+            debugLabel.Text += "<br/>\nACIHeight = " + objective.AdjustedComponentImageHeight.ToString();
+
+            Assembler assembler = new Assembler();
+            assembler.Assemble(objective);
+
+            debugImage.ImageUrl = @"images/resultimage.png";
         }
         catch (Exception ex)
         {
