@@ -36,10 +36,16 @@ public partial class _Default : System.Web.UI.Page
         string[] filenames = Directory.GetFiles(userInput.componentImageDirectory);
         foreach (string filename in filenames)
         {
-            Bitmap componentImage = new Bitmap(filename);
-            Bitmap adjustedComponentImage = new Bitmap(componentImage, adjustedComponentImageSize);
-            result.ImageDatabase.AddImage(adjustedComponentImage);
-            componentImage.Dispose(); // Dispose of pre-adjusted component image
+            try
+            {
+                Bitmap componentImage = new Bitmap(filename);
+                Bitmap adjustedComponentImage = new Bitmap(componentImage, adjustedComponentImageSize);
+                result.ImageDatabase.AddImage(adjustedComponentImage);
+                componentImage.Dispose(); // Dispose of pre-adjusted component image
+            }
+            catch
+            {
+            }
         }
 
         debugImage.Width = targetImage.Image.Width;
