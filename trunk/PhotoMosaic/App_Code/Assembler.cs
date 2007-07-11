@@ -28,28 +28,35 @@ public class Assembler
         objective.makeListOfTargetRegions();
         objective.makeResultImage();
 */
-        Bitmap image = objective.Target.Image;
-
         //for loop around image
         //  find best image
         //objective.ResultImage.addNextImage(componentImage);
+
+        Bitmap result = new Bitmap(objective.AdjustedComponentImageWidth, objective.AdjustedComponentImageHeight);
+        Graphics g = Graphics.FromImage(result);
+
+        Bitmap image = objective.Target.Image;
 
         double dx = objective.FAdjustedComponentImageWidth;
         double dy = objective.FAdjustedComponentImageHeight;
         int aciWidth = objective.AdjustedComponentImageWidth;
         int aciHeight = objective.AdjustedComponentImageHeight;
         double epsilon = 0.9; // To be more robust against rounding errors with doubles.
+
         for (double x = 0; x < image.Width + epsilon; x += dx)
         {
             for (double y = 0; y < image.Height + epsilon; y += dy)
             {
-                Region region = new Region(new Rectangle(
+                Rectangle region = new Rectangle(
                     (int)Math.Round(x),
                     (int)Math.Round(y),
                     aciWidth,
-                    aciHeight));
-                // Do something with region
+                    aciHeight);
+                ComponentImage ci = objective.ImageDatabase.FindBestMatch(objective.Target.Image, region);
+                g.DrawImageUnscaledAndClipped(ci.Image, region);
             }
         }
+
+        result.Save(@"C:\Documents and Settings\Loren Yu\Desktop\SVNSalmonCatch\PhotoMosaic\images\resultimage.png", System.Drawing.Imaging.ImageFormat.Png);
     }
 }

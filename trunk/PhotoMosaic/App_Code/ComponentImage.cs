@@ -15,11 +15,10 @@ using System.Drawing;
 /// </summary>
 public class ComponentImage
 {
-	public ComponentImage()
+	public ComponentImage(Bitmap image)
 	{
-		//
-		// TODO: Add constructor logic here
-		//
+        this.image = image;
+        this.meanColor = ImageProcessor.CalculateMeanColor(image);
 	}
 
     private Bitmap image;
@@ -28,6 +27,15 @@ public class ComponentImage
         get
         {
             return image;
+        }
+    }
+
+    private Color meanColor;
+    public Color MeanColor
+    {
+        get
+        {
+            return meanColor;
         }
     }
 }

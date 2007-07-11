@@ -16,23 +16,57 @@ using System.Drawing;
 /// </summary>
 public class ImageDatabase
 {
+    /// <summary>
+    /// Temporary way of storing images
+    /// </summary>
+    private List<ComponentImage> images;
+
 	public ImageDatabase()
 	{
-        this.images = new List<Bitmap>();
+        this.images = new List<ComponentImage>();
 	}
 
+    /// <summary>
+    /// More generalized version of FindBestMatch.
+    /// 
+    /// Currently not implemented, so use FindBestMatch for now.
+    /// </summary>
+    /// <param name="query"></param>
+    /// <returns></returns>
     public ComponentImage ComponentImageLookup(ImageQuery query)
     {
-        return new ComponentImage();
+        throw new Exception("The method or operation is not implemented.");
     }
 
     public void AddImage(Bitmap image)
     {
-        this.images.Add(image);
+        this.images.Add(new ComponentImage(image));
     }
 
     /// <summary>
-    /// Temporary way of storing images
+    /// Returns the adjusted component image in the database that
+    /// best matches the specified region of the target image.
+    /// Returns null if image database is empty.
     /// </summary>
-    private List<Bitmap> images;
+    /// <param name="image">The target image</param>
+    /// <param name="region"></param>
+    /// <returns></returns>
+    public ComponentImage FindBestMatch(Bitmap image, Rectangle region)
+    {
+        double minDistance = double.MaxValue;
+        ComponentImage bestCi = null;
+
+        foreach (ComponentImage ci in this.images)
+        {
+            Color regionMeanColor = ImageProcessor.CalculateMeanColor(image, region);
+            double distance = ImageProcessor.Distance(regionMeanColor, ci.MeanColor);
+            if (distance < minDistance)
+            {
+                minDistance = distance;
+                bestCi = ci;
+            }
+        }
+
+        return bestCi;
+    }
 }
