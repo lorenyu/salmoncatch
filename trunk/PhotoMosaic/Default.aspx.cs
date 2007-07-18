@@ -22,7 +22,7 @@ public partial class _Default : System.Web.UI.Page
     private Objective CreateObjective(UserInput userInput)
     {
         // Obtain target image
-        TargetImage targetImage = new TargetImage(new Bitmap(userInput.targetImageFilename));
+        Bitmap targetImage = new Bitmap(userInput.targetImageFilename);
         Objective result = new Objective(
             targetImage,
             userInput.numHorizontalImages,
@@ -40,7 +40,7 @@ public partial class _Default : System.Web.UI.Page
             {
                 Bitmap componentImage = new Bitmap(filename);
                 Bitmap adjustedComponentImage = new Bitmap(componentImage, adjustedComponentImageSize);
-                result.ImageDatabase.AddImage(adjustedComponentImage);
+                result.imageDb.AddImage(adjustedComponentImage);
                 componentImage.Dispose(); // Dispose of pre-adjusted component image
             }
             catch
@@ -48,8 +48,8 @@ public partial class _Default : System.Web.UI.Page
             }
         }
 
-        debugImage.Width = targetImage.Image.Width;
-        debugImage.Height = targetImage.Image.Height;
+        debugImage.Width = targetImage.Width;
+        debugImage.Height = targetImage.Height;
         debugImage.ImageUrl = userInput.targetImageFilename;
 
         return result;
@@ -71,8 +71,8 @@ public partial class _Default : System.Web.UI.Page
 
             Objective objective = CreateObjective(userInput);
 
-            debugLabel.Text += "<br/>\nTIWidth = " + objective.Target.Image.Width;
-            debugLabel.Text += "<br/>\nTIHeight = " + objective.Target.Image.Height;
+            debugLabel.Text += "<br/>\nTIWidth = " + objective.targetImage.Width;
+            debugLabel.Text += "<br/>\nTIHeight = " + objective.targetImage.Height;
             debugLabel.Text += "<br/>\nACIWidth = " + objective.AdjustedComponentImageWidth.ToString();
             debugLabel.Text += "<br/>\nACIHeight = " + objective.AdjustedComponentImageHeight.ToString();
 
@@ -87,17 +87,5 @@ public partial class _Default : System.Web.UI.Page
             debugLabel.Text += "<br/>\n" + ex.Message;
             return;
         }
-    }   
-    protected void DropDownList1_SelectedIndexChanged(object sender, EventArgs e)
-    {
-
-    }
-    protected void Page_Load(object sender, EventArgs e)
-    {
-
-    }
-    protected void TargetImageLocationTextbox_TextChanged(object sender, EventArgs e)
-    {
-
     }
 }

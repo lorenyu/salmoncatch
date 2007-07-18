@@ -7,68 +7,18 @@ using System.Web.UI;
 using System.Web.UI.WebControls;
 using System.Web.UI.WebControls.WebParts;
 using System.Web.UI.HtmlControls;
+using System.Drawing;
 
 /// <summary>
 /// Summary description for Objective
 /// </summary>
 public class Objective
 {
-    private TargetImage target;
-    /// <summary>
-    /// Target image.
-    /// </summary>
-    public TargetImage Target
-    {
-        get
-        {
-            return target;
-        }
-    }
+    public Bitmap targetImage;
+    public ImageDatabase imageDb;
 
-    private ImageDatabase imageDb;
-    /// <summary>
-    /// Database of adjusted component images
-    /// </summary>
-    public ImageDatabase ImageDatabase
-    {
-        get
-        {
-            return imageDb;
-        }
-    }
-
-    private ResultImage resultImage;
-    public ResultImage ResultImage
-    {
-        get
-        {
-            return resultImage;
-        }
-    }
-
-    private int numImagesPerRow;
-    /// <summary>
-    /// Number of adjusted component images per row in result image
-    /// </summary>
-    public int NumImagesPerRow
-    {
-        get
-        {
-            return numImagesPerRow;
-        }
-    }
-
-    private int numImagesPerCol;
-    /// <summary>
-    /// Number of adjusted component images per column in result image
-    /// </summary>
-    public int NumImagesPerCol
-    {
-        get
-        {
-            return numImagesPerCol;
-        }
-    }
+    public int numImagesPerRow;
+    public int numImagesPerCol;
 
     // TODO: Handle edge cases
     /// <summary>
@@ -88,7 +38,7 @@ public class Objective
     {
         get
         {
-            return (double)Target.Image.Width / NumImagesPerRow;
+            return (double)targetImage.Width / numImagesPerRow;
         }
     }
 
@@ -110,32 +60,15 @@ public class Objective
     {
         get
         {
-            return (double)Target.Image.Height / NumImagesPerCol;
+            return (double)targetImage.Height / numImagesPerCol;
         }
     }
 
-	public Objective(TargetImage target, int numImagesPerRow, int numImagesPerCol)
+	public Objective(Bitmap targetImage, int numImagesPerRow, int numImagesPerCol)
 	{
-        this.target = target;
+        this.targetImage = targetImage;
         this.numImagesPerRow = numImagesPerRow;
         this.numImagesPerCol = numImagesPerCol;
         this.imageDb = new ImageDatabase();
-        this.resultImage = new ResultImage(target.Image.Width, target.Image.Height);
 	}
-
-    internal void makeResultImage()
-    {
-        throw new Exception("The method or operation is not implemented.");        
-    }
-
-    internal void makeListOfTargetRegions()
-    {
-        throw new Exception("The method or operation is not implemented.");
-    }
-
-    internal void adjustImages()
-    {
-        throw new Exception("The method or operation is not implemented.");
-    }
-
 }
