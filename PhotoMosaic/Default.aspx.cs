@@ -11,6 +11,7 @@ using System.Web.UI.HtmlControls;
 using System.Drawing;
 using System.Collections.Generic;
 using System.IO;
+using System.Timers;
 
 public partial class _Default : System.Web.UI.Page 
 {
@@ -57,6 +58,11 @@ public partial class _Default : System.Web.UI.Page
 
     protected void AssembleButton_Click(object sender, EventArgs e)
     {
+        Stopwatch totalTimer;
+        Stopwatch objectiveTimer;
+        Stopwatch assemblerTimer;
+        Stopwatch assembleObjectiveTimer;
+
         debugLabel.Text = "Current Directory is " + System.IO.Directory.GetCurrentDirectory();
 
         // Create instance of UserInput and populate it with user entered data on web page
@@ -69,17 +75,29 @@ public partial class _Default : System.Web.UI.Page
 
             debugLabel.Text += "<br/>\nTargetImage at " + userInput.targetImageFilename;
 
+            totalTimer = new Stopwatch();
+            
+            objectiveTimer = new Stopwatch();
             Objective objective = CreateObjective(userInput);
+            objectiveTime.Text = objectiveTimer.timeElapsed();
 
             debugLabel.Text += "<br/>\nTIWidth = " + objective.targetImage.Width;
             debugLabel.Text += "<br/>\nTIHeight = " + objective.targetImage.Height;
             debugLabel.Text += "<br/>\nACIWidth = " + objective.AdjustedComponentImageWidth.ToString();
             debugLabel.Text += "<br/>\nACIHeight = " + objective.AdjustedComponentImageHeight.ToString();
 
+            assemblerTimer = new Stopwatch();
             Assembler assembler = new Assembler();
+            assemblerTime.Text = assemblerTimer.timeElapsed();
+
+            assembleObjectiveTimer = new Stopwatch();
             assembler.Assemble(objective);
+            assembleObjectiveTime.Text = assembleObjectiveTimer.timeElapsed();
 
             debugImage.ImageUrl = @"images/resultimage.png";
+
+            totalTime.Text = totalTimer.timeElapsed();
+      
         }
         catch (Exception ex)
         {
@@ -87,5 +105,13 @@ public partial class _Default : System.Web.UI.Page
             debugLabel.Text += "<br/>\n" + ex.Message;
             return;
         }
+    }
+    protected void ImageDirectoryTextbox_TextChanged(object sender, EventArgs e)
+    {
+
+    }
+    protected void TargetImageLocationTextbox_TextChanged(object sender, EventArgs e)
+    {
+
     }
 }
