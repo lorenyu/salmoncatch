@@ -29,12 +29,8 @@ public class Assembler
     /// end
     /// </summary>
     /// <param name="objective"></param>
-    public void Assemble(Objective objective)
+    public Bitmap Assemble(Objective objective)
     {
-        //for loop around image
-        //  find best image
-        //objective.ResultImage.addNextImage(componentImage);
-
         Bitmap result = new Bitmap(objective.targetImage.Width, objective.targetImage.Height);
         Graphics g = Graphics.FromImage(result);
 
@@ -60,6 +56,6 @@ public class Assembler
             }
         }
 
-        result.Save(@"C:\Documents and Settings\Loren Yu\Desktop\SVNSalmonCatch\PhotoMosaic\images\resultimage.png", System.Drawing.Imaging.ImageFormat.Png);
+        return result;
     }
 }
