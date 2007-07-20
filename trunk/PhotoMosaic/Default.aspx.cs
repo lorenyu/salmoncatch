@@ -42,6 +42,10 @@ public partial class _Default : System.Web.UI.Page
         userInput.componentImageDirectory = DropDownList2.SelectedValue;
         try
         {
+            //FlickrUtil flick = new FlickrUtil();
+            //flick.enterUserName("flickrtester123");
+            //flick.getAllPublicPhotos();
+            
             userInput.numHorizontalImages = int.Parse(NumHorizontalImagesTextbox.Text);
             userInput.numVerticalImages = int.Parse(NumVerticalImagesTextbox.Text);
 
@@ -66,6 +70,7 @@ public partial class _Default : System.Web.UI.Page
             debugImage.ImageUrl = Settings.IMAGES_URL + "/" + Settings.RESULTIMAGE_FILENAME;
 
             totalTime.Text = totalTimer.timeElapsed();
+
         }
         catch (Exception ex)
         {

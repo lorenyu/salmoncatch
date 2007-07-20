@@ -25,7 +25,24 @@ public static class Settings
     /// by combining APPLICATION_PATH and the relative path of the url.
     /// </summary>
     public static string APPLICATION_PATH;
-    public static string IMAGES_URL = "images";
+
+    public static string USER_URL = "FakeUser";
+    public static string USER_DIR
+    {
+        get
+        {
+            return Path.Combine(Settings.CACHE_DIR, USER_URL);
+        }
+    }
+    public static string CACHE_URL = "cache"; 
+    public static string CACHE_DIR
+    {
+        get
+        {
+            return Path.Combine(Settings.IMAGES_PATH, CACHE_URL);
+        }
+    }
+    public static string IMAGES_URL = "images";    
     public static string IMAGES_PATH
     {
         get
