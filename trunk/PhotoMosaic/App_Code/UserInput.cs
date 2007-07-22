@@ -9,9 +9,9 @@ using System.Web.UI.WebControls.WebParts;
 using System.Web.UI.HtmlControls;
 
 /// <summary>
-/// Summary description for UserInput
+/// A struct containing the parameters received from the web form.
 /// </summary>
-public class UserInput
+public struct UserInput
 {
     public string targetImageFilename;
     public string componentImageDirectory;

@@ -26,6 +26,10 @@
         <asp:DropDownList ID="DropDownList2" runat="server">
             <asp:ListItem Value="Colors" Selected="True">Michael's Directory</asp:ListItem>
             <asp:ListItem Value="color125">Loren's Directory</asp:ListItem>
+            <asp:ListItem Value="color27">27 colors - Loren</asp:ListItem>
+            <asp:ListItem Value="color0">0 colors - Loren</asp:ListItem>
+            <asp:ListItem Value="color1">1 color - Loren</asp:ListItem>
+            <asp:ListItem Value="color8">8 colors - Loren</asp:ListItem>
         </asp:DropDownList><br />
         <br />
         <asp:Image ID="debugImage" runat="server" Height="552px" Width="400px" />

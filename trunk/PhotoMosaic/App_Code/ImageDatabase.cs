@@ -16,14 +16,11 @@ using System.Drawing;
 /// </summary>
 public class ImageDatabase
 {
-    /// <summary>
-    /// Temporary way of storing images
-    /// </summary>
-    private List<ComponentImage> images;
+    ComponentImageTree images;
 
-	public ImageDatabase()
+	public ImageDatabase(List<ComponentImage> adjustedComponentImages)
 	{
-        this.images = new List<ComponentImage>();
+        this.images = new ComponentImageTree(adjustedComponentImages);
 	}
 
     /// <summary>
@@ -38,11 +35,6 @@ public class ImageDatabase
         throw new Exception("The method or operation is not implemented.");
     }
 
-    public void AddImage(Bitmap image)
-    {
-        this.images.Add(new ComponentImage(image));
-    }
-
     /// <summary>
     /// Returns the adjusted component image in the database that
     /// best matches the specified region of the target image.
@@ -53,20 +45,7 @@ public class ImageDatabase
     /// <returns></returns>
     public ComponentImage FindBestMatch(Bitmap image, Rectangle region)
     {
-        double minDistance = double.MaxValue;
-        ComponentImage bestCi = null;
-
-        foreach (ComponentImage ci in this.images)
-        {
-            Color regionMeanColor = ImageProcessor.CalculateMeanColor(image, region);
-            double distance = ImageProcessor.Distance(regionMeanColor, ci.MeanColor);
-            if (distance < minDistance)
-            {
-                minDistance = distance;
-                bestCi = ci;
-            }
-        }
-
-        return bestCi;
+        Color regionMeanColor = ImageProcessor.CalculateMeanColor(image, region);
+        return images.NearestNeighbor(regionMeanColor);
     }
 }
