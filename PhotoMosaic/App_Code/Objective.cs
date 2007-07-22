@@ -10,9 +10,10 @@ using System.Web.UI.HtmlControls;
 using System.Drawing;
 
 /// <summary>
-/// Summary description for Objective
+/// A struct that specifies the constraints for creating the photomosaic
 /// </summary>
-public class Objective
+
+public struct Objective
 {
     public Bitmap targetImage;
     public ImageDatabase imageDb;
@@ -63,12 +64,4 @@ public class Objective
             return (double)targetImage.Height / numImagesPerCol;
         }
     }
-
-	public Objective(Bitmap targetImage, int numImagesPerRow, int numImagesPerCol)
-	{
-        this.targetImage = targetImage;
-        this.numImagesPerRow = numImagesPerRow;
-        this.numImagesPerCol = numImagesPerCol;
-        this.imageDb = new ImageDatabase();
-	}
 }

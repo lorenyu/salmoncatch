@@ -37,7 +37,7 @@ public partial class _Default : System.Web.UI.Page
         Stopwatch assembleObjectiveTimer;
 
         // Create instance of UserInput and populate it with user entered data on web page
-        UserInput userInput = new UserInput();
+        UserInput userInput;
         userInput.targetImageFilename = DropDownList1.SelectedValue;
         userInput.componentImageDirectory = DropDownList2.SelectedValue;
         try
@@ -76,6 +76,7 @@ public partial class _Default : System.Web.UI.Page
         {
             // Error handling
             println(ex.Message);
+            println(ex.StackTrace);
             return;
         }
     }
@@ -85,11 +86,11 @@ public partial class _Default : System.Web.UI.Page
         // Obtain target image
         println("TargetImage at " + Path.Combine(Settings.IMAGES_PATH, userInput.targetImageFilename));
         Bitmap targetImage = new Bitmap(Path.Combine(Settings.IMAGES_PATH, userInput.targetImageFilename));
-        Objective result = new Objective(
-            targetImage,
-            userInput.numHorizontalImages,
-            userInput.numVerticalImages
-        );
+
+        Objective result = new Objective();
+        result.targetImage = targetImage;
+        result.numImagesPerRow = userInput.numHorizontalImages;
+        result.numImagesPerCol = userInput.numVerticalImages;
 
         // Size of adjusted component images in result image
         Size adjustedComponentImageSize = new Size(result.AdjustedComponentImageWidth, result.AdjustedComponentImageHeight);
@@ -97,19 +98,24 @@ public partial class _Default : System.Web.UI.Page
         // Get component images from directory
         println("Color directory at " + Path.Combine(Settings.COLORGENERATOR_PATH, userInput.componentImageDirectory));
         string[] filenames = Directory.GetFiles(Path.Combine(Settings.COLORGENERATOR_PATH, userInput.componentImageDirectory));
+        List<ComponentImage> adjustedComponentImages = new List<ComponentImage>();
         foreach (string filename in filenames)
         {
             try
             {
                 Bitmap componentImage = new Bitmap(filename);
                 Bitmap adjustedComponentImage = new Bitmap(componentImage, adjustedComponentImageSize);
-                result.imageDb.AddImage(adjustedComponentImage);
-                componentImage.Dispose(); // Dispose of pre-adjusted component image
+                adjustedComponentImages.Add(new ComponentImage(adjustedComponentImage));
+                componentImage.Dispose();   // Dispose of pre-adjusted component image
             }
             catch
             {
+                // Ignore exceptions thrown by the Bitmap constructor that occur
+                // when we try to open a file in the color directory that is not
+                // an image file (e.g. "Thumbs.db")
             }
         }
+        result.imageDb = new ImageDatabase(adjustedComponentImages);
 
         debugImage.Width = targetImage.Width;
         debugImage.Height = targetImage.Height;
