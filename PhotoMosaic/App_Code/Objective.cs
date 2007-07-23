@@ -13,7 +13,7 @@ using System.Drawing;
 /// A struct that specifies the constraints for creating the photomosaic
 /// </summary>
 
-public struct Objective
+public class Objective
 {
     public Bitmap targetImage;
     public ImageDatabase imageDb;
@@ -29,7 +29,7 @@ public struct Objective
     {
         get
         {
-            return (int)FAdjustedComponentImageWidth;
+            return (int)Math.Ceiling(FAdjustedComponentImageWidth);
         }
     }
     /// <summary>
@@ -51,7 +51,7 @@ public struct Objective
     {
         get
         {
-            return (int)FAdjustedComponentImageHeight;
+            return (int)Math.Ceiling(FAdjustedComponentImageHeight);
         }
     }
     /// <summary>

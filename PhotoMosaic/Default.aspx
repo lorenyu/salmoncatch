@@ -12,7 +12,8 @@
         <h1>Welcome to theSalmonCatcher!</h1>
         <asp:TextBox ID="TargetImageLocationTextbox" runat="server">target.png</asp:TextBox><br />
         &nbsp;<asp:TextBox ID="ImageDirectoryTextbox" runat="server">colors</asp:TextBox><br />
-        <asp:Button ID="AssembleButton" runat="server" OnClick="AssembleButton_Click" Text="Assemble!" /><br />
+        <asp:Button ID="AssembleButton" runat="server" OnClick="AssembleButton_Click" Text="Assemble!" />
+        <asp:Button ID="TestButton" runat="server" OnClick="TestButton_Click" Text="Test" /><br />
         <asp:Label ID="Label3" runat="server" Text="Number of Horizontal Images"></asp:Label>
         <asp:TextBox ID="NumHorizontalImagesTextbox" runat="server"></asp:TextBox><br />
         <asp:Label ID="Label4" runat="server" Text="Number of Vertical Images"></asp:Label>
@@ -25,11 +26,13 @@
         <asp:Label ID="Label1" runat="server" Text="Component Image Directory"></asp:Label>
         <asp:DropDownList ID="DropDownList2" runat="server">
             <asp:ListItem Value="Colors" Selected="True">Michael's Directory</asp:ListItem>
-            <asp:ListItem Value="color125">Loren's Directory</asp:ListItem>
+            <asp:ListItem Value="color4096">4096 colors - Loren</asp:ListItem>
+            <asp:ListItem Value="color1000">1000 colors - Loren</asp:ListItem>
+            <asp:ListItem Value="color125">125 colors - Loren</asp:ListItem>
             <asp:ListItem Value="color27">27 colors - Loren</asp:ListItem>
-            <asp:ListItem Value="color0">0 colors - Loren</asp:ListItem>
-            <asp:ListItem Value="color1">1 color - Loren</asp:ListItem>
             <asp:ListItem Value="color8">8 colors - Loren</asp:ListItem>
+            <asp:ListItem Value="color1">1 color - Loren</asp:ListItem>
+            <asp:ListItem Value="color0">0 colors - Loren</asp:ListItem>
         </asp:DropDownList><br />
         <br />
         <asp:Image ID="debugImage" runat="server" Height="552px" Width="400px" />
