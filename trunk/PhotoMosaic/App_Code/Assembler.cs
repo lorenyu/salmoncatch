@@ -47,10 +47,12 @@ public class Assembler
             for (double y = 0; y < image.Height + epsilon; y += dy)
             {
                 Rectangle region = new Rectangle(
-                    (int)Math.Round(x),
-                    (int)Math.Round(y),
+                    (int)x,
+                    (int)y,
                     aciWidth,
                     aciHeight);
+                if (region.Width <= 0 || region.Height <= 0)
+                    continue;
                 ComponentImage ci = objective.imageDb.FindBestMatch(objective.targetImage, region);
                 g.DrawImageUnscaledAndClipped(ci.Image, region);
             }

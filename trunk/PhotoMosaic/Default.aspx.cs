@@ -70,7 +70,6 @@ public partial class _Default : System.Web.UI.Page
             debugImage.ImageUrl = Settings.IMAGES_URL + "/" + Settings.RESULTIMAGE_FILENAME;
 
             totalTime.Text = totalTimer.timeElapsed();
-
         }
         catch (Exception ex)
         {
@@ -128,5 +127,62 @@ public partial class _Default : System.Web.UI.Page
     public static void println(string str)
     {
         page.debugLabel.Text += str + "<br/>\n";
+    }
+
+    protected void TestButton_Click(object sender, EventArgs e)
+    {
+        Objective result = new Objective();
+        result.targetImage = new Bitmap(Path.Combine(Settings.IMAGES_PATH, DropDownList1.SelectedValue));
+        try
+        {
+            result.numImagesPerRow = int.Parse(NumHorizontalImagesTextbox.Text);
+            result.numImagesPerCol = int.Parse(NumVerticalImagesTextbox.Text);
+        }
+        catch
+        {
+        }
+        Size adjustedComponentImageSize = new Size(result.AdjustedComponentImageWidth, result.AdjustedComponentImageHeight);
+
+
+
+        Stopwatch timer;
+        string[] filenames;
+        List<Bitmap> images = new List<Bitmap>();
+        List<Bitmap> resizedImages = new List<Bitmap>();;
+        filenames = Directory.GetFiles(Path.Combine(Settings.COLORGENERATOR_PATH, DropDownList2.SelectedValue));
+
+        timer = new Stopwatch();
+        foreach (string filename in filenames)
+        {
+            try
+            {
+                images.Add(new Bitmap(filename));
+            }
+            catch
+            {
+            }
+        }
+        println("Time to load images: " + timer.timeElapsed());
+
+        timer = new Stopwatch();
+        foreach (Bitmap image in images)
+        {
+            resizedImages.Add(new Bitmap(image, adjustedComponentImageSize));
+        }
+        println("Time to resize images: " + timer.timeElapsed());
+
+        timer = new Stopwatch();
+        foreach (Bitmap resizedImage in resizedImages)
+        {
+            new ComponentImage(resizedImage);
+        }
+        println("Time to compute mean colors on resized images: " + timer.timeElapsed());
+
+        timer = new Stopwatch();
+        foreach (Bitmap image in images)
+        {
+            new ComponentImage(image);
+        }
+        println("Time to compute mean colors on original images: " + timer.timeElapsed());
     }
 }

@@ -25,6 +25,6 @@ public class Stopwatch
     public string timeElapsed()
     {
         interval = DateTime.Now - time;
-        return interval.Seconds.ToString();
+        return interval.Milliseconds.ToString();
     }
 }
