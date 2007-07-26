@@ -16,8 +16,6 @@ using System.Drawing.Imaging;
 
 public partial class _Default : System.Web.UI.Page 
 {
-    private static string FLICKR_API_KEY = "76689f3376d2752abacb6bac4c12f580";
-    private static string FLICKR_API_SECRET = "a095ecfb543abc2d";
 
     public static _Default page;
 
@@ -38,17 +36,29 @@ public partial class _Default : System.Web.UI.Page
 
         // Create instance of UserInput and populate it with user entered data on web page
         UserInput userInput;
+
+        //Initalize struct
+        userInput.targetImageFilename = userInput.componentImageDirectory = "";
+        userInput.numHorizontalImages = userInput.numVerticalImages = 10;
+        userInput.userName = userInput.userID = userInput.tempFrob  = "";
+        userInput.flickr = null;
+        
         userInput.targetImageFilename = DropDownList1.SelectedValue;
         userInput.componentImageDirectory = DropDownList2.SelectedValue;
+
+        userInput.userName = UsernameTextBox.Text;
+        
         try
         {
-            //FlickrUtil flick = new FlickrUtil();
-            //flick.enterUserName("flickrtester123");
-            //flick.getAllPublicPhotos();
+            FlickrUtil flickr = new FlickrUtil();
+            userInput.flickr = flickr.NewFlickr();
+            userInput.userID = flickr.GetUserID(userInput);
+            flickr.getAllPublicPhotos(userInput);
             
             userInput.numHorizontalImages = int.Parse(NumHorizontalImagesTextbox.Text);
             userInput.numVerticalImages = int.Parse(NumVerticalImagesTextbox.Text);
 
+            
             totalTimer = new Stopwatch();
 
             objectiveTimer = new Stopwatch();

@@ -16,75 +16,64 @@ public class FlickrUtil
     private static string FLICKR_API_KEY = "76689f3376d2752abacb6bac4c12f580";
     private static string FLICKR_API_SECRET = "a095ecfb543abc2d";
 
-    private Photos photos;
-    private string tempFrob;
-    private Flickr flickr;
-    private string userID;
-
-    private string screenName;
-    public string ScreenName
-    {
-        get
-        {
-            return screenName;
-        }
-    }
-
 	public FlickrUtil()
 	{
-        flickr = new Flickr(FLICKR_API_KEY);
 	}
 
-    public void enterUserName(string name)
+    public Flickr NewFlickr()
     {
-        this.screenName = name;
-        FoundUser user = flickr.PeopleFindByUsername(this.screenName);
-        userID = user.UserId;
+        return new Flickr(FLICKR_API_KEY);
     }
 
-    public void getAllPublicPhotos()
+    public string GetUserID(UserInput userInput)
     {
-        photos = flickr.PeopleGetPublicPhotos(userID);
-        savePhotos();
+        FoundUser user = userInput.flickr.PeopleFindByUsername(userInput.userName);
+        return user.UserId;
     }
 
-    public void search(string search)
+    public void getAllPublicPhotos(UserInput userInput)
+    {
+        Photos photos = userInput.flickr.PeopleGetPublicPhotos(userInput.userID);
+        savePhotos(photos);
+    }
+
+    public void search(string search, UserInput userInput)
     {
         PhotoSearchOptions searchOptions = new PhotoSearchOptions();
         searchOptions.Tags = search;
-        photos = flickr.PhotosSearch(searchOptions);
-        savePhotos();
+        Photos photos = userInput.flickr.PhotosSearch(searchOptions);
+        savePhotos(photos);
     }
 
-    public void authenticateStep1()
+    public void authenticateStep1(UserInput userInput)
     {
-        flickr = new Flickr(FLICKR_API_KEY, FLICKR_API_SECRET);
-        tempFrob = flickr.AuthGetFrob();
-        string flickrUrl = flickr.AuthCalcUrl(tempFrob, AuthLevel.Write);
+        userInput.flickr = new Flickr(FLICKR_API_KEY, FLICKR_API_SECRET);
+        userInput.tempFrob = userInput.flickr.AuthGetFrob();
+        string flickrUrl = userInput.flickr.AuthCalcUrl(userInput.tempFrob, AuthLevel.Write);
         System.Diagnostics.Process.Start(flickrUrl);
     }
 
-    public void authenticateStep2()
+    public void authenticateStep2(UserInput userInput)
     {
-        flickr = new Flickr(FLICKR_API_KEY, FLICKR_API_SECRET);
+        userInput.flickr = new Flickr(FLICKR_API_KEY, FLICKR_API_SECRET);
         try
         {
-            Auth auth = flickr.AuthGetToken(tempFrob);
-            flickr.ApiToken = auth.Token;
+            Auth auth = userInput.flickr.AuthGetToken(userInput.tempFrob);
+            userInput.flickr.ApiToken = auth.Token;
         }
         catch (FlickrException ex)
         {
         }
     }
 
-    private void savePhotos()
+    private void savePhotos(Photos photos)
     {
         PhotoCollection allPhotos = photos.PhotoCollection;
         int i = 0;
         foreach (Photo photo in allPhotos)
         {
             //string dest = @"C:\Documents and Settings\AE\My Documents\Visual Studio 2005\WebSites\PhotoMosaic\images\flickr\img" + i + ".png";
-            string dest = Settings.USER_DIR + @"img" + i + ".png";
+            string dest = Settings.USER_DIR + @"\img" + i + ".png";
             GetImageFromURL(photo.ThumbnailUrl).Save(dest, System.Drawing.Imaging.ImageFormat.Png);
             i++;
         }

@@ -10,8 +10,10 @@
     <form id="form1" runat="server">
     <div>
         <h1>Welcome to theSalmonCatcher!</h1>
-        <asp:TextBox ID="TargetImageLocationTextbox" runat="server">target.png</asp:TextBox><br />
-        &nbsp;<asp:TextBox ID="ImageDirectoryTextbox" runat="server">colors</asp:TextBox><br />
+        <br />
+        Username:
+        <asp:TextBox ID="UsernameTextBox" runat="server">flickrtester123</asp:TextBox><br />
+        <br />
         <asp:Button ID="AssembleButton" runat="server" OnClick="AssembleButton_Click" Text="Assemble!" />
         <asp:Button ID="TestButton" runat="server" OnClick="TestButton_Click" Text="Test" /><br />
         <asp:Label ID="Label3" runat="server" Text="Number of Horizontal Images"></asp:Label>

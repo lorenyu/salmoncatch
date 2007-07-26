@@ -31,6 +31,17 @@ public static class Settings
     {
         get
         {
+            
+            try
+            {
+                DirectoryInfo dir = new DirectoryInfo(Settings.CACHE_DIR);
+                dir.CreateSubdirectory(USER_URL);
+            }
+            catch (IOException e)
+            {
+                Console.WriteLine(e.Message);
+            }
+
             return Path.Combine(Settings.CACHE_DIR, USER_URL);
         }
     }
