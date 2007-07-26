@@ -47,7 +47,8 @@ public partial class _Default : System.Web.UI.Page
         userInput.componentImageDirectory = DropDownList2.SelectedValue;
 
         userInput.userName = UsernameTextBox.Text;
-        
+        Settings.USER_URL = UsernameTextBox.Text;
+
         try
         {
             FlickrUtil flickr = new FlickrUtil();
