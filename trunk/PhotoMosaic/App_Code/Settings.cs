@@ -25,8 +25,8 @@ public static class Settings
     /// by combining APPLICATION_PATH and the relative path of the url.
     /// </summary>
     public static string APPLICATION_PATH;
+    public static string USER_URL;
 
-    public static string USER_URL = "FakeUser";
     public static string USER_DIR
     {
         get
@@ -65,7 +65,7 @@ public static class Settings
     {
         get
         {
-            return Path.Combine(Settings.APPLICATION_PATH, @"..\ColorGenerator");
+            return Path.Combine(Settings.APPLICATION_PATH, @"\images\cache\FakeUser");
         }
     }
     public static string RESULTIMAGE_FILENAME = "resultimage.png";
