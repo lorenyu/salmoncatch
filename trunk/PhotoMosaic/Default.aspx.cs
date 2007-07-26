@@ -44,7 +44,7 @@ public partial class _Default : System.Web.UI.Page
         userInput.flickr = null;
         
         userInput.targetImageFilename = DropDownList1.SelectedValue;
-        userInput.componentImageDirectory = DropDownList2.SelectedValue;
+        //userInput.componentImageDirectory = DropDownList2.SelectedValue;
 
         userInput.userName = UsernameTextBox.Text;
         Settings.USER_URL = UsernameTextBox.Text;
