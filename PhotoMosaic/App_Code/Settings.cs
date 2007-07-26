@@ -65,7 +65,9 @@ public static class Settings
     {
         get
         {
-            return Path.Combine(Settings.APPLICATION_PATH, @"\images\cache\FakeUser");
+            string color_path = @"images\cache\";
+            color_path += Settings.USER_URL;
+            return Path.Combine(Settings.APPLICATION_PATH, @color_path);
         }
     }
     public static string RESULTIMAGE_FILENAME = "resultimage.png";
