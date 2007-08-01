@@ -13,18 +13,61 @@ using System.Web.UI.HtmlControls;
 /// </summary>
 public class Stopwatch
 {
-    private TimeSpan interval;
-    private DateTime time;
+    public static Stopwatch nearestNeighborStopwatch = new Stopwatch();
 
-	public Stopwatch()
-	{
-        time = DateTime.Now;
-	}
+    private DateTime lastStartTime;
+    private bool isTiming = false;
+    private int currentTimeElapsed = 0;
 
-
-    public string timeElapsed()
+    public Stopwatch()
     {
-        interval = DateTime.Now - time;
-        return interval.Milliseconds.ToString();
+    }
+
+    public Stopwatch(bool startRightAway)
+    {
+        if (startRightAway)
+        {
+            Start();
+        }
+    }
+
+    public void Start()
+    {
+        if (!isTiming)
+        {
+            isTiming = true;
+            lastStartTime = DateTime.Now;
+        }
+    }
+
+    public void Stop()
+    {
+        if (isTiming)
+        {
+            TimeSpan time = DateTime.Now - lastStartTime;
+            currentTimeElapsed += time.Milliseconds;
+            isTiming = false;
+        }
+    }
+
+    public void Reset()
+    {
+        if (!isTiming)
+        {
+            currentTimeElapsed = 0;
+        }
+    }
+
+    public int timeElapsed()
+    {
+        if (isTiming)
+        {
+            TimeSpan time = DateTime.Now - lastStartTime;
+            return currentTimeElapsed + time.Milliseconds;
+        }
+        else
+        {
+            return currentTimeElapsed;
+        }
     }
 }

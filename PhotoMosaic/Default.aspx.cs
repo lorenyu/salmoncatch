@@ -49,6 +49,7 @@ public partial class _Default : System.Web.UI.Page
         userInput.userName = UsernameTextBox.Text;
         Settings.USER_URL = UsernameTextBox.Text;
 
+        Settings.USE_KD_TREE = UseKdTree.Checked;
         try
         {
             FlickrUtil flickr = new FlickrUtil();
@@ -59,12 +60,11 @@ public partial class _Default : System.Web.UI.Page
             userInput.numHorizontalImages = int.Parse(NumHorizontalImagesTextbox.Text);
             userInput.numVerticalImages = int.Parse(NumVerticalImagesTextbox.Text);
 
-            
-            totalTimer = new Stopwatch();
+            totalTimer = new Stopwatch(true);
 
-            objectiveTimer = new Stopwatch();
+            objectiveTimer = new Stopwatch(true);
             Objective objective = CreateObjective(userInput);
-            objectiveTime.Text = objectiveTimer.timeElapsed();
+            objectiveTime.Text = objectiveTimer.timeElapsed().ToString();
 
             debugLabel.Text += "<br/>\nTIWidth = " + objective.targetImage.Width;
             debugLabel.Text += "<br/>\nTIHeight = " + objective.targetImage.Height;
@@ -72,15 +72,16 @@ public partial class _Default : System.Web.UI.Page
             debugLabel.Text += "<br/>\nACIHeight = " + objective.AdjustedComponentImageHeight.ToString();
 
             Assembler assembler = new Assembler();
-            assembleObjectiveTimer = new Stopwatch();
+            assembleObjectiveTimer = new Stopwatch(true);
             Bitmap resultImage = assembler.Assemble(objective);
-            assembleObjectiveTime.Text = assembleObjectiveTimer.timeElapsed();
+            assembleObjectiveTime.Text = assembleObjectiveTimer.timeElapsed().ToString();
+            println("Nearest neighbor took " + Stopwatch.nearestNeighborStopwatch.timeElapsed().ToString() + " milliseconds.");
 
             string savePath = Path.Combine(Settings.IMAGES_PATH, Settings.RESULTIMAGE_FILENAME);
             resultImage.Save(savePath, ImageFormat.Png);
             debugImage.ImageUrl = Settings.IMAGES_URL + "/" + Settings.RESULTIMAGE_FILENAME;
 
-            totalTime.Text = totalTimer.timeElapsed();
+            totalTime.Text = totalTimer.timeElapsed().ToString();
         }
         catch (Exception ex)
         {
@@ -125,7 +126,9 @@ public partial class _Default : System.Web.UI.Page
                 // an image file (e.g. "Thumbs.db")
             }
         }
+        Stopwatch imageDatabaseStopwatch = new Stopwatch();
         result.imageDb = new ImageDatabase(adjustedComponentImages);
+        println("Image database creation took " + imageDatabaseStopwatch.timeElapsed() + " milliseconds.");
 
         debugImage.Width = targetImage.Width;
         debugImage.Height = targetImage.Height;

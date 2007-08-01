@@ -36,6 +36,7 @@
             <asp:ListItem Value="color1">1 color - Loren</asp:ListItem>
             <asp:ListItem Value="color0">0 colors - Loren</asp:ListItem>
         </asp:DropDownList><br />
+        <asp:CheckBox ID="UseKdTree" runat="server" Text="Use kd-tree" /><br />
         <br />
         <asp:Image ID="debugImage" runat="server" Height="552px" Width="400px" />
         <br />

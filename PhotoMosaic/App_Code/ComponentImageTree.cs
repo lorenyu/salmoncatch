@@ -16,7 +16,7 @@ using System.Collections.Generic;
 /// </summary>
 public class ComponentImageTree
 {
-    enum ColorComponent { R = 0, G = 1, B = 2 }
+    public enum ColorComponent { R = 0, G = 1, B = 2 }
 
     // A tree node
     private class Node
@@ -44,6 +44,40 @@ public class ComponentImageTree
         {
             this.componentImage = componentImage;
             this.axis = colorComponent;
+        }
+    }
+
+    public class ColorRegion
+    {
+        public byte[] min;
+        public byte[] max;
+
+        public byte minR { get { return min[(int)ColorComponent.R]; } }
+        public byte minG { get { return min[(int)ColorComponent.G]; } }
+        public byte minB { get { return min[(int)ColorComponent.B]; } }
+        public byte maxR { get { return max[(int)ColorComponent.R]; } }
+        public byte maxG { get { return max[(int)ColorComponent.G]; } }
+        public byte maxB { get { return max[(int)ColorComponent.B]; } }
+
+        public ColorRegion()
+        {
+            this.min = new byte[3];
+            this.max = new byte[3];
+        }
+
+        public ColorRegion(ColorRegion region) : this()
+        {
+            Array.Copy(region.min, this.min, this.min.Length);
+            Array.Copy(region.max, this.max, this.max.Length);
+        }
+
+        static public ColorRegion MaxColorRegion()
+        {
+            ColorRegion result = new ColorRegion();
+            result.max[(int)ColorComponent.R] = byte.MaxValue;
+            result.max[(int)ColorComponent.G] = byte.MaxValue;
+            result.max[(int)ColorComponent.B] = byte.MaxValue;
+            return result;
         }
     }
 
@@ -314,33 +348,155 @@ public class ComponentImageTree
         }
     }
 
-    private byte AxisValue(ComponentImage ci, ColorComponent axis)
+    #endregion
+
+    #region Nearest Neighbor Logic
+
+    public ComponentImage NearestNeighbor(Color c)
     {
-        switch (axis)
+        int minDistanceSquared;
+        return NearestNeighbor(out minDistanceSquared, c, this.root, ColorRegion.MaxColorRegion(), int.MaxValue);
+    }
+
+    /// <summary>
+    /// 
+    /// Let c[i] be the ith color component of the color c, where i = R, G, or B.
+    /// or example, black[R] = 0, white[G] = 255, and cyan[B] = 255.
+    /// 
+    /// 
+    /// Let c be the target color.
+    /// Let t be the color of the root node of the tree.
+    /// Let i be the dimension (color component) along which the root node splits the space.
+    /// Let r be the the region (initially infinite) in which to search.
+    /// Let m be the maximum allowed distance (initially infinite) between the target color
+    ///     and the nearest neighbor.
+    /// 
+    /// 
+    /// Let n_{r,d} be the nearest neighbor that lies within region r and has a distance at most
+    ///     m from c (n_{r,d} may not exist, in which case n = null).
+    /// Let d be the distance between the target color c and the nearest neighbor n_{r,d}.
+    ///     (n_{r,d} may not exist, in which case d = m).
+    /// 
+    /// Recursive algorithm: NearestNeighbor(c, t, r, m) returns (n_{r,m}, d_{r,m})
+    /// 
+    /// If tree is empty, return closest object as null and minimum distance as infinity
+    /// 
+    /// Otherwise,
+    /// If the c[i] is less than or equal to t[i], then c lies in the left side of the tree,
+    /// so we'll search there first as an initial approximation of where the nearest neighbor
+    /// ought to be.  Otherwise, c lies in the right side, and we'll search there first.
+    /// 
+    /// Let t1 be the root of the side of the tree that c lies in, and let t2 be the root of
+    /// the other side.  Also, let r1 be the region represented by the side containing c while
+    /// r2 represents the other region.
+    /// 
+    /// Let m1 = m, and recursively call NearestNeighbor(c, t1, r1, m1), which returns (n1, d1).
+    ///
+    /// If the distance between c and r2 is greater than or equal to d1, then there could not
+    /// be a color closer to c than m2, so we stop looking and return (n1, d1).
+    /// 
+    /// Otherwise,
+    /// Let m2 = min( d1, distance(c,t) ), and recursively call
+    /// NearestNeighbor(c, t2, r2, m2), which returns (n2, d2).
+    /// 
+    /// If d1 is smaller than distance(c,t) and d2, return (n1, d1).
+    /// If distance(c,t) is smaller than d1 and d2, return (t, distance(c,t)).
+    /// If d2 is smaller than d1 and distance(c,t), return (n2, d2).
+    /// 
+    /// <param name="minDistanceSquared">d_{r,m}^2</param>
+    /// <param name="target">c</param>
+    /// <param name="tree">t</param>
+    /// <param name="region">r</param>
+    /// <param name="maxDistanceSquared">m^2</param>
+    /// <returns>n_{r,m}</returns>
+    private ComponentImage NearestNeighbor(out int minDistanceSquared, Color target, Node tree, ColorRegion region, int maxDistanceSquared)
+    {
+        if (tree == null)
         {
-            case ColorComponent.R: return ci.MeanColor.R;
-            case ColorComponent.G: return ci.MeanColor.G;
-            case ColorComponent.B: return ci.MeanColor.B;
-            default: throw new Exception("Color component " + axis.ToString() + " undefined.");
+            minDistanceSquared = int.MaxValue;
+            return null;
+        }
+
+        ColorComponent axis = tree.axis; // i
+        byte rootAxisValue = AxisValue(tree.componentImage.MeanColor, axis); // t[i]
+
+        Node tree1; // t1
+        Node tree2; // t2
+        ColorRegion region1 = new ColorRegion(region); // r1
+        ColorRegion region2 = new ColorRegion(region); // r2
+
+        if (AxisValue(target, axis) <= AxisValue(tree.componentImage.MeanColor, axis))
+        {
+            tree1 = tree.left;
+            tree2 = tree.right;
+            region1.max[(int)axis] = rootAxisValue;
+            region2.min[(int)axis] = rootAxisValue;
+        }
+        else
+        {
+            tree1 = tree.right;
+            tree2 = tree.left;
+            region1.min[(int)axis] = rootAxisValue;
+            region2.max[(int)axis] = rootAxisValue;
+        }
+
+        // First recursive call
+        int minDistanceSquared1; // d1^2
+        ComponentImage nearest1 = NearestNeighbor(out minDistanceSquared1, target, tree1, region1, maxDistanceSquared);
+
+        if (ColorUtil.DistanceSquared(target, region2) > minDistanceSquared1)
+        {
+            minDistanceSquared = minDistanceSquared1;
+            return nearest1;
+        }
+
+        int distanceToRootSquared = ColorUtil.DistanceSquared(target, tree.componentImage.MeanColor);
+
+        // Second recursive call
+        int minDistanceSquared2; // d2^2
+        ComponentImage nearest2 = NearestNeighbor(out minDistanceSquared2, target, tree2, region2, Math.Min(minDistanceSquared1, distanceToRootSquared));
+
+        // Return nearest of n1, t, and n2
+        if (minDistanceSquared1 <= distanceToRootSquared)
+        {
+            if (minDistanceSquared1 <= minDistanceSquared2)
+            {
+                minDistanceSquared = minDistanceSquared1;
+                return nearest1;
+            }
+            else
+            {
+                minDistanceSquared = minDistanceSquared2;
+                return nearest2;
+            }
+        }
+        else if (distanceToRootSquared <= minDistanceSquared2)
+        {
+            minDistanceSquared = distanceToRootSquared;
+            return tree.componentImage;
+        }
+        else
+        {
+            minDistanceSquared = minDistanceSquared2;
+            return nearest2;
         }
     }
 
     #endregion
 
-    public ComponentImage NearestNeighbor(Color c)
+    private byte AxisValue(Color c, ColorComponent axis)
     {
-        double minDistance = double.MaxValue;
-        ComponentImage bestImage = null;
-
-        foreach (IndexedImage image in images)
+        switch (axis)
         {
-            double distance = ColorUtil.Distance(c, image.componentImage.MeanColor);
-            if (distance < minDistance)
-            {
-                minDistance = distance;
-                bestImage = image.componentImage;
-            }
+            case ColorComponent.R: return c.R;
+            case ColorComponent.G: return c.G;
+            case ColorComponent.B: return c.B;
+            default: throw new Exception("Color component " + axis.ToString() + " undefined.");
         }
-        return bestImage;
+    }
+
+    private byte AxisValue(ComponentImage ci, ColorComponent axis)
+    {
+        return AxisValue(ci.MeanColor, axis);
     }
 }
