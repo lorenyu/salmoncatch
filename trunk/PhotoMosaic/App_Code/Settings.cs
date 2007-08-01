@@ -71,4 +71,6 @@ public static class Settings
         }
     }
     public static string RESULTIMAGE_FILENAME = "resultimage.png";
+
+    public static bool USE_KD_TREE = false;
 }

@@ -42,6 +42,7 @@ public class Assembler
         int aciHeight = objective.AdjustedComponentImageHeight;
         double epsilon = 0.9; // To be more robust against rounding errors with doubles.
 
+        Stopwatch.nearestNeighborStopwatch.Reset();
         for (double x = 0; x < image.Width + epsilon; x += dx)
         {
             for (double y = 0; y < image.Height + epsilon; y += dy)
@@ -53,7 +54,9 @@ public class Assembler
                     aciHeight);
                 if (region.Width <= 0 || region.Height <= 0)
                     continue;
+                Stopwatch.nearestNeighborStopwatch.Start();
                 ComponentImage ci = objective.imageDb.FindBestMatch(objective.targetImage, region);
+                Stopwatch.nearestNeighborStopwatch.Stop();
                 g.DrawImageUnscaledAndClipped(ci.Image, region);
             }
         }

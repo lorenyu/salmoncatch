@@ -16,11 +16,15 @@ using System.Drawing;
 /// </summary>
 public class ImageDatabase
 {
-    ComponentImageTree images;
+    ComponentImageTree images; // for kd-tree
+    ComponentImage[] imageArray; // for linear search
 
 	public ImageDatabase(List<ComponentImage> adjustedComponentImages)
 	{
-        this.images = new ComponentImageTree(adjustedComponentImages);
+        if (Settings.USE_KD_TREE)
+            this.images = new ComponentImageTree(adjustedComponentImages);
+        else
+            this.imageArray = adjustedComponentImages.ToArray();
 	}
 
     /// <summary>
@@ -46,6 +50,24 @@ public class ImageDatabase
     public ComponentImage FindBestMatch(Bitmap image, Rectangle region)
     {
         Color regionMeanColor = ImageProcessor.CalculateMeanColor(image, region);
-        return images.NearestNeighbor(regionMeanColor);
+        if (Settings.USE_KD_TREE)
+            return images.NearestNeighbor(regionMeanColor);
+        else
+        {
+            // linear search (control)
+            int minDistanceSquared = int.MaxValue;
+            ComponentImage bestImage = null;
+
+            foreach (ComponentImage ci in imageArray)
+            {
+                int distanceSquared = ColorUtil.DistanceSquared(regionMeanColor, ci.MeanColor);
+                if (distanceSquared < minDistanceSquared)
+                {
+                    minDistanceSquared = distanceSquared;
+                    bestImage = ci;
+                }
+            }
+            return bestImage;
+        }
     }
 }
