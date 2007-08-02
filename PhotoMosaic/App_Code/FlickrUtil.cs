@@ -79,7 +79,7 @@ public class FlickrUtil
         }
     }
 
-    private Image GetImageFromURL(string strURL)
+    public Image GetImageFromURL(string strURL)
     {
         Image retVal = null;
         try
