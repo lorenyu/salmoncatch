@@ -23,7 +23,8 @@
         <asp:Label ID="Label2" runat="server" Text="Target Image Filename"></asp:Label>
         <asp:DropDownList ID="DropDownList1" runat="server">
             <asp:ListItem Value="target.jpg" Selected="True">Mike's Target Image</asp:ListItem>
-            <asp:ListItem Value="Summer Psylocke.jpg">Loren's Target Image</asp:ListItem>
+            <asp:ListItem Value="Summer Psylocke.jpg">Summer Psylocke.jpg - Loren's Target Image</asp:ListItem>
+            <asp:ListItem Value="Rikku.jpg">Rikku.jpg - Loren's Target Image</asp:ListItem>
         </asp:DropDownList><br />
         <asp:Label ID="Label1" runat="server" Text="Component Image Directory"></asp:Label>
         <asp:DropDownList ID="DropDownList2" runat="server">

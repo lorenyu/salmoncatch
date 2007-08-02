@@ -47,11 +47,10 @@ public class ImageDatabase
     /// <param name="image">The target image</param>
     /// <param name="region"></param>
     /// <returns></returns>
-    public ComponentImage FindBestMatch(Bitmap image, Rectangle region)
+    public ComponentImage FindBestMatch(Color color)
     {
-        Color regionMeanColor = ImageProcessor.CalculateMeanColor(image, region);
         if (Settings.USE_KD_TREE)
-            return images.NearestNeighbor(regionMeanColor);
+            return images.NearestNeighbor(color);
         else
         {
             // linear search (control)
@@ -60,7 +59,7 @@ public class ImageDatabase
 
             foreach (ComponentImage ci in imageArray)
             {
-                int distanceSquared = ColorUtil.DistanceSquared(regionMeanColor, ci.MeanColor);
+                int distanceSquared = ColorUtil.DistanceSquared(color, ci.MeanColor);
                 if (distanceSquared < minDistanceSquared)
                 {
                     minDistanceSquared = distanceSquared;
