@@ -24,4 +24,6 @@ public struct UserInput
     public Flickr flickr;
     public string tempFrob;
 
+    public string targetURL;
+
 }
