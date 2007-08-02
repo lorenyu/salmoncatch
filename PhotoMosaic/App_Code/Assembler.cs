@@ -9,6 +9,7 @@ using System.Web.UI.WebControls.WebParts;
 using System.Web.UI.HtmlControls;
 
 using System.Drawing;
+using System.Drawing.Imaging;
 
 public class Assembler
 {
@@ -54,10 +55,27 @@ public class Assembler
                     aciHeight);
                 if (region.Width <= 0 || region.Height <= 0)
                     continue;
+                Color regionMeanColor = ImageProcessor.CalculateMeanColor(objective.targetImage, region);
                 Stopwatch.nearestNeighborStopwatch.Start();
-                ComponentImage ci = objective.imageDb.FindBestMatch(objective.targetImage, region);
+                ComponentImage ci = objective.imageDb.FindBestMatch(regionMeanColor);
                 Stopwatch.nearestNeighborStopwatch.Stop();
-                g.DrawImageUnscaledAndClipped(ci.Image, region);
+
+                bool adjustComponentImageColor = true;
+                if (adjustComponentImageColor)
+                {
+                    int width = ci.Image.Width;
+                    int height = ci.Image.Height;
+                    ImageAttributes imageAttributes = ImageProcessor.ImageAttributesFromColorTransform(ci.MeanColor, regionMeanColor);
+                    g.DrawImage(ci.Image,
+                        region,
+                        0, 0, width, height,
+                        GraphicsUnit.Pixel,
+                        imageAttributes);
+                }
+                else
+                {
+                    g.DrawImageUnscaledAndClipped(ci.Image, region);
+                }
             }
         }
 
