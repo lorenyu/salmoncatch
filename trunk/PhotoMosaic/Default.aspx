@@ -6,7 +6,7 @@
 <head runat="server">
     <title>Salmon Catcher</title>
 </head>
-<body onload="OnLoad">
+<body>
     <form id="form1" runat="server">
     <div>
         <h1>Welcome to theSalmonCatcher!</h1>
@@ -42,7 +42,7 @@
             <asp:ListItem Value="color0">0 colors - Loren</asp:ListItem>
         </asp:DropDownList><br />
         <asp:CheckBox ID="UseKdTree" runat="server" Text="Use kd-tree" /><br />
-        <br />
+        <asp:HyperLink ID="HyperLink1" runat="server" NavigateUrl="HelloWorld.htm">HelloWorld</asp:HyperLink><br />
         <asp:Image ID="debugImage" runat="server" Height="552px" Width="400px" />
         <br />
         <br />
