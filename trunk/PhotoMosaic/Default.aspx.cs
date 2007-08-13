@@ -129,7 +129,7 @@ public partial class _Default : System.Web.UI.Page
             try
             {
                 Bitmap componentImage = new Bitmap(filename);
-                Bitmap adjustedComponentImage = new Bitmap(componentImage, adjustedComponentImageSize);
+                Bitmap adjustedComponentImage = ImageProcessor.ScaleAndClipImage(componentImage, adjustedComponentImageSize);
                 adjustedComponentImages.Add(new ComponentImage(adjustedComponentImage));
                 componentImage.Dispose();   // Dispose of pre-adjusted component image
             }
