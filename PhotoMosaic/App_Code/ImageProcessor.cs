@@ -64,4 +64,55 @@ public static class ImageProcessor
         imageAttributes.SetColorMatrix(transform);
         return imageAttributes;
     }
+
+    public static Bitmap ClipImage(Bitmap image, Size size)
+    {
+        Bitmap result = new Bitmap(size.Width, size.Height);
+
+        int x, y, w, h;
+
+        int w0 = image.Size.Width;
+        int h0 = image.Size.Height;
+        int w1 = size.Width;
+        int h1 = size.Height;
+
+        w = w0;
+        h = h0;
+        x = (w1 - w0) / 2;
+        y = (h1 - h0) / 2;
+
+        Graphics g = Graphics.FromImage(result);
+        g.DrawImageUnscaledAndClipped(image, new Rectangle(x, y, w, h));
+        return result;
+    }
+
+    public static Bitmap ScaleAndClipImage(Bitmap image, Size size)
+    {
+        Bitmap result = new Bitmap(size.Width, size.Height);
+
+        int x, y, w, h;
+
+        int w0 = image.Size.Width;
+        int h0 = image.Size.Height;
+        int w1 = size.Width;
+        int h1 = size.Height;
+
+        if (w0 * h1 >= w1 * h0)
+        {
+            h = h1;
+            w = h1 * (w0 / h0);
+        }
+        else
+        {
+            w = w1;
+            h = w1 * (h0 / w0);
+        }
+
+        x = (w1 - w) / 2;
+        y = (h1 - h) / 2;
+
+        Graphics g = Graphics.FromImage(result);
+        g.DrawImage(image, x, y, w, h);
+        return result;
+    }
 }

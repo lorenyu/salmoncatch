@@ -5,8 +5,19 @@
 <html xmlns="http://www.w3.org/1999/xhtml" >
 <head runat="server">
     <title>Salmon Catcher</title>
+    
+    <!-- YUI stuff -->
+    
+    <!-- for default tab skin, which includes tabview-core.css and skins/sam/tabview-skin.css -->
+    <link rel="stylesheet" type="text/css" href="http://developer.yahoo.com/yui/build/tabview/assets/skins/sam/tabview.css" />
+
+    <!-- utilities includes all dependencies for this example -->
+    <script type="text/javascript" src="http://developer.yahoo.com/yui/build/utilities/utilities.js"></script>
+    <script type="text/javascript" src="http://developer.yahoo.com/yui/build/tabview/tabview.js"></script>
+    
+    <!-- end YUI stuff -->
 </head>
-<body>
+<body class="yui-skin-sam">
     <form id="form1" runat="server">
     <div>
         <h1>Welcome to theSalmonCatcher!</h1>
@@ -19,7 +30,9 @@
             Text="Use Drop Down Menu" Checked="True" /><br />
         &nbsp;<asp:DropDownList ID="DropDownList1" runat="server" OnSelectedIndexChanged="DropDownList1_SelectedIndexChanged">
             <asp:ListItem Value="target.jpg" Selected="True">Mike's Target Image</asp:ListItem>
-            <asp:ListItem Value="Summer Psylocke.jpg">Loren's Target Image</asp:ListItem>
+            <asp:ListItem Value="Summer Psylocke.jpg">Loren Target - Summer Psylocke.jpg</asp:ListItem>
+            <asp:ListItem Value="Summer Psylocke (large).jpg">Loren Target - Summer Psylocke (large).jpg</asp:ListItem>
+            <asp:ListItem Value="Rikku.jpg">Loren Target - Rikku.jpg</asp:ListItem>
         </asp:DropDownList>
         <asp:TextBox ID="sourceURL" runat="server" OnTextChanged="TextBox1_TextChanged">http://www.techtickerblog.com/wp-content/uploads/2006/10/led-blow-off-on-candles.jpg</asp:TextBox><br />
         <br />
@@ -100,5 +113,23 @@
         <br />
         <asp:Label ID="debugLabel" runat="server" Text="status ok"></asp:Label></div>
     </form>
+    
+    <div id="demo" class="yui-navset">
+        <ul class="yui-nav">
+            <li><a href="#tab1"><em>Tab One Label</em></a></li>
+            <li class="selected"><a href="#tab2"><em>Tab Two Label</em></a></li>
+            <li><a href="#tab3"><em>Tab Three Label</em></a></li>
+        </ul>            
+        <div class="yui-content">
+            <div id="tab1"><p>Tab One Content</p></div>
+            <div id="tab2"><p>Tab Two Content</p></div>
+            <div id="tab3"><p>Tab Three Content</p></div>
+        </div>
+    </div>
+    
+    <script type="text/javascript">
+        var tabView = new YAHOO.widget.TabView('demo');
+    </script>
+        
 </body>
 </html>
