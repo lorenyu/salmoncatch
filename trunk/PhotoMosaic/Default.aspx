@@ -23,7 +23,9 @@
         <h1>Welcome to theSalmonCatcher!</h1>
         <br />
         Username:
-        <asp:TextBox ID="UsernameTextBox" runat="server">flickrtester123</asp:TextBox><br />
+        <asp:TextBox ID="UsernameTextBox" runat="server">flickrtester123</asp:TextBox>
+        <asp:CheckBox ID="DownloadCheckBox" runat="server" OnCheckedChanged="DownloadCheckBox_CheckedChanged"
+            Text="Redownload" /><br />
         <br />
         <asp:Label ID="TargetImageLabel" runat="server" Text="Target Image"></asp:Label>
         <asp:CheckBox ID="Use_Drop_Down_Target" runat="server" OnCheckedChanged="DropDownOrURLCheckBox_CheckedChanged"

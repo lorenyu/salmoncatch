@@ -25,5 +25,5 @@ public struct UserInput
     public string tempFrob;
 
     public string targetURL;
-
+    public bool redownload;
 }

@@ -43,12 +43,14 @@ public partial class _Default : System.Web.UI.Page
         userInput.userName = userInput.userID = userInput.tempFrob  = "";
         userInput.targetURL = "";
         userInput.flickr = null;
+        userInput.redownload = false;
         
         userInput.targetImageFilename = DropDownList1.SelectedValue;
         //userInput.componentImageDirectory = DropDownList2.SelectedValue;
 
         userInput.userName = UsernameTextBox.Text;
         userInput.targetURL = sourceURL.Text;
+        userInput.redownload = DownloadCheckBox.Checked;
         Settings.USER_URL = UsernameTextBox.Text;
 
         Settings.USE_KD_TREE = UseKdTree.Checked;
@@ -57,10 +59,17 @@ public partial class _Default : System.Web.UI.Page
         try
         {
             FlickrUtil flickr = new FlickrUtil();
-            userInput.flickr = flickr.NewFlickr();
-            userInput.userID = flickr.GetUserID(userInput);
-            flickr.getAllPublicPhotos(userInput);
 
+            if (userInput.redownload)
+            {
+                userInput.flickr = flickr.NewFlickr();
+                userInput.userID = flickr.GetUserID(userInput);
+                flickr.getAllPublicPhotos(userInput);
+            }
+            else
+            {
+
+            }
             if (!Use_Drop_Down_Target.Checked)
             {
                 System.Drawing.Image targetImage = flickr.GetImageFromURL(userInput.targetURL);
@@ -222,6 +231,10 @@ public partial class _Default : System.Web.UI.Page
 
     }
     protected void DropDownList1_SelectedIndexChanged(object sender, EventArgs e)
+    {
+
+    }
+    protected void DownloadCheckBox_CheckedChanged(object sender, EventArgs e)
     {
 
     }
