@@ -72,7 +72,6 @@ public class FlickrUtil
         int i = 0;
         foreach (Photo photo in allPhotos)
         {
-            //string dest = @"C:\Documents and Settings\AE\My Documents\Visual Studio 2005\WebSites\PhotoMosaic\images\flickr\img" + i + ".png";
             string dest = Settings.USER_DIR + @"\img" + i + ".png";
             GetImageFromURL(photo.ThumbnailUrl).Save(dest, System.Drawing.Imaging.ImageFormat.Png);
             i++;
