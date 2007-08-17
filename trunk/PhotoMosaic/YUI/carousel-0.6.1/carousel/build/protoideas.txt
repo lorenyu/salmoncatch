@@ -1,0 +1,53 @@
+YAHOO.proto.Config = {
+	"first": {
+		popup: {
+			
+		}
+		fade: {
+			opacity:         { to: 0.0 },
+			duration:        2,
+			animationMethod: YAHOO.util.Easing.easeOut
+			trigger: {
+				when: click | doubleclick | shift-click | shift-ctrl-click
+				where: id,
+				delay: xx
+			}
+			trigger: {
+				how: "value='someValue'"
+				where: id,
+				when: now | xx
+			}
+		},
+		move: {
+			by:              [300, 0],
+			duration:        3,
+			animationMethod: YAHOO.util.Easing.easeOut
+			trigger: {
+				event: "hover",
+				where: "second"
+			}
+		}
+	},
+	"second": {
+		move: {
+			by:              [400, 0],
+			duration:        1,
+			animationMethod: YAHOO.util.Easing.easeOut,
+			trigger: {
+				event: "click",
+				where: "document"
+			}
+		}
+	},
+	
+	"third": {
+		drag: {
+			dropClass:    "drop-me"//,
+			// startDrag:    handleStartDrag, // will need some standard handlers here
+			// onDragDrop:   handleDragDrop,
+			// onDragEnter:  handleDragEnter,
+			// onDragOut:    handleDragOut,
+			// endDrag:      handleEndDrag		
+		}
+	}
+}
