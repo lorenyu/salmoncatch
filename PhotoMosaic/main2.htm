@@ -1,0 +1,268 @@
+﻿<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+
+<head>
+<title>Carousel - Module Tabs</title>
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+
+<script type="text/javascript" src="http://yui.yahooapis.com/2.2.2/build/yahoo-dom-event/yahoo-dom-event.js"></script> 
+<script type="text/javascript" src="http://yui.yahooapis.com/2.2.2/build/utilities/utilities.js"></script>
+<script type="text/javascript" src="http://yui.yahooapis.com/2.2.2/build/dragdrop/dragdrop-min.js"></script>
+<script type="text/javascript" src="http://yui.yahooapis.com/2.2.2/build/container/container_core-min.js"></script>
+<script type="text/javascript" src="YUI/carousel.js"></script>
+
+<link rel="stylesheet" type="text/css" href="http://yui.yahooapis.com/2.2.2/build/reset-fonts-grids/reset-fonts-grids.css">
+<link href="YUI/carousel.css" rel="stylesheet" type="text/css">
+<link href="YUI/yui.css" rel="stylesheet" type="text/css">
+
+
+<style type="text/css">
+.carousel-component { 
+    padding:0px 0px 0px 0px;
+    margin-bottom:10px;
+    -moz-border-radius:0px;
+    background-color: white;
+    clear:both;
+}
+
+.carousel-component .carousel-clip-region { 
+    padding:0px;
+    margin:0px;
+
+}
+.carousel-component ul.carousel-list{
+    text-align:left;
+    background-color:white;
+}
+.carousel-component .carousel-list li { 
+    text-align:left;
+    margin:0px;
+    width:450px;
+    height: 300px;
+    border: 1px solid gray;    
+}
+    
+#tabset {
+    margin-left:5px;
+    margin-bottom:2px;
+}
+                                    
+</style>
+
+<script type="text/javascript">
+
+var tabPages = [
+            "images/tab-one-contents.png",
+            "images/tab-two-contents.png",
+            "images/tab-three-contents.png",
+            "images/tab-four-contents.png"
+            ];
+            
+/**
+ * Custom inital load handler. Called when the carousel loads the initial
+ * set of data items. Specified to the carousel as the configuration
+ * parameter: loadInitHandler
+ **/
+var loadInitialItems = function(type, args) {
+
+    var start = args[0];
+    var last = args[1]; 
+
+    load(this, start, last);    
+};
+
+/**
+ * Custom load next handler. Called when the carousel loads the next
+ * set of data items. Specified to the carousel as the configuration
+ * parameter: loadNextHandler
+ **/
+var loadNextItems = function(type, args) {    
+
+    var start = args[0];
+    var last = args[1]; 
+    var alreadyCached = args[2];
+    
+    if(!alreadyCached) {
+        load(this, start, last);
+    }
+};
+
+/**
+ * Custom load previous handler. Called when the carousel loads the previous
+ * set of data items. Specified to the carousel as the configuration
+ * parameter: loadPrevHandler
+ **/
+var loadPrevItems = function(type, args) {
+    var start = args[0];
+    var last = args[1]; 
+    var alreadyCached = args[2];
+    
+    if(!alreadyCached) {
+        load(this, start, last);
+    }
+};
+
+var load = function(carousel, start, last) {
+    for(var i=start;i<=last;i++) {
+        carousel.addItem(i, fmtItem(tabPages[i-1]));
+    }
+};
+
+var changePage = function(e, args) {
+    var carousel = args[0];
+    var pageNum = args[1];
+    
+    carousel.scrollTo(pageNum);
+};
+
+/**
+ * You must create the carousel after the page is loaded since it is
+ * dependent on an HTML element (in this case 'dhtml-carousel'.) See the
+ * HTML code below.
+ **/
+var carousel; // for ease of debugging; globals generally not a good idea
+
+var pageLoad = function() 
+{
+    carousel = new YAHOO.extension.Carousel("dhtml-carousel", 
+        {
+            numVisible:        1,
+            animationSpeed:    0.5,
+            scrollInc:         1,
+            size:              4,
+            navMargin:         0,
+            loadInitHandler:   loadInitialItems,
+            loadNextHandler:   loadNextItems,
+            loadPrevHandler:   loadPrevItems
+        }
+    );
+    YAHOO.util.Event.addListener(this.carouselNext, "click", this._scrollNext, this);
+
+    YAHOO.util.Event.addListener("1Forward", "click", changePage, [carousel, 2]);
+    YAHOO.util.Event.addListener("2Forward", "click", changePage, [carousel, 3]);
+    YAHOO.util.Event.addListener("3Forward", "click", changePage, [carousel, 4]);
+    
+    YAHOO.util.Event.addListener("2Back", "click", changePage, [carousel, 1]);
+    YAHOO.util.Event.addListener("3Back", "click", changePage, [carousel, 2]);
+    YAHOO.util.Event.addListener("4Back", "click", changePage, [carousel, 3]);
+};
+
+/**
+ * Since carousel.addItem uses an HTML string to create the interface
+ * for each carousel item, this method formats the HTML for an LI.
+ **/
+var fmtItem = function(tabPage) {
+
+      var innerHTML = 
+          '<img src="' + 
+          tabPage + 
+          '"/>';
+  
+    return innerHTML;
+    
+};
+
+
+YAHOO.util.Event.addListener(window, 'load', pageLoad);
+
+
+</script>
+</head>
+
+<body>
+
+<div id="doc" class="yui-t7">
+
+<div id="bd">
+
+<!-- Carousel Structure -->
+
+<div id="tabset">
+    <span style="font-size: 14pt">FotoFusion:<br />
+        &nbsp;</span><span style="font-size: 14pt">&nbsp;</span><span style="font-size: 14pt"></span><span style="font-size: 14pt"> </span><span style="font-size: 14pt"></span>
+
+
+</div>
+
+
+<div id="dhtml-carousel" class="carousel-component">
+	<div class="carousel-clip-region">
+		<ul class="carousel-list">
+
+            <li id="dhtml-carousel-item-1"><div style="text-align: center">
+                <span style="font-size: 12pt">Chose your main image:<br />
+                    <br />
+                    <br />
+                    <br />
+                    <br />
+                    <br />
+                    <br />
+                    <br />
+                    &nbsp; &nbsp; &nbsp;&nbsp;<br />
+                    <span style="font-size: 14pt">&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;&nbsp;
+                        ||</span><a id="1Forward" href="#"><span style="font-size: 14pt">Next-></span></a><span style="font-size: 14pt"> </span>
+            </span>
+            </div></li>
+            <li id="dhtml-carousel-item-2"><div style="text-align: center">
+                <span style="font-size: 12pt">Chose the images you want to fuse:<br />
+                    <span style="font-size: 14pt">
+                        <br />
+                        <br />
+                        <br />
+                        <br />
+                        <br />
+                        <br />
+                        <br />
+                        <a id="2Back" href="#"><span style="font-size: 14pt"><-Go Back</span></a></span>
+                    <span style="font-size: 14pt">||</span>
+<a id="2Forward" href="#">
+    <span style="font-size: 14pt">Next-></span></a><span style="font-size: 14pt">&nbsp;</span><span style="font-size: 14pt"></span></span></div></li>
+            <li id="dhtml-carousel-item-3"><div style="text-align: center">
+                <span style="font-size: 12pt"># Three<br />
+                    # Three<br />
+                    # Three
+                    <br />
+                    # Three<br />
+                    # Three<br />
+                    # Three<br />
+                    # Three<span style="font-size: 14pt"><br />
+                    </span>
+                    <br />
+                    <br />
+<a id="3Back" href="#">
+    <span style="font-size: 14pt"><-Go Back</span></a><span style="font-size: 14pt"> || </span>
+<a id="3Forward" href="#">
+    <span style="font-size: 14pt">Next-></span></a><span style="font-size: 14pt"></span></span></div></li>
+            <li id="dhtml-carousel-item-4"><div style="text-align: center">
+                <span style="font-size: 12pt">
+            # Four<br />
+                # Four
+                <br />
+                # Four
+                <br />
+                # Four
+                <br />
+                # Four
+                <br />
+                # Four
+                <br />
+                # Four<span style="font-size: 14pt"> 
+                    <br />
+                    <br />
+                    <br />
+                </span>
+<a id="4Back" href="#">
+    <span style="font-size: 14pt"><-Go Back</span></a><span style="font-size: 14pt"> ||
+        <span> 
+<a id="4Forward" href="#">
+    <span>Process=></span></a><span> &nbsp; &nbsp;</span></span></span></span></div></li>
+        </ul>
+    </div>
+</div>
+
+
+</div>
+</div> 
+
+</body>
+</html> 
