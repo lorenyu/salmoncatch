@@ -8,14 +8,42 @@ using System.Web.UI.WebControls;
 using System.Web.UI.WebControls.WebParts;
 using System.Web.UI.HtmlControls;
 using FlickrNet;
+using System.Collections.Specialized;
 
 /// <summary>
 /// A struct containing the parameters received from the web form.
 /// </summary>
 public class UserInput
 {
+    public UserInput(NameValueCollection webForm)
+    {
+        isValid = true;
+
+        userName = webForm["Username"];
+        targetURL = webForm["TargetImageUrl"];
+
+        try
+        {
+            numHorizontalImages = int.Parse(webForm["NumHorizontalImages"]);
+            numVerticalImages = int.Parse(webForm["NumVerticalImages"]);
+        }
+        catch (Exception ex)
+        {
+            // TODO: Handle exception
+            isValid = false;
+            return;
+        }
+
+        // TODO: refactor these into settings
+        redownload = true;
+
+        // TODO: I don't think these should be static.
+        Settings.USER_URL = userName;
+
+        if (userName == "" || targetURL == "") isValid = false;
+    }
+
     public string targetImageFilename;
-    public string componentImageDirectory;
     public int numHorizontalImages;
     public int numVerticalImages;
 
@@ -26,4 +54,5 @@ public class UserInput
 
     public string targetURL;
     public bool redownload;
+    public bool isValid;
 }
