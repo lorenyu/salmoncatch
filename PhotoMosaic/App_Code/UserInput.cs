@@ -12,7 +12,7 @@ using FlickrNet;
 /// <summary>
 /// A struct containing the parameters received from the web form.
 /// </summary>
-public struct UserInput
+public class UserInput
 {
     public string targetImageFilename;
     public string componentImageDirectory;

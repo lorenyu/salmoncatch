@@ -8,6 +8,7 @@ using System.Web.UI.WebControls;
 using System.Web.UI.WebControls.WebParts;
 using System.Web.UI.HtmlControls;
 
+using System.Net;
 using System.Drawing;
 using System.Collections.Generic;
 using System.IO;
@@ -22,103 +23,77 @@ public partial class _Default : System.Web.UI.Page
     protected void Page_Load(object sender, EventArgs e)
     {
         page = this;
-        println();
-        println("Page loaded");
         Settings.APPLICATION_PATH = this.Request.PhysicalApplicationPath;
-        println("Application path at " + Settings.APPLICATION_PATH);
-    }
-
-    protected void AssembleButton_Click(object sender, EventArgs e)
-    {
-        Stopwatch totalTimer;
-        Stopwatch objectiveTimer;
-        Stopwatch assembleObjectiveTimer;
 
         // Create instance of UserInput and populate it with user entered data on web page
-        UserInput userInput;
 
-        //Initalize struct
-        userInput.targetImageFilename = userInput.componentImageDirectory = "";
-        userInput.numHorizontalImages = userInput.numVerticalImages = 10;
-        userInput.userName = userInput.userID = userInput.tempFrob  = "";
-        userInput.targetURL = "";
-        userInput.flickr = null;
-        userInput.redownload = false;
-        
-        userInput.targetImageFilename = DropDownList1.SelectedValue;
-        //userInput.componentImageDirectory = DropDownList2.SelectedValue;
+        UserInput userInput = new UserInput();
 
-        userInput.userName = UsernameTextBox.Text;
-        userInput.targetURL = sourceURL.Text;
-        userInput.redownload = DownloadCheckBox.Checked;
-        Settings.USER_URL = UsernameTextBox.Text;
+        userInput.userName = Request.Form["UsernameTextBox"];
+        userInput.targetURL = Request.Form["TargetImageUrl"];
 
-        Settings.USE_KD_TREE = UseKdTree.Checked;
-        Settings.USE_DROP_DOWN_TARGET = Use_Drop_Down_Target.Checked;
-        
+        // TODO: This should be refactored
+        userInput.componentImageDirectory = "";
         try
         {
-            FlickrUtil flickr = new FlickrUtil();
-
-            if (userInput.redownload)
-            {
-                userInput.flickr = flickr.NewFlickr();
-                userInput.userID = flickr.GetUserID(userInput);
-                flickr.getAllPublicPhotos(userInput);
-            }
-            else
-            {
-
-            }
-            if (!Use_Drop_Down_Target.Checked)
-            {
-                System.Drawing.Image targetImage = flickr.GetImageFromURL(userInput.targetURL);
-                ImageFormat format = ImageFormat.Png;
-                //userInput.targetImageFilename = targetImage.ToString()+"."+format.ToString();
-                userInput.targetImageFilename = "downloadedPhoto." + format.ToString();
-                string path = Path.Combine(Settings.IMAGES_PATH, userInput.targetImageFilename);
-                targetImage.Save(path, format);
-            }
-
-            userInput.numHorizontalImages = int.Parse(NumHorizontalImagesTextbox.Text);
-            userInput.numVerticalImages = int.Parse(NumVerticalImagesTextbox.Text);
-
-            totalTimer = new Stopwatch(true);
-
-            objectiveTimer = new Stopwatch(true);
-            Objective objective = CreateObjective(userInput);
-            objectiveTime.Text = objectiveTimer.timeElapsed().ToString();
-
-            debugLabel.Text += "<br/>\nTIWidth = " + objective.targetImage.Width;
-            debugLabel.Text += "<br/>\nTIHeight = " + objective.targetImage.Height;
-            debugLabel.Text += "<br/>\nACIWidth = " + objective.AdjustedComponentImageWidth.ToString();
-            debugLabel.Text += "<br/>\nACIHeight = " + objective.AdjustedComponentImageHeight.ToString();
-
-            Assembler assembler = new Assembler();
-            assembleObjectiveTimer = new Stopwatch(true);
-            Bitmap resultImage = assembler.Assemble(objective);
-            assembleObjectiveTime.Text = assembleObjectiveTimer.timeElapsed().ToString();
-            println("Nearest neighbor took " + Stopwatch.nearestNeighborStopwatch.timeElapsed().ToString() + " milliseconds.");
-
-            string savePath = Path.Combine(Settings.IMAGES_PATH, Settings.RESULTIMAGE_FILENAME);
-            resultImage.Save(savePath, ImageFormat.Png);
-            debugImage.ImageUrl = Settings.IMAGES_URL + "/" + Settings.RESULTIMAGE_FILENAME;
-
-            totalTime.Text = totalTimer.timeElapsed().ToString();
+            userInput.numHorizontalImages = int.Parse(Request.Form["NumHorizontalImages"]);
+            userInput.numVerticalImages = int.Parse(Request.Form["NumVerticalImages"]);
         }
         catch (Exception ex)
         {
-            // Error handling
-            println(ex.Message);
-            println(ex.StackTrace);
             return;
+        }
+
+        userInput.redownload = false;
+
+        // TODO: I don't think these should be static.
+        Settings.USER_URL = userInput.userName;
+        Settings.USE_KD_TREE = false;
+        Settings.USE_DROP_DOWN_TARGET = false;
+
+        if (Request.Form["UsernameTextBox"] != "")
+        {
+            try
+            {
+                FlickrUtil flickr = new FlickrUtil();
+
+                // TODO: shouldn't this also download if folder is not there?
+                if (userInput.redownload)
+                {
+                    userInput.flickr = flickr.NewFlickr();
+                    userInput.userID = flickr.GetUserID(userInput);
+                    flickr.getAllPublicPhotos(userInput);
+                }
+
+                if (!Settings.USE_DROP_DOWN_TARGET)
+                {
+                    WebClient wc = new WebClient();
+                    byte[] originalData = wc.DownloadData(userInput.targetURL);
+                    MemoryStream stream = new MemoryStream(originalData);
+                    Bitmap targetImage = new Bitmap(stream);
+                    userInput.targetImageFilename = "downloadedPhoto.Png";
+                    string path = Path.Combine(Settings.IMAGES_PATH, userInput.targetImageFilename);
+                    targetImage.Save(path, ImageFormat.Png);
+                }
+
+                Objective objective = CreateObjective(userInput);
+                Assembler assembler = new Assembler();
+                Bitmap resultImage = assembler.Assemble(objective);
+
+                string savePath = Path.Combine(Settings.IMAGES_PATH, Settings.RESULTIMAGE_FILENAME);
+                resultImage.Save(savePath, ImageFormat.Png);
+                debugImage.ImageUrl = Settings.IMAGES_URL + "/" + Settings.RESULTIMAGE_FILENAME;
+            }
+            catch (Exception ex)
+            {
+                return;
+            }
         }
     }
 
     private Objective CreateObjective(UserInput userInput)
     {
         // Obtain target image
-        println("TargetImage at " + Path.Combine(Settings.IMAGES_PATH, userInput.targetImageFilename));
         Bitmap targetImage = new Bitmap(Path.Combine(Settings.IMAGES_PATH, userInput.targetImageFilename));
 
         Objective result = new Objective();
@@ -130,7 +105,6 @@ public partial class _Default : System.Web.UI.Page
         Size adjustedComponentImageSize = new Size(result.AdjustedComponentImageWidth, result.AdjustedComponentImageHeight);
 
         // Get component images from directory
-        println("Color directory at " + Path.Combine(Settings.COLORGENERATOR_PATH, userInput.componentImageDirectory));
         string[] filenames = Directory.GetFiles(Path.Combine(Settings.COLORGENERATOR_PATH, userInput.componentImageDirectory));
         List<ComponentImage> adjustedComponentImages = new List<ComponentImage>();
         foreach (string filename in filenames)
@@ -149,93 +123,7 @@ public partial class _Default : System.Web.UI.Page
                 // an image file (e.g. "Thumbs.db")
             }
         }
-        Stopwatch imageDatabaseStopwatch = new Stopwatch();
         result.imageDb = new ImageDatabase(adjustedComponentImages);
-        println("Image database creation took " + imageDatabaseStopwatch.timeElapsed() + " milliseconds.");
-
-        debugImage.Width = targetImage.Width;
-        debugImage.Height = targetImage.Height;
-        debugImage.ImageUrl = Settings.IMAGES_URL + "/" + userInput.targetImageFilename;
-
         return result;
-    }
-
-    public static void println() { println(""); }
-    public static void println(string str)
-    {
-        page.debugLabel.Text += str + "<br/>\n";
-    }
-
-    protected void TestButton_Click(object sender, EventArgs e)
-    {
-        Objective result = new Objective();
-        result.targetImage = new Bitmap(Path.Combine(Settings.IMAGES_PATH, DropDownList1.SelectedValue));
-        try
-        {
-            result.numImagesPerRow = int.Parse(NumHorizontalImagesTextbox.Text);
-            result.numImagesPerCol = int.Parse(NumVerticalImagesTextbox.Text);
-        }
-        catch
-        {
-        }
-        Size adjustedComponentImageSize = new Size(result.AdjustedComponentImageWidth, result.AdjustedComponentImageHeight);
-
-
-
-        Stopwatch timer;
-        string[] filenames;
-        List<Bitmap> images = new List<Bitmap>();
-        List<Bitmap> resizedImages = new List<Bitmap>();;
-        filenames = Directory.GetFiles(Path.Combine(Settings.COLORGENERATOR_PATH, DropDownList2.SelectedValue));
-
-        timer = new Stopwatch();
-        foreach (string filename in filenames)
-        {
-            try
-            {
-                images.Add(new Bitmap(filename));
-            }
-            catch
-            {
-            }
-        }
-        println("Time to load images: " + timer.timeElapsed());
-
-        timer = new Stopwatch();
-        foreach (Bitmap image in images)
-        {
-            resizedImages.Add(new Bitmap(image, adjustedComponentImageSize));
-        }
-        println("Time to resize images: " + timer.timeElapsed());
-
-        timer = new Stopwatch();
-        foreach (Bitmap resizedImage in resizedImages)
-        {
-            new ComponentImage(resizedImage);
-        }
-        println("Time to compute mean colors on resized images: " + timer.timeElapsed());
-
-        timer = new Stopwatch();
-        foreach (Bitmap image in images)
-        {
-            new ComponentImage(image);
-        }
-        println("Time to compute mean colors on original images: " + timer.timeElapsed());
-    }
-    protected void TextBox1_TextChanged(object sender, EventArgs e)
-    {
-
-    }
-    protected void DropDownOrURLCheckBox_CheckedChanged(object sender, EventArgs e)
-    {
-
-    }
-    protected void DropDownList1_SelectedIndexChanged(object sender, EventArgs e)
-    {
-
-    }
-    protected void DownloadCheckBox_CheckedChanged(object sender, EventArgs e)
-    {
-
     }
 }
