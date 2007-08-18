@@ -34,14 +34,12 @@ public partial class _Default : System.Web.UI.Page
         {
             try
             {
-                FlickrUtil flickr = new FlickrUtil();
-
                 // TODO: shouldn't this also download if folder is not there?
                 if (userInput.redownload)
                 {
-                    userInput.flickr = flickr.NewFlickr();
-                    userInput.userID = flickr.GetUserID(userInput);
-                    flickr.getAllPublicPhotos(userInput);
+                    userInput.flickr = FlickrUtil.NewFlickr();
+                    userInput.userID = FlickrUtil.GetUserID(userInput);
+                    FlickrUtil.GetAllPublicPhotos(userInput);
                 }
 
                 if (!Settings.USE_DROP_DOWN_TARGET)
