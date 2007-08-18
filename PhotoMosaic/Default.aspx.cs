@@ -17,7 +17,6 @@ using System.Drawing.Imaging;
 
 public partial class _Default : System.Web.UI.Page 
 {
-
     public static _Default page;
 
     protected void Page_Load(object sender, EventArgs e)
@@ -27,31 +26,11 @@ public partial class _Default : System.Web.UI.Page
 
         // Create instance of UserInput and populate it with user entered data on web page
 
-        UserInput userInput = new UserInput();
+        // TODO: UserInput userInput = new UserInput(Request.Form);
+        UserInput userInput = new UserInput(Request.Form);
 
-        userInput.userName = Request.Form["UsernameTextBox"];
-        userInput.targetURL = Request.Form["TargetImageUrl"];
-
-        // TODO: This should be refactored
-        userInput.componentImageDirectory = "";
-        try
-        {
-            userInput.numHorizontalImages = int.Parse(Request.Form["NumHorizontalImages"]);
-            userInput.numVerticalImages = int.Parse(Request.Form["NumVerticalImages"]);
-        }
-        catch (Exception ex)
-        {
-            return;
-        }
-
-        userInput.redownload = false;
-
-        // TODO: I don't think these should be static.
-        Settings.USER_URL = userInput.userName;
-        Settings.USE_KD_TREE = false;
-        Settings.USE_DROP_DOWN_TARGET = false;
-
-        if (Request.Form["UsernameTextBox"] != "")
+        // TODO: More robust error checking
+        if (userInput.isValid)
         {
             try
             {
@@ -105,7 +84,7 @@ public partial class _Default : System.Web.UI.Page
         Size adjustedComponentImageSize = new Size(result.AdjustedComponentImageWidth, result.AdjustedComponentImageHeight);
 
         // Get component images from directory
-        string[] filenames = Directory.GetFiles(Path.Combine(Settings.COLORGENERATOR_PATH, userInput.componentImageDirectory));
+        string[] filenames = Directory.GetFiles(Settings.COLORGENERATOR_PATH);
         List<ComponentImage> adjustedComponentImages = new List<ComponentImage>();
         foreach (string filename in filenames)
         {

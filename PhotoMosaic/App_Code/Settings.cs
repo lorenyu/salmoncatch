@@ -61,6 +61,14 @@ public static class Settings
             return Path.Combine(Settings.APPLICATION_PATH, IMAGES_URL);
         }
     }
+
+    public static string RESULTIMAGE_FILENAME = "resultimage.png";
+    public static bool USE_KD_TREE = false;
+
+    /**
+     * Old stuff
+     * */
+
     public static string COLORGENERATOR_PATH
     {
         get
@@ -70,8 +78,6 @@ public static class Settings
             return Path.Combine(Settings.APPLICATION_PATH, @color_path);
         }
     }
-    public static string RESULTIMAGE_FILENAME = "resultimage.png";
 
-    public static bool USE_KD_TREE = false;
     public static bool USE_DROP_DOWN_TARGET = false;
 }

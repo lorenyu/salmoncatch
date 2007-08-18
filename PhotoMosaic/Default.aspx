@@ -149,7 +149,7 @@ Step 3:
 <div id="step1" style="visibility:hidden;">
     <div class="paneTitle">What images do you want to fuse?</div>
     Username:
-    <input type="text" name="UsernameTextBox" value="spikeblacklab" />
+    <input type="text" name="Username" value="spikeblacklab" />
 </div>
 
 <div id="step2" style="visibility:hidden;">
