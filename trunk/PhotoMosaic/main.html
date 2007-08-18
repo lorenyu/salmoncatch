@@ -41,6 +41,13 @@
     color: white;
     font-size: 31px;
  }
+ 
+ .paneTitle
+ {
+    padding: 5px;
+    color: white;
+    font-size: 31px;
+ }
 </style>
 
 <style>
@@ -54,9 +61,6 @@
     margin:10px;
     background-color: black;
 }
-.yui-overlay .hd { border:1px; padding:5px; }
-.yui-overlay .bd { border:1px solid green;padding:5px; }
-.yui-overlay .ft { border:1px solid blue;padding:5px; }
 </style>
 
 <!--
@@ -79,8 +83,8 @@ function init() {
 	// Build overlay1 based on markup
 	YAHOO.example.container.step1 = new YAHOO.widget.Overlay("step1", { context:["centerPanelLocation","tl","bl"],
 																			  visible:false,
-																			  width:"640px",
-																			  height:"480px",
+																			  width:"50%",
+																			  height:"50%",
 																			  zIndex:1000,
 																			  effect:{effect:YAHOO.widget.ContainerEffect.FADE,duration:0.5} } );
 	YAHOO.example.container.step1.render("example");
@@ -88,8 +92,8 @@ function init() {
 	// Build overlay2 based on markup
 	YAHOO.example.container.step2 = new YAHOO.widget.Overlay("step2", { context:["centerPanelLocation","tl","bl"],
 																			  visible:false,
-																			  width:"70%",
-																			  height:"70%",
+																			  width:"50%",
+																			  height:"50%",
 																			  zIndex:1000,
 																			  effect:{effect:YAHOO.widget.ContainerEffect.FADE,duration:0.5} } );
 	YAHOO.example.container.step2.render("example");
@@ -97,8 +101,8 @@ function init() {
 	// Build overlay3 based on markup
 	YAHOO.example.container.step3 = new YAHOO.widget.Overlay("step3", { context:["centerPanelLocation","tl","bl"],
 																			  visible:false,
-																			  width:"70%",
-																			  height:"70%",
+																			  width:"50%",
+																			  height:"50%",
 																			  zIndex:1000,
 																			  effect:[{effect:YAHOO.widget.ContainerEffect.FADE,duration:0.5}] } );
 	YAHOO.example.container.step3.render("example");
@@ -138,15 +142,15 @@ Step 3:
 <div id="centerPanelLocation"></div>
 
 <div id="step1" style="visibility:hidden;">
-<h2>What images do you want to fuse?</h2>
+<div class="paneTitle">What images do you want to fuse?</div>
 </div>
 
 <div id="step2" style="visibility:hidden;">
-<h2>What do you want to be your main image?</h2>
+<div class="paneTitle">What do you want to be your main image?</div>
 </div>
 
 <div id="step3" style="visibility:hidden;">
-<h2>Go!</h2>
+<div class="paneTitle">Go!</div>
 </div>
 
 </body>
