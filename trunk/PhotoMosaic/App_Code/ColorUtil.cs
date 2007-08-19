@@ -36,6 +36,10 @@ public static class ColorUtil
     /// 
     /// If c1 = r1 g1 b1 and c2 = r2 g2 b2 then this function returns
     /// sqrt{ (r1-r2)^2 + (g1-g2)^2 + (b1-b2)^2 }
+    /// 
+    /// Note on overflow:  There is no overflow problem because the RGB values are only from
+    /// 0 to 255, the distance squared is at most 255^2 + 255^2 + 255^2 = 195,075, while
+    /// the int's max value is 2^31.
     /// </summary>
     /// <param name="c1"></param>
     /// <param name="c2"></param>

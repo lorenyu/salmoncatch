@@ -23,7 +23,6 @@ public class Assembler
     int ciWidth;
     int ciHeight;
 
-
     // Result of assemble
     ComponentImage[,] grid;
     // TODO: this doesn't seem like the most efficient way
@@ -63,15 +62,13 @@ public class Assembler
         regionMeanColors = new Color[numRows, numCols];
 
         Rectangle region = new Rectangle(new Point(0,0), compareSize);
-        for (int i = 0; i < numRows; i++)
+        for (int i = 0; i < numRows; i++, region.Y += quality)
         {
-            for (int j = 0; j < numCols; j++)
+            region.X = 0;
+            for (int j = 0; j < numCols; j++, region.X += quality)
             {
-                region.X = j * quality;
-                region.Y = i * quality;
-
                 grid[i, j] = FindClosestImage(thumbs, targetImage, region);
-                regionMeanColors[i, j] = ImageProcessor.CalculateMeanColor(targetImage, region);
+                regionMeanColors[i, j] = ImageProcessor.CalculateMeanColor(targetImage, region);   
             }
         }
     }
@@ -109,12 +106,12 @@ public class Assembler
     public ComponentImage FindClosestImage(List<Bitmap> images, Bitmap target, Rectangle region)
     {
         // linear search
-        int minDistance = int.MaxValue;
+        long minDistance = long.MaxValue;
         int best = -1;
 
         for (int i = 0; i < images.Count; i++)
         {
-            int rmsDistance = ImageProcessor.DistanceSquared(images[i], target, region);
+            long rmsDistance = ImageProcessor.DistanceSquared(images[i], target, region);
             if (rmsDistance < minDistance)
             {
                 minDistance = rmsDistance;

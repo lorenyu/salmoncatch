@@ -136,13 +136,18 @@ public class User
         return bitmaps;
     }
 
+    public void SaveImage(Bitmap image, string name)
+    {
+        string dest = Path.Combine(userDir, name + ".png");
+        image.Save(dest, System.Drawing.Imaging.ImageFormat.Png);
+    }
+
     private void CachePhotos(PhotoCollection photos)
     {
         int i = 0;
         foreach (Photo photo in photos)
         {
-            string dest = Path.Combine(userDir, i + ".png");
-            WebUtil.GetBitmap(photo.ThumbnailUrl).Save(dest, System.Drawing.Imaging.ImageFormat.Png);
+            SaveImage(WebUtil.GetBitmap(photo.ThumbnailUrl), i.ToString());
             i++;
         }
     }

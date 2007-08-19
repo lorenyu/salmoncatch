@@ -45,20 +45,24 @@ public static class ImageProcessor
 
     public static Color CalculateMeanColor(Bitmap image)
     {
-        Bitmap singlePixelImage = new Bitmap(image, 1, 1);
-        Color meanColor = singlePixelImage.GetPixel(0, 0);
-        singlePixelImage.Dispose();
+        Bitmap pixel = new Bitmap(image, 1, 1);
+        Graphics g = Graphics.FromImage(pixel);
+
+        g.InterpolationMode = System.Drawing.Drawing2D.InterpolationMode.HighQualityBicubic;
+        g.PixelOffsetMode = System.Drawing.Drawing2D.PixelOffsetMode.HighQuality;
+        g.DrawImage(image, new Rectangle(0, 0, 1, 1), 0, 0, image.Width, image.Height, GraphicsUnit.Pixel);
+
+        Color meanColor = pixel.GetPixel(0, 0);
+        pixel.Dispose();
         return meanColor;
     }
 
-    public static int DistanceSquared(Bitmap small, Bitmap big, Rectangle region)
+    public static long DistanceSquared(Bitmap small, Bitmap big, Rectangle region)
     {
         Debug.Assert(small.Width == region.Width);
         Debug.Assert(small.Height == region.Height);
 
-        int totalSquared = 0;
-        int numPixels = small.Width * small.Height;
-
+        long totalSquared = 0;
         for (int x = 0; x < small.Width; x++)
         {
             for (int y = 0; y < small.Height; y++)
@@ -68,7 +72,6 @@ public static class ImageProcessor
                 totalSquared += ColorUtil.DistanceSquared(c1, c2);
             }
         }
-
         return totalSquared;
     }
 
