@@ -22,7 +22,7 @@ public class Objective
     public int numImagesPerCol;
     public int quality;
     public double scalingFactor;
-
+    
     // TODO: Handle edge cases
     /// <summary>
     /// Width of adjusted component image.

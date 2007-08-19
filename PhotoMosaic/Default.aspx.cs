@@ -68,7 +68,7 @@ public partial class _Default : System.Web.UI.Page
         objective.numImagesPerCol = input.numVerticalImages;
 
         // Quality of component image matching
-        objective.quality = 1;
+        objective.quality = 3;
 
         // Scaling factor to determine size of result image
         // TODO: remove of magic numbers and possibly rename the instance variable
