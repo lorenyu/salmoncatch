@@ -11,48 +11,41 @@ using FlickrNet;
 using System.Collections.Specialized;
 
 /// <summary>
-/// A struct containing the parameters received from the web form.
+/// A temporary "struct" used to parse the parameters received from the web form and
+/// to do some initial input checking.
 /// </summary>
 public class UserInput
 {
+    public string userName;
+    public string targetImageUrl;
+    public int numHorizontalImages;
+    public int numVerticalImages;
+    public bool isValid;
+
     public UserInput(NameValueCollection webForm)
     {
         isValid = true;
 
-        userName = webForm["Username"];
-        targetURL = webForm["TargetImageUrl"];
-
         try
         {
+            userName = webForm["Username"];
+            targetImageUrl = webForm["TargetImageUrl"];
             numHorizontalImages = int.Parse(webForm["NumHorizontalImages"]);
             numVerticalImages = int.Parse(webForm["NumVerticalImages"]);
         }
         catch (Exception ex)
         {
-            // TODO: Handle exception
+            // TODO: error handling
             isValid = false;
             return;
         }
 
-        // TODO: refactor these into settings
-        redownload = true;
-
-        // TODO: I don't think these should be static.
-        Settings.USER_URL = userName;
-
-        if (userName == "" || targetURL == "") isValid = false;
+        if (userName == "" ||
+            targetImageUrl == "" ||
+            numHorizontalImages < 1 ||
+            numVerticalImages < 1)
+        {
+            isValid = false;
+        }
     }
-
-    public string targetImageFilename;
-    public int numHorizontalImages;
-    public int numVerticalImages;
-
-    public string userName;
-    public string userID;
-    public Flickr flickr;
-    public string tempFrob;
-
-    public string targetURL;
-    public bool redownload;
-    public bool isValid;
 }

@@ -8,6 +8,7 @@ using System.Web.UI.WebControls;
 using System.Web.UI.WebControls.WebParts;
 using System.Web.UI.HtmlControls;
 using System.Drawing;
+using System.Collections.Generic;
 
 /// <summary>
 /// A struct that specifies the constraints for creating the photomosaic
@@ -16,10 +17,11 @@ using System.Drawing;
 public class Objective
 {
     public Bitmap targetImage;
-    public ImageDatabase imageDb;
-
+    public List<Bitmap> images;
     public int numImagesPerRow;
     public int numImagesPerCol;
+    public int quality;
+    public double scalingFactor;
 
     // TODO: Handle edge cases
     /// <summary>

@@ -13,11 +13,12 @@ using System.IO;
 /// </summary>
 public class FlickrUtil
 {
-    private static string FLICKR_API_KEY = "76689f3376d2752abacb6bac4c12f580";
-    private static string FLICKR_API_SECRET = "a095ecfb543abc2d";
-    private static int NUMBER_PHOTOS_PER_PAGE = 100;
-    private static int MAX_PAGES = 1;
+    public static string FLICKR_API_KEY = "76689f3376d2752abacb6bac4c12f580";
+    public static string FLICKR_API_SECRET = "a095ecfb543abc2d";
+    public static int NUMBER_PHOTOS_PER_PAGE = 100;
+    public static int MAX_PAGES = 1;
 
+    /*
     public static Flickr NewFlickr()
     {
         return new Flickr(FLICKR_API_KEY, FLICKR_API_SECRET);
@@ -29,12 +30,12 @@ public class FlickrUtil
         return user.UserId;
     }
 
-    public static void GetAllPublicPhotos(UserInput userInput)
+    public static PhotoCollection GetAllPublicPhotos(UserInput userInput)
     {
         PhotoSearchOptions searchOptions = new PhotoSearchOptions();
         searchOptions.UserId = userInput.userID;
         PhotoCollection collection = Search(userInput, searchOptions);
-        savePhotos(collection);
+        return collection;
     }
 
     public static void SearchByTag(UserInput userInput, string tag)
@@ -42,7 +43,7 @@ public class FlickrUtil
         PhotoSearchOptions searchOptions = new PhotoSearchOptions();
         searchOptions.Tags = tag;
         PhotoCollection collection = Search(userInput, searchOptions);
-        savePhotos(collection);
+        return collection;
     }
 
     private static PhotoCollection Search(UserInput userInput, PhotoSearchOptions searchOptions)
@@ -93,26 +94,9 @@ public class FlickrUtil
         foreach (Photo photo in allPhotos)
         {
             string dest = Settings.USER_DIR + @"\img" + i + ".png";
-            GetImageFromURL(photo.ThumbnailUrl).Save(dest, System.Drawing.Imaging.ImageFormat.Png);
+            WebUtil.GetBitmap(photo.ThumbnailUrl).Save(dest, System.Drawing.Imaging.ImageFormat.Png);
             i++;
         }
     }
-
-    public static Image GetImageFromURL(string strURL)
-    {
-        Image retVal = null;
-        try
-        {
-            HttpWebRequest request = (HttpWebRequest)HttpWebRequest.Create(strURL);
-            request.Timeout = 5000;
-            request.ReadWriteTimeout = 20000;
-            HttpWebResponse response = (HttpWebResponse)request.GetResponse();
-            retVal = Image.FromStream(response.GetResponseStream());
-        }
-        catch (Exception)
-        {
-            retVal = null;
-        }
-        return retVal;
-    }
+     * */
 }
