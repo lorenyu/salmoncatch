@@ -10,34 +10,21 @@ using System.Web.UI.HtmlControls;
 
 using System.Collections.Generic;
 using System.Drawing;
+using System.Diagnostics;
 
 /// <summary>
 /// Summary description for ImageDatabase
 /// </summary>
 public class ImageDatabase
 {
-    ComponentImageTree images; // for kd-tree
-    ComponentImage[] imageArray; // for linear search
+    #region Old Code
 
-	public ImageDatabase(List<ComponentImage> adjustedComponentImages)
-	{
-        if (Settings.USE_KD_TREE)
-            this.images = new ComponentImageTree(adjustedComponentImages);
-        else
-            this.imageArray = adjustedComponentImages.ToArray();
-	}
-
-    /// <summary>
-    /// More generalized version of FindBestMatch.
-    /// 
-    /// Currently not implemented, so use FindBestMatch for now.
-    /// </summary>
-    /// <param name="query"></param>
-    /// <returns></returns>
-    public ComponentImage ComponentImageLookup(ImageQuery query)
+    public ImageDatabase(List<ComponentImage> adjustedComponentImages)
     {
-        throw new Exception("The method or operation is not implemented.");
+        this.cis = adjustedComponentImages.ToArray();
     }
+
+    ComponentImage[] cis; // for linear search
 
     /// <summary>
     /// Returns the adjusted component image in the database that
@@ -49,24 +36,21 @@ public class ImageDatabase
     /// <returns></returns>
     public ComponentImage FindBestMatch(Color color)
     {
-        if (Settings.USE_KD_TREE)
-            return images.NearestNeighbor(color);
-        else
-        {
-            // linear search (control)
-            int minDistanceSquared = int.MaxValue;
-            ComponentImage bestImage = null;
+        // linear search
+        int minDistanceSquared = int.MaxValue;
+        ComponentImage bestImage = null;
 
-            foreach (ComponentImage ci in imageArray)
+        foreach (ComponentImage ci in cis)
+        {
+            int distanceSquared = ColorUtil.DistanceSquared(color, ci.MeanColor);
+            if (distanceSquared < minDistanceSquared)
             {
-                int distanceSquared = ColorUtil.DistanceSquared(color, ci.MeanColor);
-                if (distanceSquared < minDistanceSquared)
-                {
-                    minDistanceSquared = distanceSquared;
-                    bestImage = ci;
-                }
+                minDistanceSquared = distanceSquared;
+                bestImage = ci;
             }
-            return bestImage;
         }
+        return bestImage;
     }
+
+    #endregion
 }

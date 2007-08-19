@@ -10,6 +10,8 @@ using System.Web.UI.HtmlControls;
 
 using System.Drawing;
 using System.Drawing.Imaging;
+using System.Diagnostics;
+using System.Collections.Generic;
 
 /// <summary>
 /// Summary description for ImageProcessor
@@ -43,9 +45,31 @@ public static class ImageProcessor
 
     public static Color CalculateMeanColor(Bitmap image)
     {
-        return ImageProcessor.CalculateMeanColor(
-            image,
-            new Rectangle(new Point(), image.Size));
+        Bitmap singlePixelImage = new Bitmap(image, 1, 1);
+        Color meanColor = singlePixelImage.GetPixel(0, 0);
+        singlePixelImage.Dispose();
+        return meanColor;
+    }
+
+    public static int DistanceSquared(Bitmap small, Bitmap big, Rectangle region)
+    {
+        Debug.Assert(small.Width == region.Width);
+        Debug.Assert(small.Height == region.Height);
+
+        int totalSquared = 0;
+        int numPixels = small.Width * small.Height;
+
+        for (int x = 0; x < small.Width; x++)
+        {
+            for (int y = 0; y < small.Height; y++)
+            {
+                Color c1 = small.GetPixel(x, y);
+                Color c2 = big.GetPixel(x + region.X, y + region.Y);
+                totalSquared += ColorUtil.DistanceSquared(c1, c2);
+            }
+        }
+
+        return totalSquared;
     }
 
     public static ImageAttributes ImageAttributesFromColorTransform(Color sourceColor, Color targetColor)
@@ -113,6 +137,28 @@ public static class ImageProcessor
 
         Graphics g = Graphics.FromImage(result);
         g.DrawImage(image, x, y, w, h);
+        return result;
+    }
+
+    public static List<Bitmap> ScaleAndClipImages(List<Bitmap> images, Size size)
+    {
+        List<Bitmap> result = new List<Bitmap>(images.Count);
+        foreach (Bitmap image in images)
+        {
+            Bitmap adjusted = ImageProcessor.ScaleAndClipImage(image, size);
+            result.Add(adjusted);
+        }
+        return result;
+    }
+
+    public static List<Bitmap> ResizeImages(List<Bitmap> images, Size size)
+    {
+        List<Bitmap> result = new List<Bitmap>(images.Count);
+        foreach (Bitmap image in images)
+        {
+            Bitmap resized = new Bitmap(image, size);
+            result.Add(resized);
+        }
         return result;
     }
 }
