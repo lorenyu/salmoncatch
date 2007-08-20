@@ -51,8 +51,9 @@ public class User
             PhotoSearchOptions searchOptions = new PhotoSearchOptions();
             searchOptions.UserId = userId;
             PhotoCollection photos = Search(searchOptions);
-            CachePhotos(photos);
-            return GetImagesFromPhotos(photos);
+            List<Bitmap> images = GetImagesFromPhotos(photos);
+            CacheImages(images);
+            return images;
         }
         else
         {
@@ -142,13 +143,11 @@ public class User
         image.Save(dest, System.Drawing.Imaging.ImageFormat.Png);
     }
 
-    private void CachePhotos(PhotoCollection photos)
+    private void CacheImages(List<Bitmap> images)
     {
-        int i = 0;
-        foreach (Photo photo in photos)
+        for (int i = 0; i < images.Count; i++)
         {
-            SaveImage(WebUtil.GetBitmap(photo.ThumbnailUrl), i.ToString());
-            i++;
+            SaveImage(images[i], i.ToString());
         }
     }
 
