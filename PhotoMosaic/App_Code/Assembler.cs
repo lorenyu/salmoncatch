@@ -55,7 +55,7 @@ public class Assembler
         // Resize target image
         // TODO: later we can add a nice resize method to ImageProcessor
         Size newSize = new Size(quality * numCols, quality * numRows);
-        Bitmap targetImage = new Bitmap(original, newSize);
+        Bitmap targetImage = ImageProcessor.ResizeTiny(original, newSize);
 
         // Create M x N matrix to store the resulting mapping from regions to component images
         grid = new ComponentImage[numRows, numCols];
@@ -118,6 +118,7 @@ public class Assembler
                 best = i;
             }
         }
+
         return new ComponentImage(this.cis[best]);
     }
 
