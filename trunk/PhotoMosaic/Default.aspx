@@ -54,6 +54,8 @@
     padding:10px 10px 10px 10px;
     margin-top: 50px;
     margin-bottom: 50px;
+    margin-right:  50px;
+    margin-left: 50px;
     -moz-border-radius:0px;
     background-color: white;
     clear:both;
@@ -162,56 +164,41 @@ YAHOO.util.Event.addListener(window, 'load', pageLoad);
 </head>
 <body>
 
-<form action="Default.aspx" method="post"><form action="Default.aspx" method="post">
+<form action="Default.aspx" method="post">
 
 <div id="dhtml-carousel" class="carousel-component">
-	<div class="carousel-clip-region">
+	<div class="carousel-clip-region" style="text-align: center">
 		<ul class="carousel-list">
 
             <li id="dhtml-carousel-item-1">
                 Target Image: <input type="text" name="TargetImageUrl" value="http://www.webpark.ru/uploads26/ssKelley_Hazel_4.jpg" />&nbsp;
-                <div style="left: 0px; width: 550px; position: relative; top: 332px; height: 100px;
-                    text-align: center">
+                <div style="left: 0px; width: 550px; position: relative; top: 332px; height: 100px; text-align: center">
                     &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
-                    &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
-                    &nbsp; &nbsp;&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
-                    &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
-                    &nbsp; &nbsp; &nbsp;
-                    <button id="1Forward" style="text-align: center"><span style="font-size: 14pt; position: relative;">Next&nbsp; =&gt;</span></button></div>
+                    &nbsp; &nbsp; &nbsp;&nbsp; 
+                    <button id="1Forward" style="text-align: center"><span style="font-size: 14pt; position: relative;">Next&nbsp; &gt;</span></button></div>
             </li>
             
             <li id="dhtml-carousel-item-2"><div style="text-align: center">
                 Username: <input type="text" name="Username" value="spikeblacklab" /></div>
                 &nbsp;
-                <div style="left: 0px; width: 550px; position: relative; top: 319px; height: 100px;
-                    text-align: center">
-                <button id="2Back"><span style="font-size: 14pt; position: relative;">&lt;= Back</span></button>
-                    &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
-                    &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
-                    &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
-                    &nbsp; &nbsp;
-                <button id="2Forward"><span style="font-size: 14pt; position: relative;">Next =&gt;</span></button></div>
+               <div style="left: 0px; width: 550px; position: relative; top: 320px; height: 100px; text-align: center">
+                <button id="2Back"><span style="font-size: 14pt; position: relative;">&lt; Back</span></button>
+                <button id="2Forward"><span style="font-size: 14pt; position: relative;">Next &gt;</span></button></div>
             </li>
     
 
             <li id="dhtml-carousel-item-3"><div style="text-align: center">
                 <input type="text" name="NumHorizontalImages" value="20" /><br />
                 <input type="text" name="NumVerticalImages" value="20" /><br />
-                <input type="submit" value="Assemble!" />
-            </div><div style="left: 0px; width: 550px; position: relative; top: 292px; height: 100px;
-                    text-align: center">
-                <button id="3Back"><span style="font-size: 14pt; position: relative;">&lt;= Back</span></button>
-                &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
-                &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
-                &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
-                &nbsp; &nbsp;
-                <button type="submit" id="3Forward" value="Assemble!"><span style="font-size: 14pt; position: relative;">Next =&gt;</span></button></div>
+            </div><div style="left: 0px; width: 550px; position: relative; top: 312px; height: 100px; text-align: center">
+                <button id="3Back"><span style="font-size: 14pt; position: relative;">&lt; Back</span></button>
+                <button type="submit" id="3Forward" value="Assemble!"><span style="font-size: 14pt; position: relative;">Next &gt;</span></button></div>
             </li>
     
     
             <li id="dhtml-carousel-item-4"><div style="text-align: center">
                 
-                <asp:Image ID="debugImage" runat="server" Height="552px" Width="400px" />
+                <asp:Image ID="debugImage" runat="server" Height="552px" Width="400px"  />
                 
                 <button id="4Back"><span style="font-size: 14pt; position: relative;">Back</span></button>
                 </div>
@@ -222,7 +209,6 @@ YAHOO.util.Event.addListener(window, 'load', pageLoad);
     </div>
 </div>
 
-</form>
 </form>
         
 </body>
