@@ -45,16 +45,22 @@ public static class ImageProcessor
 
     public static Color CalculateMeanColor(Bitmap image)
     {
-        Bitmap pixel = new Bitmap(image, 1, 1);
-        Graphics g = Graphics.FromImage(pixel);
-
-        g.InterpolationMode = System.Drawing.Drawing2D.InterpolationMode.HighQualityBicubic;
-        g.PixelOffsetMode = System.Drawing.Drawing2D.PixelOffsetMode.HighQuality;
-        g.DrawImage(image, new Rectangle(0, 0, 1, 1), 0, 0, image.Width, image.Height, GraphicsUnit.Pixel);
-
+        Bitmap pixel = ResizeTiny(image, new Size(1, 1));
         Color meanColor = pixel.GetPixel(0, 0);
         pixel.Dispose();
         return meanColor;
+    }
+
+    public static Bitmap ResizeTiny(Bitmap image, Size tinySize)
+    {
+        Bitmap result = new Bitmap(tinySize.Width, tinySize.Height);
+        Graphics g = Graphics.FromImage(result);
+
+        g.InterpolationMode = System.Drawing.Drawing2D.InterpolationMode.HighQualityBicubic;
+        g.PixelOffsetMode = System.Drawing.Drawing2D.PixelOffsetMode.HighQuality;
+        g.DrawImage(image, new Rectangle(0, 0, tinySize.Width, tinySize.Height), 0, 0, image.Width, image.Height, GraphicsUnit.Pixel);
+
+        return result;
     }
 
     public static long DistanceSquared(Bitmap small, Bitmap big, Rectangle region)
@@ -127,18 +133,20 @@ public static class ImageProcessor
         if (w0 * h1 >= w1 * h0)
         {
             h = h1;
-            w = h1 * (w0 / h0);
+            w = (h1 * w0) / h0;
         }
         else
         {
             w = w1;
-            h = w1 * (h0 / w0);
+            h = (w1 * h0) / w0;
         }
 
         x = (w1 - w) / 2;
         y = (h1 - h) / 2;
 
         Graphics g = Graphics.FromImage(result);
+        g.InterpolationMode = System.Drawing.Drawing2D.InterpolationMode.HighQualityBicubic;
+        g.PixelOffsetMode = System.Drawing.Drawing2D.PixelOffsetMode.HighQuality;
         g.DrawImage(image, x, y, w, h);
         return result;
     }
@@ -159,7 +167,7 @@ public static class ImageProcessor
         List<Bitmap> result = new List<Bitmap>(images.Count);
         foreach (Bitmap image in images)
         {
-            Bitmap resized = new Bitmap(image, size);
+            Bitmap resized = ResizeTiny(image, size);
             result.Add(resized);
         }
         return result;
