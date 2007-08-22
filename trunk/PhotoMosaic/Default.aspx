@@ -170,7 +170,7 @@ YAHOO.util.Event.addListener(window, 'load', pageLoad);
 	<div class="carousel-clip-region" style="text-align: center">
 		<ul class="carousel-list">
 
-            <li id="dhtml-carousel-item-1">
+            <li id="dhtml-carousel-item-1" style="text-align: center">
                 Target Image: <input type="text" name="TargetImageUrl" value="http://www.webpark.ru/uploads26/ssKelley_Hazel_4.jpg" />&nbsp;
                 <div style="left: 0px; width: 550px; position: relative; top: 332px; height: 100px; text-align: center">
                     &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
@@ -203,8 +203,7 @@ YAHOO.util.Event.addListener(window, 'load', pageLoad);
                 <button id="4Back"><span style="font-size: 14pt; position: relative;">Back</span></button>
                 </div>
             </li>
-    
-    
+
         </ul>
     </div>
 </div>
