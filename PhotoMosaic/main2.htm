@@ -1,268 +1,142 @@
-﻿<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
-<html>
+﻿<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
 
 <head>
-<title>Carousel - Module Tabs</title>
-    <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+	<title>One Laptop per Child (OLPC), Laptop: A learning tool created expressly for children in developing nations</title>
+	<meta name="Description" content="The XO is a potent learning tool created expressly for the world's poorest children living in its most remote environments. The laptop was designed collaboratively by experts from both academia and industry." />
+	<meta name="keywords" content="OLPC, One Laptop per Child, laptop, XO laptop, learning tool, nonprofit humanitarian project, flexible, ultra low-cost, power-efficient, responsive, durable machine, hardware, wireless router, TFT screen, self-refreshing display, resolution, transmissive mode, full-color mode, reflective mode, high-resolution mode, LCD power consumption, CPU, video camera, external USB2.0 ports, SD-card slot, memory, chipset, graphics controller, flexible design , design, kid-sized, NiMH batteries, recharge-cycle, toxic heavy metals, learning experience, linux, open-source, FOSS." />
+	<!-- Meta -->
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+	<link rel="meta" href="http://www.laptop.org/labels.rdf" type="application/rdf+xml" title="ICRA labels" />
+	<meta http-equiv="pics-Label" content='(pics-1.1 "http://www.icra.org/pics/vocabularyv03/" l gen true for "http://laptop.org" r (n 0 s 0 v 0 l 0 oa 0 ob 0 oc 0 od 0 oe 0 of 0 og 0 oh 0 c 3) gen true for "http://www.laptop.org" r (n 0 s 0 v 0 l 0 oa 0 ob 0 oc 0 od 0 oe 0 of 0 og 0 oh 0 c 3))' />
+	<meta name="copyright" content="Content is available under Creative Commons Attribution 2.5" />
+	<meta name="Content-Language" content="en" />
+	<meta name="Identifier-url" content="http://www.laptop.org/" />
+	<meta name="robots" content="index, follow" />
+<!-- /Meta -->
 
-<script type="text/javascript" src="http://yui.yahooapis.com/2.2.2/build/yahoo-dom-event/yahoo-dom-event.js"></script> 
-<script type="text/javascript" src="http://yui.yahooapis.com/2.2.2/build/utilities/utilities.js"></script>
-<script type="text/javascript" src="http://yui.yahooapis.com/2.2.2/build/dragdrop/dragdrop-min.js"></script>
-<script type="text/javascript" src="http://yui.yahooapis.com/2.2.2/build/container/container_core-min.js"></script>
-<script type="text/javascript" src="YUI/carousel.js"></script>
+	<!-- Icon -->
+	<link rel="shortcut icon" href="/favicon.ico" type="image/ico" />
+	<link rel="icon" href="/favicon.ico" type="image/ico" />
+<!-- /Icon -->
 
-<link rel="stylesheet" type="text/css" href="http://yui.yahooapis.com/2.2.2/build/reset-fonts-grids/reset-fonts-grids.css">
-<link href="YUI/carousel.css" rel="stylesheet" type="text/css">
-<link href="YUI/yui.css" rel="stylesheet" type="text/css">
+	<!-- Css -->
+	<link rel="stylesheet" type="text/css" media="screen" href="/css/screen.css" charset="iso-8859-1" />
+	<!--[if lt IE 7]>
+	<link rel="stylesheet" type="text/css" media="screen" href="/css/browserIE6.css" charset="iso-8859-1" />
+	<![endif]-->
+	<link rel="stylesheet" type="text/css" media="print" href="/css/print.css" charset="iso-8859-1" />
+<!-- /Css -->
 
+	<!-- Javascript -->
+	<script type="text/javascript" src="/scripts/swfObject.js" language="JavaScript1.2" charset="iso-8859-1"></script>
+	<script type="text/javascript" src="/scripts/yahoo-dom-event.js" language="JavaScript1.2" charset="iso-8859-1"></script>
+	<script type="text/javascript" src="/scripts/main.js" language="JavaScript1.2" charset="iso-8859-1"></script>
+<!-- /Javascript -->
 
-<style type="text/css">
-.carousel-component { 
-    padding:0px 0px 0px 0px;
-    margin-bottom:10px;
-    -moz-border-radius:0px;
-    background-color: white;
-    clear:both;
-}
-
-.carousel-component .carousel-clip-region { 
-    padding:0px;
-    margin:0px;
-
-}
-.carousel-component ul.carousel-list{
-    text-align:left;
-    background-color:white;
-}
-.carousel-component .carousel-list li { 
-    text-align:left;
-    margin:0px;
-    width:450px;
-    height: 300px;
-    border: 1px solid gray;    
-}
-    
-#tabset {
-    margin-left:5px;
-    margin-bottom:2px;
-}
-                                    
-</style>
-
-<script type="text/javascript">
-
-var tabPages = [
-            "images/tab-one-contents.png",
-            "images/tab-two-contents.png",
-            "images/tab-three-contents.png",
-            "images/tab-four-contents.png"
-            ];
-            
-/**
- * Custom inital load handler. Called when the carousel loads the initial
- * set of data items. Specified to the carousel as the configuration
- * parameter: loadInitHandler
- **/
-var loadInitialItems = function(type, args) {
-
-    var start = args[0];
-    var last = args[1]; 
-
-    load(this, start, last);    
-};
-
-/**
- * Custom load next handler. Called when the carousel loads the next
- * set of data items. Specified to the carousel as the configuration
- * parameter: loadNextHandler
- **/
-var loadNextItems = function(type, args) {    
-
-    var start = args[0];
-    var last = args[1]; 
-    var alreadyCached = args[2];
-    
-    if(!alreadyCached) {
-        load(this, start, last);
-    }
-};
-
-/**
- * Custom load previous handler. Called when the carousel loads the previous
- * set of data items. Specified to the carousel as the configuration
- * parameter: loadPrevHandler
- **/
-var loadPrevItems = function(type, args) {
-    var start = args[0];
-    var last = args[1]; 
-    var alreadyCached = args[2];
-    
-    if(!alreadyCached) {
-        load(this, start, last);
-    }
-};
-
-var load = function(carousel, start, last) {
-    for(var i=start;i<=last;i++) {
-        carousel.addItem(i, fmtItem(tabPages[i-1]));
-    }
-};
-
-var changePage = function(e, args) {
-    var carousel = args[0];
-    var pageNum = args[1];
-    
-    carousel.scrollTo(pageNum);
-};
-
-/**
- * You must create the carousel after the page is loaded since it is
- * dependent on an HTML element (in this case 'dhtml-carousel'.) See the
- * HTML code below.
- **/
-var carousel; // for ease of debugging; globals generally not a good idea
-
-var pageLoad = function() 
-{
-    carousel = new YAHOO.extension.Carousel("dhtml-carousel", 
-        {
-            numVisible:        1,
-            animationSpeed:    0.5,
-            scrollInc:         1,
-            size:              4,
-            navMargin:         0,
-            loadInitHandler:   loadInitialItems,
-            loadNextHandler:   loadNextItems,
-            loadPrevHandler:   loadPrevItems
-        }
-    );
-    YAHOO.util.Event.addListener(this.carouselNext, "click", this._scrollNext, this);
-
-    YAHOO.util.Event.addListener("1Forward", "click", changePage, [carousel, 2]);
-    YAHOO.util.Event.addListener("2Forward", "click", changePage, [carousel, 3]);
-    YAHOO.util.Event.addListener("3Forward", "click", changePage, [carousel, 4]);
-    
-    YAHOO.util.Event.addListener("2Back", "click", changePage, [carousel, 1]);
-    YAHOO.util.Event.addListener("3Back", "click", changePage, [carousel, 2]);
-    YAHOO.util.Event.addListener("4Back", "click", changePage, [carousel, 3]);
-};
-
-/**
- * Since carousel.addItem uses an HTML string to create the interface
- * for each carousel item, this method formats the HTML for an LI.
- **/
-var fmtItem = function(tabPage) {
-
-      var innerHTML = 
-          '<img src="' + 
-          tabPage + 
-          '"/>';
-  
-    return innerHTML;
-    
-};
-
-
-YAHOO.util.Event.addListener(window, 'load', pageLoad);
-
-
-</script>
 </head>
 
-<body>
+<body class="root laptop" lang="en">
+	<p id="skipLink"><a href="#main-body">Skip to content</a></p>
 
-<div id="doc" class="yui-t7">
-
-<div id="bd">
-
-<!-- Carousel Structure -->
-
-<div id="tabset">
-    <span style="font-size: 14pt">FotoFusion:<br />
-        &nbsp;</span><span style="font-size: 14pt">&nbsp;</span><span style="font-size: 14pt"></span><span style="font-size: 14pt"> </span><span style="font-size: 14pt"></span>
-
-
+<div id="logo">
+	<a href="/en/index.shtml" title="back to home page"><img src="/img/UI/logoOLPC.gif" width="78" height="107" alt="logo: one laptop per child" lang="en" /></a>
 </div>
 
-
-<div id="dhtml-carousel" class="carousel-component">
-	<div class="carousel-clip-region">
-		<ul class="carousel-list">
-
-            <li id="dhtml-carousel-item-1"><div style="text-align: center">
-                <span style="font-size: 12pt">Chose your main image:<br />
-                    <br />
-                    <br />
-                    <br />
-                    <br />
-                    <br />
-                    <br />
-                    <br />
-                    &nbsp; &nbsp; &nbsp;&nbsp;<br />
-                    <span style="font-size: 14pt">&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;&nbsp;
-                        ||</span><a id="1Forward" href="#"><span style="font-size: 14pt">Next-></span></a><span style="font-size: 14pt"> </span>
-            </span>
-            </div></li>
-            <li id="dhtml-carousel-item-2"><div style="text-align: center">
-                <span style="font-size: 12pt">Chose the images you want to fuse:<br />
-                    <span style="font-size: 14pt">
-                        <br />
-                        <br />
-                        <br />
-                        <br />
-                        <br />
-                        <br />
-                        <br />
-                        <a id="2Back" href="#"><span style="font-size: 14pt"><-Go Back</span></a></span>
-                    <span style="font-size: 14pt">||</span>
-<a id="2Forward" href="#">
-    <span style="font-size: 14pt">Next-></span></a><span style="font-size: 14pt">&nbsp;</span><span style="font-size: 14pt"></span></span></div></li>
-            <li id="dhtml-carousel-item-3"><div style="text-align: center">
-                <span style="font-size: 12pt"># Three<br />
-                    # Three<br />
-                    # Three
-                    <br />
-                    # Three<br />
-                    # Three<br />
-                    # Three<br />
-                    # Three<span style="font-size: 14pt"><br />
-                    </span>
-                    <br />
-                    <br />
-<a id="3Back" href="#">
-    <span style="font-size: 14pt"><-Go Back</span></a><span style="font-size: 14pt"> || </span>
-<a id="3Forward" href="#">
-    <span style="font-size: 14pt">Next-></span></a><span style="font-size: 14pt"></span></span></div></li>
-            <li id="dhtml-carousel-item-4"><div style="text-align: center">
-                <span style="font-size: 12pt">
-            # Four<br />
-                # Four
-                <br />
-                # Four
-                <br />
-                # Four
-                <br />
-                # Four
-                <br />
-                # Four
-                <br />
-                # Four<span style="font-size: 14pt"> 
-                    <br />
-                    <br />
-                    <br />
-                </span>
-<a id="4Back" href="#">
-    <span style="font-size: 14pt"><-Go Back</span></a><span style="font-size: 14pt"> ||
-        <span> 
-<a id="4Forward" href="#">
-    <span>Process=></span></a><span> &nbsp; &nbsp;</span></span></span></span></div></li>
-        </ul>
-    </div>
-</div>
+	<div id="header" class="clearfix">
+	<ul id="navigation">
+		<li id="nav-vision"><a href="/en/vision/index.shtml" title="link to vision"><span>vision</span></a>
+			<ul>
+				<li id="nav-mission"><a href="/en/vision/mission/index.shtml" title="link to mission">mission</a></li>
+				<li id="nav-progress"><a href="/en/vision/progress/index.shtml" title="link to progress">progress</a></li>
+				<li id="nav-news"><a href="/en/vision/news/index.shtml" title="link to news">news</a></li>
+				<li id="nav-people"><a href="/en/vision/people/index.shtml" title="link to people">people</a></li>
+			</ul>
+		</li>
+		<li id="nav-laptop"><a href="/en/laptop/" title="link to laptop"><span>laptop</span></a>
+			<ul>
+				<li id="nav-hardware"><a href="/en/laptop/hardware/" title="link to hardware">hardware</a></li>
+				<li id="nav-software"><a href="/en/laptop/software/" title="link to software">software</a></li>
+				<li id="nav-interface"><a href="/en/laptop/interface/" title="link to interface">interface</a></li>
+				<li id="nav-design"><a href="/en/laptop/design/" title="link to design">design</a></li>
+			</ul>		
+		</li>
+		<li id="nav-foundation"><a href="http://www.laptopfoundation.org/en/index.shtml" title="link to participate"><span>participate</span></a>
+ 			<ul>
+				<li id="nav-purpose"><a href="http://www.laptopfoundation.org/en/purpose/" title="link to purpose">purpose</a></li>
+				<li id="nav-program"><a href="http://www.laptopfoundation.org/en/program/" title="link to program">program</a></li>
+				<li id="nav-participate"><a href="http://www.laptopfoundation.org/en/participate/" title="link to participate">participate</a></li>
+				<li id="nav-propose"><a href="http://www.laptopfoundation.org/en/propose/" title="link to propose">propose</a></li>
+			</ul>	
+		</li>
+		<li id="nav-children"><a href="/en/children/" title="link to children"><span>children</span></a></li>
+	</ul> <!-- /navigation -->
+	
+	<ul id="sub-navigation">
+		<li><a href="http://wiki.laptop.org/go/Home" target="_blank" title="link to OLPC wiki">olpc wiki</a></li>
+		<li><a href="/en/contact.shtml" title="link to contact">contact</a></li>
+		<li><a href="/en/jobs.shtml" title="link to career">career</a></li>
+		<li><a href="/en/sitemap.shtml" title="link to site map">site map</a></li>
+		<li><a href="http://www.laptopfoundation.org/en/participate/" title="contribute">contribute</a></li>
+		<li><a href="/en/languages.shtml" title="link to languages">languages</a></li>
+	</ul> <!-- /sub-navigation -->
+	
+	<hr />
+</div> <!-- /header -->
 
 
-</div>
-</div> 
+
+	<div id="main-body" class="section clearfix">
+		<h1>Laptop: A learning tool created expressly for children in developing nations</h1>
+		
+		
+		<div class="sections clearfix">
+			<div class="section">
+				<h2><a href="hardware/index.shtml" accesskey="1" title="Laptop: A learning tool created expressly for the children in developing nations">hardware</a></h2>
+				<a href="hardware/index.shtml" accesskey="1" title="Laptop: A learning tool created expressly for the children in developing nations"><img src="../img/hardware.jpg" width="200" height="98" alt="hardware" /></a>
+				<p>A unique machine with features created specifically for children of the emerging world.
+				<a href="hardware/" class="read-more">read&nbsp;more</a></p>
+			</div>
+		
+			<div class="section">
+				<h2><a href="software/index.shtml" accesskey="2" title="Software: XO is built from free and open-source software">software</a></h2>
+				<a href="software/index.shtml" accesskey="2" title="Software: XO is built from free and open-source software"><img src="../img/software.jpg" width="200" height="98" alt="software" /></a>
+				<p>We want the child to interact with XO on as deep a level as he or she desires. Children program the machine, not the other way around.
+				<a href="software/" class="read-more">read&nbsp;more</a></p>
+	
+			</div>	
+			
+			<div class="section">
+				<h2><a href="interface/index.shtml" accesskey="3" title="Interface: OLPC is about to shake up things">interface</a></h2>
+				<a href="interface/index.shtml" accesskey="3" title="Interface: OLPC is about to shake up things"><img src="../img/interface.jpg" width="200" height="98" alt="interface" /></a>
+				<p>XO has a user interface that graphically embraces the spirit of the network. It is all about community and collaboration—working and playing together to learn, create and communicate.
+				<a href="interface/" class="read-more">read&nbsp;more</a></p>	
+			</div>	
+				
+			<div class="section last">
+				<h2><a href="design/index.shtml" accesskey="4" title="Design: Discover the laptop design evolution">design</a></h2>
+				<a href="design/index.shtml" accesskey="4" title="Design: Discover the laptop design evolution"><img src="../img/design.jpg" width="200" height="98" alt="design" /></a>
+				<p>This is a very distinctive machine; rugged, durable, and child-friendly, inside and out.
+				<a href="design/" class="read-more">read&nbsp;more</a></p>
+
+			</div>			
+		</div>
+	
+	
+	</div> <!-- /main-body -->
+
+	<div id="footer">
+        <p>Content is available under <a href="http://creativecommons.org/licenses/by/2.5/" target="_blank">Creative Commons Attribution 2.5</a></p>
+
+        <p id="sponsor">Designed by <a href="http://www.pentagram.com" target="_blank">Pentagram</a> | Powered by <a href="http://www.nurun.com" target="_blank">Nurun</a></p>
+
+</div> <!-- /footer -->
+<script src="http://www.google-analytics.com/urchin.js" type="text/javascript">
+</script>
+<script type="text/javascript">
+_uacct = "UA-1264681-1";
+urchinTracker();
+</script>
 
 </body>
-</html> 
+</html>

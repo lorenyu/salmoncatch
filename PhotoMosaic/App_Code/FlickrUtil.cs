@@ -17,7 +17,7 @@ public class FlickrUtil
     public static string FLICKR_API_SECRET = "a095ecfb543abc2d";
     public static int NUMBER_PHOTOS_PER_PAGE = 100;
     public static int MAX_PAGES = 1;
-
+    public static int SIMULTANEOUS_DOWNLOADS = 10;
     /*
     public static Flickr NewFlickr()
     {
@@ -51,12 +51,13 @@ public class FlickrUtil
         searchOptions.PerPage = NUMBER_PHOTOS_PER_PAGE;
         Photos photos = userInput.flickr.PhotosSearch(searchOptions);
         PhotoCollection mergedCollection = new PhotoCollection();
+        mergedCollection.AddRange(photos.PhotoCollection);
         int pages = (int)photos.TotalPages;
         if (pages > MAX_PAGES)
         {
             pages = MAX_PAGES;
         }
-        for (int i = 0; i < pages; i++)
+        for (int i = 1; i < pages; i++)
         {
             searchOptions.Page = i;
             photos = userInput.flickr.PhotosSearch(searchOptions);

@@ -11,6 +11,7 @@ using FlickrNet;
 using System.IO;
 using System.Collections.Generic;
 using System.Drawing;
+using System.Threading;
 
 /// <summary>
 /// Summary description for User
@@ -22,11 +23,14 @@ public class User
     public string userId;
     public string tempFrob;
     public string userDir;
+    private DateTime lastDownloadDate;
+
 
 	public User(string userName)
 	{
         this.userName = userName;
         this.flickr = new Flickr(FlickrUtil.FLICKR_API_KEY, FlickrUtil.FLICKR_API_SECRET);
+        this.lastDownloadDate = new DateTime(0001, 1, 1);
 
         FoundUser user = flickr.PeopleFindByUsername(userName);
         this.userId = user.UserId;
@@ -50,6 +54,8 @@ public class User
         {
             PhotoSearchOptions searchOptions = new PhotoSearchOptions();
             searchOptions.UserId = userId;
+            searchOptions.MinUploadDate = lastDownloadDate;
+            lastDownloadDate = DateTime.Now;
             PhotoCollection photos = Search(searchOptions);
             List<Bitmap> images = GetImagesFromPhotos(photos);
             CacheImages(images);
@@ -126,13 +132,47 @@ public class User
         }
     }
 
+    //private List<Bitmap> GetImagesFromPhotos(PhotoCollection photos)
+    //{
+    //    List<Bitmap> bitmaps = new List<Bitmap>();
+    //    foreach (Photo photo in photos)
+    //    {
+    //        string dest = Path.Combine(userDir, photo.PhotoId + ".png");
+    //        bitmaps.Add(WebUtil.GetBitmap(photo.ThumbnailUrl));
+    //    }
+    //    return bitmaps;
+    //}
+
     private List<Bitmap> GetImagesFromPhotos(PhotoCollection photos)
     {
         List<Bitmap> bitmaps = new List<Bitmap>();
-        foreach (Photo photo in photos)
+        int ImagesPerThread = photos.Length / FlickrUtil.SIMULTANEOUS_DOWNLOADS;
+        Thread[] threads = new Thread[FlickrUtil.SIMULTANEOUS_DOWNLOADS];
+        DownloadImageThread[] downloadImageThread = new DownloadImageThread[FlickrUtil.SIMULTANEOUS_DOWNLOADS];
+        Photo[] PhotoArray = photos.ToPhotoArray();
+
+        int begin = 0;
+        int end = ImagesPerThread + PhotoArray.Length % FlickrUtil.SIMULTANEOUS_DOWNLOADS;
+        for (int i = 0; i < FlickrUtil.SIMULTANEOUS_DOWNLOADS; i++)
         {
-            string dest = Path.Combine(userDir, photo.PhotoId + ".png");
-            bitmaps.Add(WebUtil.GetBitmap(photo.ThumbnailUrl));
+            Photo[] subArray = new Photo[end - begin];
+            Array.Copy(PhotoArray, begin, subArray, 0, end - begin);
+            downloadImageThread[i] = new DownloadImageThread(subArray);
+            threads[i] = new Thread(new ThreadStart(downloadImageThread[i].BeginDownload));
+            begin = end;
+            end += ImagesPerThread;
+        }
+        foreach (Thread thread in threads)
+        {
+            thread.Start();
+        }
+        foreach (Thread thread in threads)
+        {
+            thread.Join();
+        }
+        foreach (DownloadImageThread imageThread in downloadImageThread)
+        {
+            bitmaps.AddRange(imageThread.GetResult());
         }
         return bitmaps;
     }
@@ -154,6 +194,6 @@ public class User
     private bool IsCacheStale()
     {
         // TODO: return whether cache stored is before last flickr change
-        return false;
+        return true;
     }
 }
