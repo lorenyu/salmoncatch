@@ -54,8 +54,11 @@ public class User
         {
             PhotoSearchOptions searchOptions = new PhotoSearchOptions();
             searchOptions.UserId = userId;
+
+            //TODO: Come up with better cache solution 
             //searchOptions.MinUploadDate = lastDownloadDate;
             PhotoCollection photos = Search(searchOptions);
+            //lastDownloadDate = DateTime.Now;
             List<Bitmap> images = GetImagesFromPhotos(photos);
             CacheImages(images);
             return images;
@@ -149,6 +152,7 @@ public class User
     private List<Bitmap> GetImagesFromPhotos(PhotoCollection photos)
     {
         Stopwatch s = new Stopwatch();
+        //TODO: Remove stopwatch
         s.Start();
         List<Bitmap> bitmaps = new List<Bitmap>();
         int ImagesPerThread = photos.Length / FlickrUtil.SIMULTANEOUS_DOWNLOADS;
@@ -179,8 +183,8 @@ public class User
         {
             bitmaps.AddRange(imageThread.GetResult());
         }
+        //TODO: Remove stopwatch
         s.Stop();
-        int o = 4;
         return bitmaps;
     }
 
