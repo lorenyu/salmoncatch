@@ -16,7 +16,7 @@ public class FlickrUtil
     public static string FLICKR_API_KEY = "76689f3376d2752abacb6bac4c12f580";
     public static string FLICKR_API_SECRET = "a095ecfb543abc2d";
     public static int NUMBER_PHOTOS_PER_PAGE = 100;
-    public static int MAX_PAGES = 1;
+    public static int MAX_PAGES = 5;
     public static int SIMULTANEOUS_DOWNLOADS = 10;
     /*
     public static Flickr NewFlickr()

@@ -54,8 +54,7 @@ public class User
         {
             PhotoSearchOptions searchOptions = new PhotoSearchOptions();
             searchOptions.UserId = userId;
-            searchOptions.MinUploadDate = lastDownloadDate;
-            lastDownloadDate = DateTime.Now;
+            //searchOptions.MinUploadDate = lastDownloadDate;
             PhotoCollection photos = Search(searchOptions);
             List<Bitmap> images = GetImagesFromPhotos(photos);
             CacheImages(images);
@@ -101,7 +100,8 @@ public class User
         {
             pages = FlickrUtil.MAX_PAGES;
         }
-        for (int i = 1; i < pages; i++)
+        //search by default starts on page 1, the next page is page 2
+        for (int i = 2; i < pages+1; i++)
         {
             searchOptions.Page = i;
             photos = flickr.PhotosSearch(searchOptions);
@@ -135,16 +135,21 @@ public class User
     //private List<Bitmap> GetImagesFromPhotos(PhotoCollection photos)
     //{
     //    List<Bitmap> bitmaps = new List<Bitmap>();
+    //    Stopwatch s = new Stopwatch();
+    //    s.Start();
     //    foreach (Photo photo in photos)
     //    {
     //        string dest = Path.Combine(userDir, photo.PhotoId + ".png");
     //        bitmaps.Add(WebUtil.GetBitmap(photo.ThumbnailUrl));
     //    }
+    //    s.Stop();
     //    return bitmaps;
     //}
 
     private List<Bitmap> GetImagesFromPhotos(PhotoCollection photos)
     {
+        Stopwatch s = new Stopwatch();
+        s.Start();
         List<Bitmap> bitmaps = new List<Bitmap>();
         int ImagesPerThread = photos.Length / FlickrUtil.SIMULTANEOUS_DOWNLOADS;
         Thread[] threads = new Thread[FlickrUtil.SIMULTANEOUS_DOWNLOADS];
@@ -174,6 +179,8 @@ public class User
         {
             bitmaps.AddRange(imageThread.GetResult());
         }
+        s.Stop();
+        int o = 4;
         return bitmaps;
     }
 
