@@ -74,6 +74,12 @@
     background-image: url(images/buttongradient1.png);
     background-repeat: repeat-x;
  }
+ 
+ .logo
+ {
+    text-align: left;
+    margin: 5px 10px;
+ }
 </style>
 
 <style type="text/css">
@@ -180,10 +186,9 @@ function init() {
 YAHOO.util.Event.onDOMReady(init);
 </script>
 
-<div style="background-image:url(images/logo.png); background-repeat:no-repeat; height:100px"><h1>FotoFusion</h1></div>
-<table><tr>
-<td><img alt="logo" src="images/logo.png" style="width:100px;" /></td><td></td>
-</tr></table>
+<div class="logo">
+    <a href="Default.aspx" title="back to home page"><img alt="logo" src="images/logo.png" style="width:10%;" /></a>
+</div>
 
 
 <br />
@@ -216,8 +221,7 @@ YAHOO.util.Event.onDOMReady(init);
 
 <center><div id="centerPanelLocation" style="width:50%;"></div></center>
 
-        <a href="HelloWorld.htm">Hello world</a>
-        <asp:Image ID="debugImage" runat="server" Height="552px" Width="400px" />
+<asp:Image ID="debugImage" runat="server" Height="552px" Width="400px" />
         
 </body>
 </html>
