@@ -73,7 +73,7 @@ public partial class _Default : System.Web.UI.Page
 
         // Scaling factor to determine size of result image
         // TODO: remove of magic numbers and possibly rename the instance variable
-        objective.scalingFactor = (objective.numImagesPerRow + objective.numImagesPerCol) / 30;
+        objective.scalingFactor = (objective.numImagesPerRow + objective.numImagesPerCol) / 20;
 
         // Get component images
         objective.images = user.GetPublicPhotos();
