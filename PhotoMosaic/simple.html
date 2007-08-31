@@ -4,18 +4,18 @@
 
 <html xmlns="http://www.w3.org/1999/xhtml" >
 <head>
-    <title>Foto Fusion</title>
+    <title>FotoFusion</title>
 </head>
 <body>
     <div class="header">
         <h1>Try it!</h1>
     </div>
-
     <div class="form">
-        <form action="Default.aspx" method="post" enctype="multipart/form-data">
+        <form action="Default.aspx" method="post" enctype="multipart/form-data" runat="server">
             <div class="upload">
                 Upload image:
-                <input type="file" name="targetImage" id="targetImage" size="40" />
+                <asp:FileUpload ID="targetImage" runat="server" />
+                <!-- input type="file" name="targetImage" id="targetImage" size="40" / -->
             </div>
             <div class="imageSet">
                 <div class="username">
@@ -34,5 +34,6 @@
             </div>
         </form>
     </div>
+    <asp:Image ID="debugImage" runat="server" Height="552px" Width="400px" />
 </body>
 </html>
