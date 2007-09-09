@@ -33,9 +33,8 @@ public class UserInput
             {
                 // using 'simple'
 
-                FileUpload targetImageUpload = (FileUpload)page.FindControl("targetImage");
-                if (!targetImageUpload.HasFile) throw new Exception("No image uploaded.");
-                HttpPostedFile targetImageFile = targetImageUpload.PostedFile;
+                if (page.Request.Files.Count <= 0) throw new Exception("No image uploaded.");
+                HttpPostedFile targetImageFile = page.Request.Files[0];
                 if (!targetImageFile.ContentType.StartsWith("image")) throw new Exception("Only images can be uploaded.");
                 if (targetImageFile.ContentLength > Settings.MAX_IMAGE_UPLOAD_SIZE) throw new Exception("Max image upload size exceeded.");
                 targetImage = new Bitmap(targetImageFile.InputStream);

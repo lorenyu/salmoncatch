@@ -4,57 +4,11 @@
 
 <html xmlns="http://www.w3.org/1999/xhtml" >
 <head>
-    <title>FotoFusion</title>
+    <title>FotoFusing complete</title>
 </head>
 <body>
     <div class="header">
-        <h1 style="text-align: center">
-            FotoFusion</h1>
-    </div>
-    <div class="form">
-        <form id="Form1" action="Default.aspx" method="post" enctype="multipart/form-data" runat="server">
-            <div class="fuse" style="text-align: center">
-                &nbsp;<table style="width: 800px">
-                    <tr>
-                        <td style="width: 220px; height: 96px; text-align: center;">
-                            <img src="images/duck.PNG" style="width: 150px; height: 150px" /></td>
-                        <td style="width: 277px; height: 96px; text-align: center;">
-                            <img src="images/collection.jpg" style="height: 148px" /></td>
-                        <td style="width: 207px; height: 96px; text-align: center;">
-                            <img src="images/resultimage_sqaure.png" style="width: 152px; height: 150px" /></td>
-                    </tr>
-                    <tr>
-                        <td style="width: 220px; height: 94px; text-align: center;">
-                            <span style="font-family: Arial">Select an image to upload</span></td>
-                        <td style="width: 277px; height: 94px; text-align: center;">
-                            <span style="font-family: Arial">Get the images you want to fuse</span></td>
-                        <td style="width: 207px; height: 94px; text-align: center;">
-                            <span style="font-family: Arial">FotoFuse</span></td>
-                    </tr>
-                    <tr>
-                        <td style="width: 220px; height: 122px">
-                Upload Image:<asp:FileUpload ID="targetImage" name="targetImage" runat="server" />
-                        </td>
-                        <td style="width: 277px; height: 122px">
-                            <div class="imageSet">
-                                <div class="username">
-                                    <input type="radio" id="usernameRadio" name="imageSetType" value="username" checked="checked" />
-                                    <label onclick="javascript:document.getElementById('usernameRadio').checked=true">Username:</label>
-                                    <input type="text" name="username" id="Text1" />
-                                </div>
-                                <div class="searchText">
-                                    <input type="radio" id="searchTextRadio" name="imageSetType" value="searchText" />
-                                    <label onclick="javascript:document.getElementById('searchTextRadio').checked=true">Search:</label>
-                                    <input type="text" name="searchText" id="Text2" />
-                                </div>
-                            </div>
-                        </td>
-                        <td style="width: 207px; height: 122px; text-align: center;">
-                <input id="btnFuse" type="submit" value="Fuse!" class="assembleButton" /></td>
-                    </tr>
-                </table>
-            </div>
-        </form>
+        <h1 style="text-align: center">FotoFusing complete</h1>
     </div>
     <asp:Image ID="debugImage" runat="server" Height="552px" Width="400px" />
 </body>
