@@ -80,4 +80,6 @@ public static class Settings
     }
 
     public static bool USE_DROP_DOWN_TARGET = false;
+
+    public static int MAX_IMAGE_UPLOAD_SIZE = 10485760; // 10 megabytes
 }
