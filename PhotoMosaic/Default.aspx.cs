@@ -17,15 +17,11 @@ using System.Drawing.Imaging;
 
 public partial class _Default : System.Web.UI.Page 
 {
-    public static _Default page;
     public FileUpload targetImageUpload;
 
     protected void Page_Load(object sender, EventArgs e)
     {
-        if (!IsPostBack) return;
-
-        page = this;
-        targetImageUpload = (FileUpload)Form.FindControl("targetImage");
+        if (!Request.HttpMethod.Equals("POST", StringComparison.InvariantCultureIgnoreCase)) return;
 
         // TODO: Don't need this.  Just use Server.MapPath([virtual path])
         Settings.APPLICATION_PATH = this.Request.PhysicalApplicationPath;
