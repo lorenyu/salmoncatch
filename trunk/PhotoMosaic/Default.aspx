@@ -8,28 +8,46 @@
 </head>
 <body>
     <div class="header">
-        <h1>Try it!</h1>
+        <h1 style="text-align: center">
+            FotoFusion</h1>
     </div>
     <div class="form">
         <form id="Form1" action="Default.aspx" method="post" enctype="multipart/form-data" runat="server">
-            <div class="upload">
-                Upload image:
-                <asp:FileUpload ID="targetImage" name="targetImage" runat="server" />
-            </div>
-            <div class="imageSet">
-                <div class="username">
+            <div class="fuse" style="text-align: center">
+                &nbsp;<table style="width: 800px">
+                    <tr>
+                        <td style="width: 220px; height: 96px; text-align: center;">
+                            <img src="images/duck.PNG" style="width: 150px; height: 150px" /></td>
+                        <td style="width: 277px; height: 96px; text-align: center;">
+                            <img src="images/collection.jpg" style="height: 148px" /></td>
+                        <td style="width: 207px; height: 96px; text-align: center;">
+                            <img src="images/resultimage_sqaure.png" style="width: 152px; height: 150px" /></td>
+                    </tr>
+                    <tr>
+                        <td style="width: 220px; height: 94px; text-align: center;">
+                            <span style="font-family: Arial">Select an image to upload</span></td>
+                        <td style="width: 277px; height: 94px; text-align: center;">
+                            <span style="font-family: Arial">Get the images you want to fuse</span></td>
+                        <td style="width: 207px; height: 94px; text-align: center;">
+                            <span style="font-family: Arial">FotoFuse</span></td>
+                    </tr>
+                    <tr>
+                        <td style="width: 220px; height: 122px">
+                Upload Image:<asp:FileUpload ID="targetImage" name="targetImage" runat="server" />
+                        </td>
+                        <td style="width: 277px; height: 122px">
                     <input type="radio" name="imageSetType" value="username" />
                     Username:
-                    <input type="text" name="username" id="username" />
-                </div>
+                    <input type="text" name="username" id="Text1" />
                 <div class="searchText">
                     <input type="radio" name="imageSetType" value="searchText" />
-                    Search:
-                    <input type="text" name="searchText" id="searchText" />
+                    &nbsp; Search: &nbsp; &nbsp;<input type="text" name="searchText" id="Text2" />
                 </div>
-            </div>
-            <div class="fuse">
-                <input id="btnFuse" type="submit" value="Fuse!" class="assembleButton" />
+                        </td>
+                        <td style="width: 207px; height: 122px; text-align: center;">
+                <input id="btnFuse" type="submit" value="Fuse!" class="assembleButton" /></td>
+                    </tr>
+                </table>
             </div>
         </form>
     </div>
