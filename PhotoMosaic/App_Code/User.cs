@@ -28,6 +28,8 @@ public class User
 
 	public User(string userName)
 	{
+        if (userName == "") throw new Exception("userName cannot be empty.");
+
         this.userName = userName;
         this.flickr = new Flickr(FlickrUtil.FLICKR_API_KEY, FlickrUtil.FLICKR_API_SECRET);
         this.lastDownloadDate = new DateTime(0001, 1, 1);
