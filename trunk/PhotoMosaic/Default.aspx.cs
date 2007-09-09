@@ -18,21 +18,57 @@ using System.Drawing.Imaging;
 public partial class _Default : System.Web.UI.Page 
 {
     public static _Default page;
+    public FileUpload targetImageUpload;
 
     protected void Page_Load(object sender, EventArgs e)
     {
         page = this;
+        targetImageUpload = (FileUpload)Form.FindControl("targetImage");
+
+        // TODO: Don't need this.  Just use Server.MapPath([virtual path])
         Settings.APPLICATION_PATH = this.Request.PhysicalApplicationPath;
 
         // Parse the input received from the web form
         UserInput input = new UserInput(Request.Form);
 
+        try
+        {
+            if (Request.Form["username"] != null)
+            {
+                HttpPostedFile file = targetImageUpload.PostedFile;
+                
+                if (file != null)
+                {
+                    string tempfile = file.FileName;
+                    tempfile = Path.GetFileName(tempfile);
+                    file.SaveAs(Server.MapPath("./") + tempfile);
+                }
+
+                input.numHorizontalImages = 10;
+                input.numVerticalImages = 10;
+                input.targetImageUrl = "http://farm2.static.flickr.com/1229/913283953_e676ccfc98.jpg?v=0";
+                if (Request.Form["imageSetType"] == "username")
+                {
+                    input.userName = Request.Form["username"];
+                    input.isValid = true;
+                }
+                else
+                {
+                    input.isValid = false;
+                }
+            }
+        }
+        catch
+        {
+            throw new Exception("oh no an error occurred!!");
+        }
+
         // If there is input and the input is valid
         if (input.isValid)
         {
-            User user = new User(input.userName);
             try
             {
+                User user = new User(input.userName);
                 Objective objective = CreateObjective(user, input);
                 Assembler assembler = new Assembler(objective);
                 foreach (Bitmap image in objective.images)
