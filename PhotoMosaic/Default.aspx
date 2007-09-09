@@ -36,13 +36,18 @@
                 Upload Image:<asp:FileUpload ID="targetImage" name="targetImage" runat="server" />
                         </td>
                         <td style="width: 277px; height: 122px">
-                    <input type="radio" name="imageSetType" value="username" />
-                    Username:
-                    <input type="text" name="username" id="Text1" />
-                <div class="searchText">
-                    <input type="radio" name="imageSetType" value="searchText" />
-                    &nbsp; Search: &nbsp; &nbsp;<input type="text" name="searchText" id="Text2" />
-                </div>
+                            <div class="imageSet">
+                                <div class="username">
+                                    <input type="radio" id="usernameRadio" name="imageSetType" value="username" checked="checked" />
+                                    <label onclick="javascript:document.getElementById('usernameRadio').checked=true">Username:</label>
+                                    <input type="text" name="username" id="Text1" />
+                                </div>
+                                <div class="searchText">
+                                    <input type="radio" id="searchTextRadio" name="imageSetType" value="searchText" />
+                                    <label onclick="javascript:document.getElementById('searchTextRadio').checked=true">Search:</label>
+                                    <input type="text" name="searchText" id="Text2" />
+                                </div>
+                            </div>
                         </td>
                         <td style="width: 207px; height: 122px; text-align: center;">
                 <input id="btnFuse" type="submit" value="Fuse!" class="assembleButton" /></td>
