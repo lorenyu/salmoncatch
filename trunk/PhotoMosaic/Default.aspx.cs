@@ -22,6 +22,8 @@ public partial class _Default : System.Web.UI.Page
 
     protected void Page_Load(object sender, EventArgs e)
     {
+        if (!IsPostBack) return;
+
         page = this;
         targetImageUpload = (FileUpload)Form.FindControl("targetImage");
 
@@ -29,41 +31,8 @@ public partial class _Default : System.Web.UI.Page
         Settings.APPLICATION_PATH = this.Request.PhysicalApplicationPath;
 
         // Parse the input received from the web form
-        UserInput input = new UserInput(Request.Form);
+        UserInput input = new UserInput(this);
 
-        try
-        {
-            if (Request.Form["username"] != null)
-            {
-                HttpPostedFile file = targetImageUpload.PostedFile;
-                
-                if (file != null)
-                {
-                    string tempfile = file.FileName;
-                    tempfile = Path.GetFileName(tempfile);
-                    file.SaveAs(Server.MapPath("./") + tempfile);
-                }
-
-                input.numHorizontalImages = 10;
-                input.numVerticalImages = 10;
-                input.targetImageUrl = "http://farm2.static.flickr.com/1229/913283953_e676ccfc98.jpg?v=0";
-                if (Request.Form["imageSetType"] == "username")
-                {
-                    input.userName = Request.Form["username"];
-                    input.isValid = true;
-                }
-                else
-                {
-                    input.isValid = false;
-                }
-            }
-        }
-        catch
-        {
-            throw new Exception("oh no an error occurred!!");
-        }
-
-        // If there is input and the input is valid
         if (input.isValid)
         {
             try
@@ -97,7 +66,7 @@ public partial class _Default : System.Web.UI.Page
         Objective objective = new Objective();
 
         // Obtain target image
-        objective.targetImage = WebUtil.GetBitmap(input.targetImageUrl);;
+        objective.targetImage = input.targetImage;
 
         // Specify number of regions in result image
         objective.numImagesPerRow = input.numHorizontalImages;
