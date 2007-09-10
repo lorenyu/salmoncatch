@@ -39,8 +39,8 @@ public class UserInput
                 if (targetImageFile.ContentLength > Settings.MAX_IMAGE_UPLOAD_SIZE) throw new Exception("Max image upload size exceeded.");
                 targetImage = new Bitmap(targetImageFile.InputStream);
 
-                numHorizontalImages = 10;
-                numVerticalImages = 10;
+                numHorizontalImages = 25;
+                numVerticalImages = 25;
 
                 if (page.Request.Form["imageSetType"] == "username")
                 {

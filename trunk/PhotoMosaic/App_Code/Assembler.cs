@@ -17,7 +17,8 @@ public class Assembler
     int quality;
     int numCols;
     int numRows;
-    double scalingFactor;
+    int minDistanceBetweenDuplicates;
+    double defaultScalingFactor;
     Bitmap original;
     List<Bitmap> cis;
     int ciWidth;
@@ -30,14 +31,17 @@ public class Assembler
 
     public Assembler(Objective objective)
     {
+        if (objective.images.Count <= 0) throw new Exception("No images to assemble.");
+
         original = objective.targetImage;
         quality = objective.quality;
         numRows = objective.numImagesPerCol;
         numCols = objective.numImagesPerRow;
-        scalingFactor = objective.scalingFactor;
+        defaultScalingFactor = objective.scalingFactor;
+        minDistanceBetweenDuplicates = 2; // TODO:
 
-        ciWidth = (int)((double)scalingFactor * original.Width / numCols);
-        ciHeight = (int)((double)scalingFactor * original.Height / numRows);
+        ciWidth = (int)((double)defaultScalingFactor * original.Width / numCols);
+        ciHeight = (int)((double)defaultScalingFactor * original.Height / numRows);
         Size ciSize = new Size(ciWidth, ciHeight);
 
         cis = ImageProcessor.ScaleAndClipImages(objective.images, ciSize);
@@ -67,7 +71,7 @@ public class Assembler
             region.X = 0;
             for (int j = 0; j < numCols; j++, region.X += quality)
             {
-                grid[i, j] = FindClosestImage(thumbs, targetImage, region);
+                grid[i, j] = FindClosestImage(thumbs, targetImage, region, i, j);
                 regionMeanColors[i, j] = ImageProcessor.CalculateMeanColor(targetImage, region);   
             }
         }
@@ -75,7 +79,7 @@ public class Assembler
 
     public Bitmap GetResultImage()
     {
-        return GetResultImage(scalingFactor);
+        return GetResultImage(defaultScalingFactor);
     }
 
     public Bitmap GetResultImage(double scalingFactor)
@@ -103,7 +107,7 @@ public class Assembler
         return result;
     }
 
-    public ComponentImage FindClosestImage(List<Bitmap> images, Bitmap target, Rectangle region)
+    public ComponentImage FindClosestImage(List<Bitmap> images, Bitmap target, Rectangle region, int row, int col)
     {
         // linear search
         long minDistance = long.MaxValue;
@@ -111,6 +115,8 @@ public class Assembler
 
         for (int i = 0; i < images.Count; i++)
         {
+            if (IsImageNearby(this.cis[i], row, col)) continue;
+
             long rmsDistance = ImageProcessor.DistanceSquared(images[i], target, region);
             if (rmsDistance < minDistance)
             {
@@ -119,7 +125,39 @@ public class Assembler
             }
         }
 
+        if (best == -1) throw new Exception("Not enough component images given constraints.");
+
         return new ComponentImage(this.cis[best]);
+    }
+
+    private bool IsImageNearby(Bitmap image, int row, int col)
+    {
+        int d = minDistanceBetweenDuplicates;
+        int startCol = Math.Max(col - d, 0);
+        int endCol = Math.Min(col + d, numCols - 1);
+
+        // Check previous rows
+        for (int i = Math.Max(row - d, 0); i < row; i++)
+        {
+            for (int j = startCol; j <= endCol; j++)
+            {
+                if (grid[i, j].Image == image)
+                {
+                    return true;
+                }
+            }
+        }
+
+        // Check current row before current cell
+        for (int j = startCol; j < col; j++)
+        {
+            if (grid[row, j].Image == image)
+            {
+                return true;
+            }
+        }
+
+        return false;
     }
 
     /// <summary>
