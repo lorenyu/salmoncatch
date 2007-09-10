@@ -38,7 +38,7 @@ public class Assembler
         numRows = objective.numImagesPerCol;
         numCols = objective.numImagesPerRow;
         defaultScalingFactor = objective.scalingFactor;
-        minDistanceBetweenDuplicates = 2; // TODO:
+        minDistanceBetweenDuplicates = 2; // TODO: make this a parameter
 
         ciWidth = (int)((double)defaultScalingFactor * original.Width / numCols);
         ciHeight = (int)((double)defaultScalingFactor * original.Height / numRows);
