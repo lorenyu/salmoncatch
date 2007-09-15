@@ -34,7 +34,19 @@ public class Assembler
         if (objective.images.Count <= 0) throw new Exception("No images to assemble.");
 
         original = objective.targetImage;
-        quality = objective.quality;
+        switch (objective.quality)
+        {
+            case AssembleQuality.LOW: quality = 1;
+                break;
+            case AssembleQuality.MEDIUM: quality = 2;
+                break;
+            case AssembleQuality.HIGH: quality = 3;
+                break;
+            case AssembleQuality.HIGHEST: quality = 4;
+                break;
+            case AssembleQuality.DEFAULT: quality = 3;
+                break;
+        }
         numRows = objective.numImagesPerCol;
         numCols = objective.numImagesPerRow;
         defaultScalingFactor = objective.scalingFactor;

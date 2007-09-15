@@ -45,12 +45,12 @@ public static class Settings
             return Path.Combine(Settings.CACHE_DIR, USER_URL);
         }
     }
-    public static string CACHE_URL = "cache"; 
+    public static string CACHE_URL = "images/cache"; 
     public static string CACHE_DIR
     {
         get
         {
-            return Path.Combine(Settings.IMAGES_PATH, CACHE_URL);
+            return Path.Combine(Settings.IMAGES_PATH, "cache");
         }
     }
     public static string IMAGES_URL = "images";    
