@@ -1,21 +1,18 @@
 using System;
 using System.Data;
 using System.Configuration;
+using System.Collections;
 using System.Web;
 using System.Web.Security;
 using System.Web.UI;
 using System.Web.UI.WebControls;
 using System.Web.UI.WebControls.WebParts;
 using System.Web.UI.HtmlControls;
-
-using System.Net;
 using System.Drawing;
-using System.Collections.Generic;
 using System.IO;
-using System.Timers;
 using System.Drawing.Imaging;
 
-public partial class _Default : System.Web.UI.Page 
+public partial class result : System.Web.UI.Page
 {
     protected void Page_Load(object sender, EventArgs e)
     {
@@ -41,11 +38,11 @@ public partial class _Default : System.Web.UI.Page
 
                 // TODO: either don't save, or save it in user dir
                 //       for example: user.SaveImage(resultImage);
-                string savePath = Path.Combine(Settings.IMAGES_PATH, Settings.RESULTIMAGE_FILENAME);
+                string savePath = Path.Combine(Server.MapPath(Settings.CACHE_URL), Session.SessionID + ".png");
                 resultImage.Save(savePath, ImageFormat.Png);
                 debugImage.Width = resultImage.Width;
                 debugImage.Height = resultImage.Height;
-                debugImage.ImageUrl = Settings.IMAGES_URL + "/" + Settings.RESULTIMAGE_FILENAME;
+                debugImage.ImageUrl = Settings.CACHE_URL + "/" + Session.SessionID + ".png";
             }
             catch (Exception ex)
             {

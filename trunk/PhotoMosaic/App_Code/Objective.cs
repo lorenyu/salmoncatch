@@ -14,56 +14,69 @@ using System.Collections.Generic;
 /// A struct that specifies the constraints for creating the photomosaic
 /// </summary>
 
+public enum LevelOfDetail
+{
+    LOW,
+    MEDIUM,
+    HIGH,
+    HIGHEST,
+    DEFAULT
+}
+
+public enum AssembleQuality
+{
+    LOW,
+    MEDIUM,
+    HIGH,
+    HIGHEST,
+    DEFAULT
+}
+
 public class Objective
 {
+    public Objective(Bitmap targetImage, List<Bitmap> images)
+    {
+        this.targetImage = targetImage;
+        this.images = images;
+
+        this.LevelOfDetail = LevelOfDetail.MEDIUM;
+        this.quality = AssembleQuality.DEFAULT;
+        this.scalingFactor = 2.0;
+    }
+
     public Bitmap targetImage;
     public List<Bitmap> images;
     public int numImagesPerRow;
     public int numImagesPerCol;
-    public int quality;
+    public AssembleQuality quality;
     public double scalingFactor;
-    
-    // TODO: Handle edge cases
-    /// <summary>
-    /// Width of adjusted component image.
-    /// </summary>
-    public int AdjustedComponentImageWidth
+
+    public LevelOfDetail LevelOfDetail
     {
-        get
+        set
         {
-            return (int)Math.Ceiling(FAdjustedComponentImageWidth);
-        }
-    }
-    /// <summary>
-    /// Width of adjusted component image with subpixel floating point precision.
-    /// </summary>
-    public double FAdjustedComponentImageWidth
-    {
-        get
-        {
-            return (double)targetImage.Width / numImagesPerRow;
+            switch (value)
+            {
+                case LevelOfDetail.LOW: PixelsPerRegion = 18;
+                    break;
+                case LevelOfDetail.MEDIUM: PixelsPerRegion = 12;
+                    break;
+                case LevelOfDetail.HIGH: PixelsPerRegion = 6;
+                    break;
+                case LevelOfDetail.HIGHEST: PixelsPerRegion = 3;
+                    break;
+                case LevelOfDetail.DEFAULT: PixelsPerRegion = 12;
+                    break;
+            }
         }
     }
 
-    // TODO: Handle edge cases
-    /// <summary>
-    /// Height of adjusted component image.
-    /// </summary>
-    public int AdjustedComponentImageHeight
+    private int PixelsPerRegion
     {
-        get
+        set
         {
-            return (int)Math.Ceiling(FAdjustedComponentImageHeight);
-        }
-    }
-    /// <summary>
-    /// Height of adjusted component image with subpixel floating point precision.
-    /// </summary>
-    public double FAdjustedComponentImageHeight
-    {
-        get
-        {
-            return (double)targetImage.Height / numImagesPerCol;
+            numImagesPerRow = targetImage.Width / value;
+            numImagesPerCol = targetImage.Height / value;
         }
     }
 }
