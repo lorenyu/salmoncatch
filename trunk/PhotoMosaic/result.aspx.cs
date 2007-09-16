@@ -64,6 +64,9 @@ public partial class result : System.Web.UI.Page
         // TODO: remove of magic numbers and possibly rename the instance variable
         objective.scalingFactor = (objective.numImagesPerRow + objective.numImagesPerCol) / 20;
 
+        objective.LevelOfDetail = input.levelOfDetail;
+        objective.quality = input.assembleQuality;
+
         return objective;
     }
 }
