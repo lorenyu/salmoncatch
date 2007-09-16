@@ -14,6 +14,10 @@ using System.Drawing.Imaging;
 
 public partial class result : System.Web.UI.Page
 {
+    public int imageWidth;
+    public int imageHeight;
+    public string imageUrl;
+
     protected void Page_Load(object sender, EventArgs e)
     {
         if (!Request.HttpMethod.Equals("POST", StringComparison.InvariantCultureIgnoreCase)) return;
@@ -40,9 +44,9 @@ public partial class result : System.Web.UI.Page
                 //       for example: user.SaveImage(resultImage);
                 string savePath = Path.Combine(Server.MapPath(Settings.CACHE_URL), Session.SessionID + ".png");
                 resultImage.Save(savePath, ImageFormat.Png);
-                debugImage.Width = resultImage.Width;
-                debugImage.Height = resultImage.Height;
-                debugImage.ImageUrl = Settings.CACHE_URL + "/" + Session.SessionID + ".png";
+                imageWidth = resultImage.Width;
+                imageHeight = resultImage.Height;
+                imageUrl = Settings.CACHE_URL + "/" + Session.SessionID + ".png";
             }
             catch (Exception ex)
             {

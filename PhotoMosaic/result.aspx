@@ -13,7 +13,7 @@
         <h1 style="text-align: center">FotoFusing complete at <% Response.Write(DateTime.Now); %></h1>
     </div>
     <div>
-        <asp:Image class="ResultImage" ID="debugImage" runat="server" />
+        <img class="ResultImage" src="<% Response.Write(imageUrl); %>" width="<% Response.Write(imageWidth); %>" height="<% Response.Write(imageHeight); %>" />
     </div>
 </body>
 </html>
