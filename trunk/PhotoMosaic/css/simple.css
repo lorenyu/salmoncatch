@@ -1,19 +1,68 @@
 ﻿body
 {
+    font-family: Haettenschweiler;
+    font-size: 1em;
+    color: White;
+    background-color: Black;
+    /*color: #112266;
+    background-color: #99BBFF;*/
+}
+
+h1.Title
+{
+    font-size: 375%;
+    text-align: center;
+}
+
+h1
+{
+    font-size: 250%;
+}
+
+h2
+{
+    font-size: 200%;
+}
+
+div.Description
+{
+    margin: 1em 0em;
+}
+
+p.Description
+{
+    font-family: Garamond;
+    font-size: 100%;
+    margin: 0.1em 0em;
+}
+
+/**
+ * Panels for each of the steps
+ */
+
+.StepContainer
+{
+    width: 32%;
+    border-style: solid;
+    border-color: White;
 }
 
 .Step
 {
-    width:32%;
-    font-family:Arial;
+    margin: 1em;
+    text-align: center;
 }
 
 .Step img
 {
     display:block;
     width:60%;
-    margin-left:auto;
-    margin-right:auto;
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: 2em;
+    border-style:solid;
+    border-color:White;
+    border-width:0.3em;
 }
 
 /**
@@ -23,21 +72,76 @@
 {
     position:absolute;
     left:1%;
-    width:32%;
 }
 
 .ImageSet
 {
     position:absolute;
     left:34%;
-    width:32%;
 }
 
 .FotoFuse
 {
     position:absolute;
     left:67%;
-    width:32%;
+}
+
+.Radio
+{
+    cursor: pointer;
+}
+
+/**
+ * Radio group and text boxes for selecting image set source
+ */
+
+.ImageSetSource
+{
+    position: relative;
+    height: 3em;
+    text-align: left;
+}
+
+.FlickrUsername
+{
+    position: relative;
+    height: 50%;
+    width: 100%;
+}
+
+.FlickrSearch
+{
+    position: relative;
+    height: 50%;
+    width: 100%;
+}
+
+input.ImageSetSource
+{
+    display: block;
+    position: absolute;
+    left: 30%;
+    width: 70%;
+    height: 70%;
+}
+
+.FlickrUsername
+{
+    position: absolute;
+    top: 0%;
+}
+
+.FlickrSearch
+{
+    position: absolute;
+    top: 50%;
+}
+
+span.Radio
+{
+    display: block;
+    position: absolute;
+    left: 0%;
 }
 
 .ResultImage
