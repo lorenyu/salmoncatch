@@ -33,7 +33,7 @@ p.Description
 {
     font-family: Garamond;
     font-size: 100%;
-    margin: 0.1em 0em;
+    margin: 0.5em 0em;
 }
 
 /**
@@ -97,51 +97,44 @@ p.Description
 
 .ImageSetSource
 {
-    position: relative;
-    height: 3em;
     text-align: left;
-}
-
-.FlickrUsername
-{
-    position: relative;
-    height: 50%;
-    width: 100%;
-}
-
-.FlickrSearch
-{
-    position: relative;
-    height: 50%;
-    width: 100%;
-}
-
-input.ImageSetSource
-{
-    display: block;
-    position: absolute;
-    left: 30%;
-    width: 70%;
-    height: 70%;
-}
-
-.FlickrUsername
-{
-    position: absolute;
-    top: 0%;
-}
-
-.FlickrSearch
-{
-    position: absolute;
-    top: 50%;
 }
 
 span.Radio
 {
-    display: block;
-    position: absolute;
-    left: 0%;
+    float: left;
+    width: 6em;
+}
+
+/*
+ * Advanced options
+ */
+
+.ToggleAdvancedOptions
+{
+    display:block;
+    margin-right:auto; /* align left */
+}
+
+.StyledButton
+{
+    cursor:pointer;
+    font-family:Haettenschweiler;
+    font-size:inherit;
+    color:White;
+    background-color:Transparent;
+}
+
+div.AdvancedOptions
+{
+    text-align:left;
+    padding:1em;
+}
+
+label.AdvancedOptions
+{
+    float:left;
+    width:8em;
 }
 
 .ResultImage

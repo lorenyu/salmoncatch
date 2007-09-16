@@ -19,8 +19,10 @@ public class UserInput
 {
     public string userName;
     public Bitmap targetImage;
-    public int numHorizontalImages;
-    public int numVerticalImages;
+    public LevelOfDetail levelOfDetail;
+    public AssembleQuality assembleQuality;
+    public int numHorizontalImages; // TODO: deprecated (black and white version)
+    public int numVerticalImages; // TODO: deprecated (black and white version)
     public bool isValid;
 
     public UserInput(Page page)
@@ -39,9 +41,6 @@ public class UserInput
                 if (targetImageFile.ContentLength > Settings.MAX_IMAGE_UPLOAD_SIZE) throw new Exception("Max image upload size exceeded.");
                 targetImage = new Bitmap(targetImageFile.InputStream);
 
-                numHorizontalImages = 25;
-                numVerticalImages = 25;
-
                 if (page.Request.Form["imageSetType"] == "username")
                 {
                     userName = page.Request.Form["username"];
@@ -50,6 +49,24 @@ public class UserInput
                 {
                     // TODO: get search stuff
                     isValid = false;
+                }
+
+                try
+                {
+                    levelOfDetail = (LevelOfDetail)Enum.Parse(typeof(LevelOfDetail), page.Request.Form["levelOfDetail"], true);
+                }
+                catch
+                {
+                    levelOfDetail = LevelOfDetail.DEFAULT;
+                }
+
+                try
+                {
+                    assembleQuality = (AssembleQuality)Enum.Parse(typeof(AssembleQuality), page.Request.Form["assembleQuality"], true);
+                }
+                catch
+                {
+                    assembleQuality = AssembleQuality.DEFAULT;
                 }
             }
             else
@@ -70,9 +87,7 @@ public class UserInput
         }
 
         // Extra error checking
-        if (userName == "" ||
-            numHorizontalImages < 1 ||
-            numVerticalImages < 1)
+        if (userName == "")
         {
             isValid = false;
         }

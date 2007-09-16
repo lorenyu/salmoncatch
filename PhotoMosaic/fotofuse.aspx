@@ -9,6 +9,20 @@
     <title>FotoFusion</title>
     
     <link rel="Stylesheet" type="text/css" href="css/simple.css" />
+    
+    <script type="text/javascript">
+        function toggleAdvancedOptions()
+        {
+            var style = document.getElementById('advancedOptions').style;
+            style.display = (style.display=='none') ? '' : 'none';
+        }
+        
+        function resetAdvancedOptionsDefaults()
+        {
+            document.getElementById('levelOfDetail').value = 'MEDIUM';
+            document.getElementById('assembleQuality').value = 'HIGH';
+        }
+    </script>
 </head>
 <body>
     <div class="header">
@@ -22,11 +36,14 @@
                 <div class="Step">
                     <img src="images/duck.PNG" />
                     <h2 class="Title">
-                        The Nucleus
+                        1. The Nucleus
                     </h2>
                     <div class="Description">
                         <p class="Description">
-                            Pick the main image of the fotofusion operation.
+                            Pick the foto you want to be the main image of the fotofusion operation.
+                            This image will guide the fotofusion operation in creating a coherent final result.
+                        </p>
+                        <p class="Description">
                             Click on "Browse" and find it on your computer to upload it.
                         </p>
                     </div>
@@ -37,15 +54,15 @@
                 <div class="Step">
                     <img src="images/collection.jpg" />
                     <h2 class="Title">
-                        The Atoms
+                        2. The Atoms
                     </h2>
                     <div class="Description">
                         <p class="Description">
-                            Pick the Fotos you want to Fuse
-                            Select the source of images that will be used to compose the final image.
-                            The set of images that will make up the final image.
-                            The final image will be made up of this set of images.
-                            If you have a Flickr account, then you can enter your Flickr ID to 
+                            Pick the fotos you want to use in the fotofusion operation.
+                            These images are the pieces that will be fotofused together to create the final image.
+                        </p>
+                        <p class="Description">
+                            If you have a Flickr account, then enter your Flickr ID to use the public fotos from your Flickr account.
                         </p>
                     </div>
                     <div class="ImageSetSource">
@@ -70,17 +87,44 @@
                 <div class="Step">
                     <img src="images/resultimage_sqaure.png" />
                     <h2 class="Title">
-                        The Fusion
+                        3. The Fusion
                     </h2>
                     <div class="Description">
                         <p class="Description">
-                            Click on "Fuse" to begin fotofusing!
+                            The fotofusion operation is ready to begin.
                         </p>
                         <p class="Description">
-                            (Be patient.  It may take a minute)
+                            For advanced options, click "Advanced".
+                            When you are ready, click "Fuse" to begin!
+                        </p>
+                        <p class="Description">
+                            (Be patient.  The fotofusion process may take a minute.)
                         </p>
                     </div>
                     <input class="Button assembleButton" id="fuse" name="fuse" type="submit" value="Fuse!" />
+                    <hr />
+                    <input type="button" class="ToggleAdvancedOptions StyledButton" onclick="toggleAdvancedOptions();" value="Advanced Options" />
+                    <div class="AdvancedOptions" id="advancedOptions" style="display:none">
+                        <div class="LevelOfDetail">
+                            <label class="AdvancedOptions">Level of detail:</label>
+                            <select id="levelOfDetail" name="levelOfDetail">
+                                <option value="LOW">Low</option>
+                                <option value="MEDIUM" selected="selected">Medium</option>
+                                <option value="HIGH">High</option>
+                                <option value="HIGHEST">Highest</option>
+                            </select>
+                        </div>
+                        <div class="AssembleQuality">
+                            <label class="AdvancedOptions">Quality of matching:</label>
+                            <select id="assembleQuality" name="assembleQuality">
+                                <option value="LOW">Low</option>
+                                <option value="MEDIUM">Medium</option>
+                                <option value="HIGH" selected="selected">High</option>
+                                <option value="HIGHEST">Highest</option>
+                            </select>
+                        </div>
+                        <input type="button" class="StyledButton" value="Reset defaults" onclick="resetAdvancedOptionsDefaults();" />
+                    </div>
                 </div>
             </div>
         </form>
