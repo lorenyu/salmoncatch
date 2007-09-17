@@ -207,6 +207,6 @@ public class User
     private bool IsCacheStale()
     {
         // TODO: return whether cache stored is before last flickr change
-        return false;
+        return true;
     }
 }

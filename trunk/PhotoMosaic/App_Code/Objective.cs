@@ -16,6 +16,7 @@ using System.Collections.Generic;
 
 public enum LevelOfDetail
 {
+    LOWEST,
     LOW,
     MEDIUM,
     HIGH,
@@ -41,7 +42,7 @@ public class Objective
 
         this.LevelOfDetail = LevelOfDetail.MEDIUM;
         this.quality = AssembleQuality.DEFAULT;
-        this.scalingFactor = 2.0;
+        this.scalingFactor = 1.0;
     }
 
     public Bitmap targetImage;
@@ -55,28 +56,33 @@ public class Objective
     {
         set
         {
+            int resolution = targetImage.Width * targetImage.Height;
+            
             switch (value)
             {
-                case LevelOfDetail.LOW: PixelsPerRegion = 18;
+                case LevelOfDetail.LOWEST: DesiredComponentImageCount = 10 * 10;
                     break;
-                case LevelOfDetail.MEDIUM: PixelsPerRegion = 12;
+                case LevelOfDetail.LOW: DesiredComponentImageCount = 25 * 25;
                     break;
-                case LevelOfDetail.HIGH: PixelsPerRegion = 6;
+                case LevelOfDetail.MEDIUM: DesiredComponentImageCount = 50 * 50;
                     break;
-                case LevelOfDetail.HIGHEST: PixelsPerRegion = 3;
+                case LevelOfDetail.HIGH: DesiredComponentImageCount = 75 * 75;
                     break;
-                case LevelOfDetail.DEFAULT: PixelsPerRegion = 12;
+                case LevelOfDetail.HIGHEST: DesiredComponentImageCount = 100 * 100;
+                    break;
+                case LevelOfDetail.DEFAULT: goto case LevelOfDetail.MEDIUM;
                     break;
             }
         }
     }
 
-    private int PixelsPerRegion
+    private int DesiredComponentImageCount
     {
         set
         {
-            numImagesPerRow = targetImage.Width / value;
-            numImagesPerCol = targetImage.Height / value;
+            double aspectRatio = (double)targetImage.Width / targetImage.Height;
+            numImagesPerRow = (int)Math.Sqrt(value * aspectRatio);
+            numImagesPerCol = (int)(numImagesPerRow / aspectRatio);
         }
     }
 }
