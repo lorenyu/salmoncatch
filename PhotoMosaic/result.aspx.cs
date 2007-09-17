@@ -62,7 +62,8 @@ public partial class result : System.Web.UI.Page
 
         // Scaling factor to determine size of result image
         // TODO: remove of magic numbers and possibly rename the instance variable
-        objective.scalingFactor = (objective.numImagesPerRow + objective.numImagesPerCol) / 20;
+        //objective.scalingFactor = (objective.numImagesPerRow + objective.numImagesPerCol) / 20;
+        objective.scalingFactor = 1.0;
 
         objective.LevelOfDetail = input.levelOfDetail;
         objective.quality = input.assembleQuality;

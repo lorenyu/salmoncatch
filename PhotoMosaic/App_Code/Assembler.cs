@@ -44,7 +44,7 @@ public class Assembler
                 break;
             case AssembleQuality.HIGHEST: quality = 5;
                 break;
-            case AssembleQuality.DEFAULT: quality = 3;
+            case AssembleQuality.DEFAULT: goto case AssembleQuality.HIGH;
                 break;
         }
         numRows = objective.numImagesPerCol;

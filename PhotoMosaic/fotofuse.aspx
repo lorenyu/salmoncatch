@@ -108,6 +108,7 @@
                         <div class="LevelOfDetail">
                             <label class="AdvancedOptions">Level of detail:</label>
                             <select id="levelOfDetail" name="levelOfDetail">
+                                <option value="LOWEST">Low</option>
                                 <option value="LOW">Low</option>
                                 <option value="MEDIUM" selected="selected">Medium</option>
                                 <option value="HIGH">High</option>
