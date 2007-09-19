@@ -23,8 +23,9 @@ public class User
     public string userId;
     public string tempFrob;
     public string userDir;
+    public string profilePath;
     private DateTime lastDownloadDate;
-
+    private int nextPhotoId;
 
 	public User(string userName)
 	{
@@ -32,15 +33,36 @@ public class User
 
         this.userName = userName;
         this.flickr = new Flickr(FlickrUtil.FLICKR_API_KEY, FlickrUtil.FLICKR_API_SECRET);
-        this.lastDownloadDate = new DateTime(0001, 1, 1);
 
         FoundUser user = flickr.PeopleFindByUsername(userName);
         this.userId = user.UserId;
 
         this.userDir = Path.Combine(Settings.CACHE_DIR, userName);
+        this.profilePath = Path.Combine(this.userDir, Settings.PROFILE_RELATIVE_PATH);
+
         if (!Directory.Exists(userDir))
         {
             Directory.CreateDirectory(userDir);
+        }
+        if (!File.Exists(profilePath))
+        {
+            StreamWriter fout = File.CreateText(profilePath);
+            this.lastDownloadDate = new DateTime();
+            fout.WriteLine(lastDownloadDate);
+            fout.Close();
+        }
+        else
+        {
+            StreamReader fin = new StreamReader(File.OpenRead(profilePath));
+            try
+            {
+                this.lastDownloadDate = DateTime.Parse(fin.ReadLine());
+            }
+            catch
+            {
+                this.lastDownloadDate = new DateTime();
+            }
+            fin.Close();
         }
 	}
 
@@ -51,41 +73,36 @@ public class User
     /// <returns></returns>
     public List<Bitmap> GetPublicPhotos()
     {
-        // TODO: what if user removes images from his website?
-        if (IsCacheStale())
+        string[] filenames = Directory.GetFiles(userDir);
+        List<Bitmap> images = new List<Bitmap>();
+        try
         {
-            PhotoSearchOptions searchOptions = new PhotoSearchOptions();
-            searchOptions.UserId = userId;
+            foreach (string filename in filenames)
+            {
+                Bitmap image = new Bitmap(filename);
+                images.Add(image);
+            }
+        }
+        catch
+        {
+            // Ignore exceptions thrown by the Bitmap constructor that occur
+            // when we try to open a file in the color directory that is not
+            // an image file (e.g. "Thumbs.db")
+        }
 
-            //TODO: Come up with better cache solution 
-            //searchOptions.MinUploadDate = lastDownloadDate;
-            PhotoCollection photos = Search(searchOptions);
-            //lastDownloadDate = DateTime.Now;
-            List<Bitmap> images = GetImagesFromPhotos(photos);
-            CacheImages(images);
-            return images;
-        }
-        else
-        {
-            
-            string[] filenames = Directory.GetFiles(userDir);
-            List<Bitmap> images = new List<Bitmap>();
-            try
-            {
-                foreach (string filename in filenames)
-                {
-                    Bitmap image = new Bitmap(filename);
-                    images.Add(image);
-                }
-            }
-            catch
-            {
-                // Ignore exceptions thrown by the Bitmap constructor that occur
-                // when we try to open a file in the color directory that is not
-                // an image file (e.g. "Thumbs.db")
-            }
-            return images;
-        }
+        images.AddRange(GetNewPhotos(true));
+
+        return images;
+    }
+
+    public List<Bitmap> GetNewPhotos(bool cachePhotos)
+    {
+        // TODO: what if user removes images from his website?
+        PhotoSearchOptions searchOptions = new PhotoSearchOptions(userId);
+
+        searchOptions.MinUploadDate = lastDownloadDate;
+        PhotoCollection photos = Search(searchOptions);
+        return GetImagesFromPhotos(photos, cachePhotos);
     }
 
     private PhotoCollection Search(PhotoSearchOptions searchOptions)
@@ -151,7 +168,7 @@ public class User
     //    return bitmaps;
     //}
 
-    private List<Bitmap> GetImagesFromPhotos(PhotoCollection photos)
+    private List<Bitmap> GetImagesFromPhotos(PhotoCollection photos, bool cacheImages)
     {
         Stopwatch s = new Stopwatch();
         //TODO: Remove stopwatch
@@ -183,7 +200,18 @@ public class User
         }
         foreach (DownloadImageThread imageThread in downloadImageThread)
         {
-            bitmaps.AddRange(imageThread.GetResult());
+            bitmaps.AddRange(imageThread.Result);
+            if (cacheImages)
+            {
+                for (int i = 0; i < imageThread.Result.Count; i++)
+                {
+                    SaveImage(imageThread.Result[i], imageThread.Photos[i].PhotoId);
+                }
+                lastDownloadDate = DateTime.Now;
+                StreamWriter fout = File.CreateText(profilePath);
+                fout.WriteLine(lastDownloadDate);
+                fout.Close();
+            }
         }
         //TODO: Remove stopwatch
         s.Stop();
@@ -193,9 +221,14 @@ public class User
     public void SaveImage(Bitmap image, string name)
     {
         string dest = Path.Combine(userDir, name + ".png");
+        if (File.Exists(dest)) File.Delete(dest);
         image.Save(dest, System.Drawing.Imaging.ImageFormat.Png);
     }
 
+    /// <summary>
+    /// Deprecated
+    /// </summary>
+    /// <param name="images"></param>
     private void CacheImages(List<Bitmap> images)
     {
         for (int i = 0; i < images.Count; i++)
@@ -204,9 +237,15 @@ public class User
         }
     }
 
+    /// <summary>
+    /// Deprecated
+    /// </summary>
+    /// <returns></returns>
     private bool IsCacheStale()
     {
-        // TODO: return whether cache stored is before last flickr change
-        return true;
+        PhotoSearchOptions searchParams = new PhotoSearchOptions(userId);
+        searchParams.MinUploadDate = lastDownloadDate;
+        PhotoCollection photos = Search(searchParams);
+        return false;
     }
 }

@@ -35,8 +35,13 @@ public class DownloadImageThread
         }
     }
 
-    public List<Bitmap> GetResult()
+    public Photo[] Photos
     {
-        return bitmaps;
+        get { return photos; }
+    }
+
+    public List<Bitmap> Result
+    {
+        get { return bitmaps; }
     }
 }

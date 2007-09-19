@@ -61,6 +61,7 @@ public static class Settings
             return Path.Combine(Settings.APPLICATION_PATH, IMAGES_URL);
         }
     }
+    public static string PROFILE_RELATIVE_PATH = "profile.txt";
 
     public static string RESULTIMAGE_FILENAME = "resultimage.png";
     public static bool USE_KD_TREE = false;
