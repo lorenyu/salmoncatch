@@ -246,6 +246,6 @@ public class User
         PhotoSearchOptions searchParams = new PhotoSearchOptions(userId);
         searchParams.MinUploadDate = lastDownloadDate;
         PhotoCollection photos = Search(searchParams);
-        return false;
+        return true;
     }
 }

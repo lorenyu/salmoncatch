@@ -27,14 +27,14 @@
 <body>
     <div class="header">
         <h1 class="Title">
-            FotoFusion
+            FlickrFuse
         </h1>
     </div>
     <div class="form">
         <form id="Form1" action="result.aspx" method="post" enctype="multipart/form-data">
             <div class="StepContainer TargetImage">
                 <div class="Step">
-                    <img src="images/duck.PNG" />
+                    <img src="images/uploadIcon.png" />
                     <h2 class="Title">
                         1. The Nucleus
                     </h2>
@@ -48,11 +48,15 @@
                         </p>
                     </div>
                     <input type="file" id="targetImage" name="targetImage" />
+                    <br />
+                    <br />
+                    <br />
+                    <br />
                 </div>
             </div>
             <div class="StepContainer ImageSet">
                 <div class="Step">
-                    <img src="images/collection.jpg" />
+                    <img src="images/imageSetIcon.png" />
                     <h2 class="Title">
                         2. The Atoms
                     </h2>
@@ -80,12 +84,14 @@
                             </span>
                             <input class="ImageSetSource" type="text" name="searchText" id="Text4" />
                         </div>
+                        <br />
+                        <br />
                     </div>
                 </div>
             </div>
             <div class="StepContainer FotoFuse">
                 <div class="Step">
-                    <img src="images/resultimage_sqaure.png" />
+                    <img src="images/fuseIcon.png" />
                     <h2 class="Title">
                         3. The Fusion
                     </h2>
